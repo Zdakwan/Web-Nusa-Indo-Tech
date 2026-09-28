@@ -31,14 +31,22 @@ Route::get('/portofolio', function () {
 
 Route::get('/portofolio/detail', function () {
     return view('pages.portofolio-detail');
+
 });
 
 Route::get('/pelatihan', function () {
     return view('pages.pelatihan');
 });
+Route::get('/pelatihan/detail-pelatihan-it', function () {
+    return view('pages.detail-pelatihan');
+});
 
 Route::get('/ensiklopedia', function () {
     return view('pages.ensiklopedia');
+});
+Route::get('/ensiklopedia/judul-artikel-lain', function () {
+    // Sementara kita arahkan ke file desain yang baru saja Anda buat
+    return view('pages.detail-ensiklopedia'); 
 });
 
 Route::get('/tentang-kami', function () {
@@ -58,6 +66,12 @@ Route::get('/daftar', function () {
 Route::get('/login', function () {
     return view('pages.login');
 });
+Route::post('/login', [AuthController::class, 'loginProcess']);
+
+// Rute untuk menampilkan dashboard client (yang sudah kita buat)
+Route::get('/dashboard-client', function () {
+    return view('pages.dashboard-client');
+})->middleware('auth:client');
 
 // Memproses Form ke Database (POST)
 Route::post('/daftar', [AuthController::class, 'registerProcess']);

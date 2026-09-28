@@ -24,34 +24,28 @@
                 <p>IT MANAGEMENT CONSULTANT</p>
             </div>
             
-            <!-- Form Login -->
-            <form action="" method="POST" class="auth-form">
-               @csrf 
-                <div class="input-group">
-                    <span class="input-icon">👤</span>
-                    <input type="text" placeholder="Username" required>
-                </div>
-                
-                <div class="input-group">
-                    <span class="input-icon">🔒</span>
-                    <input type="password" placeholder="Password" required>
-                    <span class="input-icon-right">👁️</span>
-                </div>
-                
-                <!-- Tombol Masuk -->
-                <button type="submit" class="auth-btn">Masuk</button>
-
-            </form>
-            
-            <!-- Tautan Lupa Password & Kembali -->
-            <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 15px;">
-                <a href="#" style="color: var(--dark-blue); text-decoration: none; font-weight: bold; font-size: 0.95rem;">Lupa Password?</a>
-                
-                <a href="{{ url('/') }}" style="color: #555; text-decoration: none; font-size: 0.85rem;">&larr; Kembali ke Beranda</a>
-            </div>
-
+           <form action="{{ url('/login') }}" method="POST" class="auth-form">
+    @csrf 
+    
+    <!-- Blok Pesan Error Login -->
+    @if ($errors->any())
+        <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+            {{ $errors->first() }}
         </div>
-    </div>
+    @endif
 
-</body>
-</html>
+    <div class="input-group">
+        <span class="input-icon">👤</span>
+        <!-- Pastikan ada name="email" -->
+        <input type="email" name="email" placeholder="Email / Username" required>
+    </div>
+    
+    <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <!-- Pastikan ada name="password" -->
+        <input type="password" name="password" placeholder="Password" required>
+        <span class="input-icon-right">👁️</span>
+    </div>
+    
+    <button type="submit" class="auth-btn">Masuk</button>
+</form>

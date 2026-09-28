@@ -73,7 +73,7 @@
                                 <span class="mini-tag">#IT</span>
                                 <span class="mini-tag">#Pemula</span>
                             </div>
-                            <a href="#" class="btn-small">Lihat Selengkapnya &rarr;</a>
+                           <a href="{{ url('/ensiklopedia/judul-artikel-lain') }}" class="btn-selengkapnya">Lihat Selengkapnya &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                                 <span class="mini-tag">#IT</span>
                                 <span class="mini-tag">#Pemula</span>
                             </div>
-                            <a href="#" class="btn-small">Lihat Selengkapnya &rarr;</a>
+                            <a href="{{ url('/ensiklopedia/judul-artikel-lain') }}" class="btn-selengkapnya">Lihat Selengkapnya &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                                 <span class="mini-tag">#IT</span>
                                 <span class="mini-tag">#Pemula</span>
                             </div>
-                            <a href="#" class="btn-small">Lihat Selengkapnya &rarr;</a>
+                            <a href="{{ url('/ensiklopedia/judul-artikel-lain') }}" class="btn-selengkapnya">Lihat Selengkapnya &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                                 <span class="mini-tag">#IT</span>
                                 <span class="mini-tag">#Pemula</span>
                             </div>
-                            <a href="#" class="btn-small">Lihat Selengkapnya &rarr;</a>
+                           <a href="{{ url('/ensiklopedia/judul-artikel-lain') }}" class="btn-selengkapnya">Lihat Selengkapnya &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                                 <span class="mini-tag">#IT</span>
                                 <span class="mini-tag">#Pemula</span>
                             </div>
-                            <a href="#" class="btn-small">Lihat Selengkapnya &rarr;</a>
+                            <a href="{{ url('/ensiklopedia/judul-artikel-lain') }}" class="btn-selengkapnya">Lihat Selengkapnya &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                                 <span class="mini-tag">#IT</span>
                                 <span class="mini-tag">#Pemula</span>
                             </div>
-                            <a href="#" class="btn-small">Lihat Selengkapnya &rarr;</a>
+                           <a href="{{ url('/ensiklopedia/judul-artikel-lain') }}" class="btn-selengkapnya">Lihat Selengkapnya &rarr;</a>
                         </div>
                     </div>
                 </div>

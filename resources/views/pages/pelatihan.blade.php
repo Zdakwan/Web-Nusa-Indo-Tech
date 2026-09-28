@@ -49,7 +49,7 @@
                         <p>Bangun aplikasi web modern dengan laravel 12</p>
                         <h4 class="price">Rp 500.000</h4>
                         <div class="card-actions">
-                            <a href="#" class="btn-card">Lihat Selengkapnya</a>
+                         <a href="{{ url('/pelatihan/detail-pelatihan-it') }}" class="btn-detail">Lihat Selengkapnya</a>
                             <a href="#" class="btn-card">Daftar Sekarang</a>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <p>Bangun aplikasi web modern dengan laravel 12</p>
                         <h4 class="price">Rp 500.000</h4>
                         <div class="card-actions">
-                            <a href="#" class="btn-card">Lihat Selengkapnya</a>
+                          <a href="{{ url('/pelatihan/detail-pelatihan-it') }}" class="btn-detail">Lihat Selengkapnya</a>
                             <a href="#" class="btn-card">Daftar Sekarang</a>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                         <p>Bangun aplikasi web modern dengan laravel 12</p>
                         <h4 class="price">Rp 500.000</h4>
                         <div class="card-actions">
-                            <a href="#" class="btn-card">Lihat Selengkapnya</a>
+                           <a href="{{ url('/pelatihan/detail-pelatihan-it') }}" class="btn-detail">Lihat Selengkapnya</a>
                             <a href="#" class="btn-card">Daftar Sekarang</a>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                         <p>Bangun aplikasi web modern dengan laravel 12</p>
                         <h4 class="price">Rp 500.000</h4>
                         <div class="card-actions">
-                            <a href="#" class="btn-card">Lihat Selengkapnya</a>
+                           <a href="{{ url('/pelatihan/detail-pelatihan-it') }}" class="btn-detail">Lihat Selengkapnya</a>
                             <a href="#" class="btn-card">Daftar Sekarang</a>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <p>Bangun aplikasi web modern dengan laravel 12</p>
                         <h4 class="price">Rp 500.000</h4>
                         <div class="card-actions">
-                            <a href="#" class="btn-card">Lihat Selengkapnya</a>
+                           <a href="{{ url('/pelatihan/detail-pelatihan-it') }}" class="btn-detail">Lihat Selengkapnya</a>
                             <a href="#" class="btn-card">Daftar Sekarang</a>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                         <p>Bangun aplikasi web modern dengan laravel 12</p>
                         <h4 class="price">Rp 500.000</h4>
                         <div class="card-actions">
-                            <a href="#" class="btn-card">Lihat Selengkapnya</a>
+                          <a href="{{ url('/pelatihan/detail-pelatihan-it') }}" class="btn-detail">Lihat Selengkapnya</a>
                             <a href="#" class="btn-card">Daftar Sekarang</a>
                         </div>
                     </div>

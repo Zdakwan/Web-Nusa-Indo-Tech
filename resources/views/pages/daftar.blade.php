@@ -25,40 +25,33 @@
             </div>
             
             <!-- Form Register -->
-            <form action="" method="POST" class="auth-form">
-                @csrf
-                <div class="input-group">
-                    <span class="input-icon">👤</span>
-                    <input type="text" placeholder="Username" required>
-                </div>
-                
-                <div class="input-group">
-                    <span class="input-icon">🔒</span>
-                    <input type="password" placeholder="Password" required>
-                    <span class="input-icon-right">👁️</span>
-                </div>
-                
-                <div class="input-group">
-                    <span class="input-icon">📞</span>
-                    <input type="text" placeholder="No Telepon" required>
-                </div>
-                
-                <div class="input-group">
-                    <span class="input-icon">✉️</span>
-                    <input type="email" placeholder="Email" required>
-                </div>
-                
-                <button type="submit" class="auth-btn">Daftar</button>
-
-            </form>
-            
-            <!-- Tombol kembali ke Beranda (Opsional agar pengguna bisa pulang) -->
-            <div style="margin-top: 20px;">
-                <a href="{{ url('/') }}" style="color: #555; text-decoration: none; font-size: 0.85rem;">&larr; Kembali ke Beranda</a>
-            </div>
-
-        </div>
+           <form action="{{ url('/daftar') }}" method="POST" class="auth-form">
+    @csrf 
+    
+    <div class="input-group">
+        <span class="input-icon">👤</span>
+        <!-- Pastikan ada name="name" -->
+        <input type="text" name="name" placeholder="Username" required>
     </div>
-
-</body>
-</html>
+    
+    <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <!-- Pastikan ada name="password" -->
+        <input type="password" name="password" placeholder="Password" required>
+        <span class="input-icon-right">👁️</span>
+    </div>
+    
+    <div class="input-group">
+        <span class="input-icon">📞</span>
+        <!-- Pastikan ada name="phone" -->
+        <input type="text" name="phone" placeholder="No Telepon" required>
+    </div>
+    
+    <div class="input-group">
+        <span class="input-icon">✉️</span>
+        <!-- Pastikan ada name="email" -->
+        <input type="email" name="email" placeholder="Email" required>
+    </div>
+    
+    <button type="submit" class="auth-btn">Daftar</button>
+</form>
