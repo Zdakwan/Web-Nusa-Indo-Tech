@@ -58,9 +58,39 @@
                     <i id="iconKonsultasi" class="fas fa-chevron-down text-sm transition-transform duration-300 -rotate-90"></i>
                 </button>
                 <div id="menuKonsultasi" class="pl-12 pr-4 py-2 space-y-4 mt-1 hidden">
-                    <a href="#" class="block text-sm hover:text-white transition-colors"><i class="fas fa-headset w-5"></i> Booking</a>
-                    <a href="#" class="block text-sm hover:text-white transition-colors"><i class="fas fa-folder w-5"></i> Konsultasi Saya</a>
-                    <a href="#" class="block text-sm hover:text-white transition-colors"><i class="far fa-bell w-5"></i> Notifikasi</a>
+
+                {{-- =========================================================
+                    MENU BOOKING KONSULTASI
+                    ========================================================= --}}
+                    <a
+                        href="{{ route('konsultasi.booking') }}"
+                        class="block text-sm {{ request()->routeIs('konsultasi.booking') ? 'text-[#f7bd55] font-bold' : 'hover:text-white transition-colors' }}"
+                    >
+                        <i class="fas fa-headset w-5"></i>
+                        Booking
+                    </a>
+
+                    {{-- =========================================================
+                        MENU KONSULTASI SAYA
+                        ========================================================= --}}
+                    <a
+                        href="{{ route('konsultasi.index') }}"
+                        class="block text-sm {{ request()->routeIs('konsultasi.index') ? 'text-[#f7bd55] font-bold' : 'hover:text-white transition-colors' }}"
+                    >
+                        <i class="fas fa-folder w-5"></i>
+                        Konsultasi Saya
+                    </a>
+
+                    {{-- =========================================================
+                        MENU NOTIFIKASI
+                        ========================================================= --}}
+                    <a
+                        href="{{ route('notifikasi.index') }}"
+                        class="block text-sm {{ request()->routeIs('notifikasi.index') ? 'text-[#f7bd55] font-bold' : 'hover:text-white transition-colors' }}"
+                    >
+                        <i class="far fa-bell w-5"></i>
+                        Notifikasi
+                    </a>
                 </div>
             </div>
 
