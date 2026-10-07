@@ -4,7 +4,41 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KonsultasiController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
+/*
+|--------------------------------------------------------------------------
+| Rute Admin (guard: admin)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    // Belum login sebagai admin
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
+    });
+
+    // Sudah login sebagai admin
+    Route::middleware('auth:admin')->group(function () {
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+        // Khusus Super Admin
+        Route::middleware('admin.role:super_admin')->group(function () {
+            Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        });
+
+        // Nanti: tambahkan grup untuk admin_konten dan admin_layanan di sini
+        // Route::middleware('admin.role:super_admin,admin_konten')->group(function () { ... });
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Rute Client (guard: client)
+|--------------------------------------------------------------------------
+*/
 Route::middleware('guest:client')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.process');
