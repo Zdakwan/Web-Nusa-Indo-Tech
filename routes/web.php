@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KonsultasiController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\CallCenterController;
 
 Route::middleware('guest:client')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -43,4 +47,20 @@ Route::middleware('auth:client')->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Route halaman Pengaturan
+    Route::get('/pengaturan', [PengaturanController::class, 'index'])
+        ->name('pengaturan.index');
+
+    // Route halaman FAQ
+    Route::get('/pengaturan/faq', [FaqController::class, 'index'])
+        ->name('pengaturan.faq');
+
+    // Route halaman Panduan
+    Route::get('/pengaturan/panduan', [PanduanController::class, 'index'])
+        ->name('pengaturan.panduan');
+
+    // Route halaman Call Center
+    Route::get('/pengaturan/call-center', [CallCenterController::class, 'index'])
+        ->name('pengaturan.call-center');
 });

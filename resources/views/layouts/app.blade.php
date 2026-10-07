@@ -50,14 +50,23 @@
 
             <!-- Dropdown: Konsultasi -->
             <div class="mb-2 mt-4">
-                <button onclick="toggleDropdown('menuKonsultasi', 'iconKonsultasi', this)" class="w-full flex items-center justify-between px-4 py-3 rounded-lg transition-colors focus:outline-none hover:bg-[#2a4165] text-white">
+                <button
+                    onclick="toggleDropdown('menuKonsultasi', 'iconKonsultasi', this)"
+                    class="w-full flex items-center justify-between px-4 py-3 rounded-lg transition-colors focus:outline-none {{ request()->is('konsultasi*') || request()->routeIs('notifikasi.index') ? 'nav-item-active' : 'hover:bg-[#2a4165] text-white' }}"
+                >
                     <div class="flex items-center font-medium">
                         <i class="fas fa-book w-6 text-lg"></i>
                         <span class="ml-2">Konsultasi</span>
                     </div>
-                    <i id="iconKonsultasi" class="fas fa-chevron-down text-sm transition-transform duration-300 -rotate-90"></i>
+                    <i
+                        id="iconKonsultasi"
+                        class="fas fa-chevron-down text-sm transition-transform duration-300 {{ request()->is('konsultasi*') || request()->routeIs('notifikasi.index') ? '' : '-rotate-90' }}"
+                    ></i>
                 </button>
-                <div id="menuKonsultasi" class="pl-12 pr-4 py-2 space-y-4 mt-1 hidden">
+                <div
+                    id="menuKonsultasi"
+                    class="pl-12 pr-4 py-2 space-y-4 mt-1 {{ request()->is('konsultasi*') || request()->routeIs('notifikasi.index') ? '' : 'hidden' }}"
+                >
 
                 {{-- =========================================================
                     MENU BOOKING KONSULTASI
@@ -94,7 +103,13 @@
                 </div>
             </div>
 
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-[#2a4165] transition-colors mt-2 text-white font-medium">
+            {{-- =========================================================
+                MENU PENGATURAN
+                ========================================================= --}}
+            <a
+                href="{{ route('pengaturan.index') }}"
+                class="{{ request()->is('pengaturan*') ? 'nav-item-active' : 'hover:bg-[#2a4165] text-white' }} flex items-center px-4 py-3 rounded-lg mt-2 transition-colors"
+            >
                 <i class="fas fa-cog w-6 text-lg"></i>
                 <span class="ml-2">Pengaturan</span>
             </a>
