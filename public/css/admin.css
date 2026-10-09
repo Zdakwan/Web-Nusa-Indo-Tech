@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* ===== Dasar ===== */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #eef2f7;
+}
+
+/* ===== Sidebar: item menu utama & dropdown ===== */
+.nav-link,
+.nav-sub-link {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-sub-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Item yang sedang aktif / diklik */
+.nav-link.is-active,
+.nav-link.is-active:hover {
+    background-color: #eaf0fb;
+    color: #1b3a63;
+}
+
+/* Link submenu yang sedang aktif */
+.nav-sub-link.is-active {
+    color: #f7bd55;
+    font-weight: 700;
+}
+
+/* ===== Sidebar: tampil/sembunyi lewat tombol hamburger ===== */
+@media (max-width: 767px) {
+    .admin-sidebar.sidebar-open {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .admin-sidebar.sidebar-collapsed {
+        display: none;
+    }
+}

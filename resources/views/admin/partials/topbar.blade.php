@@ -1,11 +1,11 @@
 @php
-    $admin = auth('admin')->user();
+    $admin = Auth::guard('admin')->user();
     $pendingCount = \App\Models\Konsultasi::where('status', 'pending')->count();
 @endphp
 
-<header class="h-[62px] bg-white shadow-md flex items-center justify-between px-4 lg:px-6 sticky top-0 z-20">
+<header class="h-[62px] bg-white shadow-md flex items-center justify-between px-4 lg:px-6 z-10">
     <div class="flex items-center gap-5 flex-1">
-        <button type="button" onclick="toggleSidebar()" class="text-gray-700 text-xl">
+        <button type="button" id="sidebarToggle" class="text-gray-700 text-xl">
             <i class="fas fa-bars"></i>
         </button>
 
@@ -18,11 +18,13 @@
 
     <div class="flex items-center gap-6">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-[#1b3a63] text-white flex items-center justify-center font-bold">
-                {{ strtoupper(substr($admin->name, 0, 1)) }}
+            <div class="text-right hidden sm:block">
+                <div class="text-sm font-bold leading-none">{{ $admin->name ?? 'Admin' }}</div>
+                <div class="text-xs text-gray-500 mt-1">{{ $admin ? $admin->roleLabel() : 'Admin' }}</div>
             </div>
-            <span class="text-sm font-bold hidden sm:inline">{{ $admin->name }}</span>
-            <i class="fas fa-chevron-down text-xs"></i>
+            <div class="w-10 h-10 rounded-full bg-[#1b3a63] text-white flex items-center justify-center font-bold">
+                {{ strtoupper(substr($admin->name ?? 'A', 0, 1)) }}
+            </div>
         </div>
 
         <div class="relative">

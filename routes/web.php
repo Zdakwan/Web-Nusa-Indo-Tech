@@ -27,12 +27,34 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Khusus Super Admin
         Route::middleware('admin.role:super_admin')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+            // --- ROUTE BARU UNTUK PENGGUNA & CLIENT ---
+            Route::get('/pengguna', function () {
+                return view('admin.pengguna.index');
+            })->name('pengguna.index');
+
+            Route::get('/client', function () {
+                return view('admin.client.index');
+            })->name('client.index');
         });
 
-        // Nanti: tambahkan grup untuk admin_konten dan admin_layanan di sini
-        // Route::middleware('admin.role:super_admin,admin_konten')->group(function () { ... });
+            Route::get('/layanan', function () {
+                return view('admin.layanan.index');
+            })->name('layanan.index'); // <-- Pastikan namanya begini agar sesuai sidebar
+
+            Route::get('/portofolio', function () {
+                return view('admin.portofolio.index');
+            })->name('portofolio.index');
+
+            Route::get('/pelatihan', function () {
+                return view('admin.pelatihan.index');
+            })->name('pelatihan.index');
+
+            Route::get('/ensiklopedia', function () {
+                return view('admin.ensiklopedia.index');
+            })->name('ensiklopedia.index');
+        });
     });
-});
 
 /*
 |--------------------------------------------------------------------------
