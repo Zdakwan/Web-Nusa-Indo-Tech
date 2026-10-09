@@ -6,6 +6,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KonsultasiController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\PelatihanController;
+use App\Http\Controllers\Admin\ApprovalController;
+use App\Http\Controllers\Admin\LayananController;
+use App\Http\Controllers\Admin\PortofolioController;
+use App\Http\Controllers\Admin\PengaturanController;
+use App\Http\Controllers\Admin\EnsiklopediaController;
+use App\Http\Controllers\Admin\PenggunaController;
+use App\Http\Controllers\Admin\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,35 +34,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Khusus Super Admin
         Route::middleware('admin.role:super_admin')->group(function () {
+
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-            // --- ROUTE BARU UNTUK PENGGUNA & CLIENT ---
-            Route::get('/pengguna', function () {
-                return view('admin.pengguna.index');
-            })->name('pengguna.index');
+            // --- ROUTE APPROVAL KONSULTASI ---
+            Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
+            Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
 
-            Route::get('/client', function () {
-                return view('admin.client.index');
-            })->name('client.index');
-        });
+            // --- ROUTE PENGATURAN ---
+            Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+            Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 
-            Route::get('/layanan', function () {
-                return view('admin.layanan.index');
-            })->name('layanan.index'); // <-- Pastikan namanya begini agar sesuai sidebar
+            // --- ROUTE RESOURCE (PENGGUNA & KELOLA KONTEN) ---
+            Route::resource('ensiklopedia', EnsiklopediaController::class);
+            Route::resource('pengguna', PenggunaController::class);
+            Route::resource('client', ClientController::class);
+            Route::resource('layanan', LayananController::class);
+            Route::resource('portofolio', PortofolioController::class);
+            Route::resource('pelatihan', PelatihanController::class);
 
-            Route::get('/portofolio', function () {
-                return view('admin.portofolio.index');
-            })->name('portofolio.index');
-
-            Route::get('/pelatihan', function () {
-                return view('admin.pelatihan.index');
-            })->name('pelatihan.index');
-
-            Route::get('/ensiklopedia', function () {
-                return view('admin.ensiklopedia.index');
-            })->name('ensiklopedia.index');
         });
     });
+});
 
 /*
 |--------------------------------------------------------------------------

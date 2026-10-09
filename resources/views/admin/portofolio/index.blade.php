@@ -1,68 +1,97 @@
 @extends('layouts.admin')
 
-@section('title', 'Portofolio Proyek - Admin Konten')
-@section('page_title', 'Portofolio Proyek')
+@section('title', 'Portofolio Proyek')
 
 @section('content')
-<div class="space-y-6">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-            <h2 class="text-2xl font-bold text-gray-800">Portofolio Proyek</h2>
-            <p class="text-sm text-gray-500">Kelola daftar portofolio proyek yang telah dikerjakan.</p>
-        </div>
-        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center shadow-sm">
-            <i class="fas fa-plus mr-2"></i> Tambah Portofolio
-        </a>
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Portofolio Proyek</h1>
+        <p class="text-sm text-gray-500 mt-1">Kelola data riwayat proyek IT Nusa Indo Tech.</p>
     </div>
+    <button type="button" onclick="openModal('tambahModal')" class="inline-flex items-center gap-2 px-4 py-2 bg-[#254261] hover:bg-[#1a2f45] text-white text-sm font-medium rounded-lg shadow-sm">
+        <i class="fas fa-plus"></i> Tambah Portofolio
+    </button>
+</div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-            <div class="relative w-full max-w-md">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
-                </div>
-                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm bg-white" placeholder="Cari judul proyek atau klien...">
+@if(session('success'))
+    <div class="mb-6 px-4 py-3 bg-green-50 border-l-4 border-green-500 text-green-700 rounded shadow-sm flex justify-between">
+        <span><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</span>
+        <button onclick="this.parentElement.style.display='none'"><i class="fas fa-times"></i></button>
+    </div>
+@endif
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <table class="w-full text-left border-collapse">
+        <thead>
+            <tr class="bg-gray-50 border-b border-gray-100">
+                <th class="px-6 py-4 text-sm text-gray-600 w-24 text-center">Gambar</th>
+                <th class="px-6 py-4 text-sm text-gray-600">Judul Proyek</th>
+                <th class="px-6 py-4 text-sm text-gray-600">Klien</th>
+                <th class="px-6 py-4 text-sm text-gray-600">Tahun & Kategori</th>
+                <th class="px-6 py-4 text-sm text-gray-600 text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            @forelse($portofolio as $item)
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 text-center">
+                    @if($item->gambar)
+                        <img src="{{ asset('storage/' . $item->gambar) }}" class="w-16 h-12 object-cover rounded shadow-sm mx-auto">
+                    @else
+                        <div class="w-16 h-12 bg-gray-100 rounded flex items-center justify-center mx-auto text-gray-400"><i class="fas fa-image"></i></div>
+                    @endif
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800 font-medium">{{ $item->judul }}</td>
+                <td class="px-6 py-4 text-sm text-gray-600">{{ $item->nama_klien ?? '-' }}</td>
+                <td class="px-6 py-4">
+                    <p class="text-sm text-gray-800">{{ $item->tahun }}</p>
+                    <p class="text-xs text-gray-500">{{ $item->kategori }}</p>
+                </td>
+                <td class="px-6 py-4 text-center space-x-2">
+                    <form action="{{ route('admin.portofolio.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus portofolio ini?')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="text-red-500 hover:text-red-700" title="Hapus"><i class="fas fa-trash-alt text-lg"></i></button>
+                    </form>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="5" class="px-6 py-12 text-center text-gray-500">Belum ada portofolio.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+    <div class="px-6 py-4 bg-gray-50/50 border-t">{{ $portofolio->links() }}</div>
+</div>
+
+<!-- Modal Tambah Portofolio -->
+<div id="tambahModal" class="fixed inset-0 z-50 hidden bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between p-4 border-b">
+            <h3 class="text-xl font-semibold">Tambah Portofolio</h3>
+            <button onclick="closeModal('tambahModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <form action="{{ route('admin.portofolio.store') }}" method="POST" enctype="multipart/form-data" class="p-4">
+            @csrf
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="col-span-2"><label class="block text-sm mb-1">Judul Proyek</label><input type="text" name="judul" class="w-full border rounded-lg p-2" required></div>
+                <div><label class="block text-sm mb-1">Nama Klien</label><input type="text" name="nama_klien" class="w-full border rounded-lg p-2"></div>
+                <div><label class="block text-sm mb-1">Tahun</label><input type="text" name="tahun" class="w-full border rounded-lg p-2" placeholder="2026"></div>
+                <div><label class="block text-sm mb-1">Kategori</label><input type="text" name="kategori" class="w-full border rounded-lg p-2"></div>
+                <div><label class="block text-sm mb-1">Link Proyek</label><input type="url" name="link_project" class="w-full border rounded-lg p-2"></div>
+                <div class="col-span-2"><label class="block text-sm mb-1">Deskripsi</label><textarea name="deskripsi" rows="3" class="w-full border rounded-lg p-2" required></textarea></div>
+                <div class="col-span-2"><label class="block text-sm mb-1">Gambar</label><input type="file" name="gambar" class="w-full border rounded-lg p-1"></div>
             </div>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-white text-gray-600 text-sm border-b border-gray-200">
-                        <th class="p-4 font-semibold w-16 text-center">No</th>
-                        <th class="p-4 font-semibold w-32">Gambar</th>
-                        <th class="p-4 font-semibold w-1/3">Judul Proyek</th>
-                        <th class="p-4 font-semibold">Klien</th>
-                        <th class="p-4 font-semibold text-center">Tahun</th>
-                        <th class="p-4 font-semibold">Kategori</th>
-                        <th class="p-4 font-semibold w-36 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="p-4 text-center text-gray-500">1</td>
-                        <td class="p-4">
-                            <div class="w-20 h-14 bg-gray-200 rounded-md overflow-hidden">
-                                <img src="https://via.placeholder.com/150" alt="Thumbnail" class="w-full h-full object-cover">
-                            </div>
-                        </td>
-                        <td class="p-4 font-medium text-gray-800">Aplikasi E-Kinerja Pemkab Sidoarjo</td>
-                        <td class="p-4 text-gray-600">Pemkab Sidoarjo</td>
-                        <td class="p-4 text-center text-gray-600">2026</td>
-                        <td class="p-4">
-                            <span class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-medium">Web App</span>
-                        </td>
-                        <td class="p-4 text-center">
-                            <div class="flex justify-center space-x-2">
-                                <button class="w-8 h-8 rounded bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"><i class="fas fa-eye"></i></button>
-                                <button class="w-8 h-8 rounded bg-blue-50 border border-blue-100 text-blue-600 hover:bg-blue-100 hover:text-blue-800 transition-colors"><i class="fas fa-edit"></i></button>
-                                <button class="w-8 h-8 rounded bg-red-50 border border-red-100 text-red-600 hover:bg-red-100 hover:text-red-800 transition-colors"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="flex justify-end gap-2 border-t pt-4">
+                <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 border rounded-lg">Batal</button>
+                <button type="submit" class="px-4 py-2 bg-[#254261] text-white rounded-lg">Simpan</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+</script>
 @endsection

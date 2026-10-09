@@ -1,59 +1,69 @@
 @extends('layouts.admin')
-
-@section('title', 'Ensiklopedia IT - Admin Konten')
-@section('page_title', 'Ensiklopedia IT')
-
+@section('title', 'Ensiklopedia IT')
 @section('content')
-<div class="space-y-6">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-            <h2 class="text-2xl font-bold text-gray-800">Artikel Ensiklopedia</h2>
-            <p class="text-sm text-gray-500">Kelola artikel, berita, dan wawasan seputar teknologi IT.</p>
-        </div>
-        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center shadow-sm">
-            <i class="fas fa-pen mr-2"></i> Tulis Artikel
-        </a>
+<div class="mb-6 flex justify-between items-center">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Ensiklopedia IT</h1>
+        <p class="text-sm text-gray-500">Kelola artikel & wawasan IT.</p>
     </div>
+    <button onclick="openModal('tambahModal')" class="px-4 py-2 bg-[#254261] text-white rounded-lg"><i class="fas fa-plus"></i> Tambah Artikel</button>
+</div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-4 border-b border-gray-100 bg-gray-50/50">
-            <div class="relative w-full md:w-1/3">
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Cari judul artikel atau tags...">
+@if(session('success'))
+    <div class="mb-4 p-3 bg-green-50 text-green-700 rounded">{{ session('success') }}</div>
+@endif
+
+<div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+    <table class="w-full text-left border-collapse">
+        <thead class="bg-gray-50 border-b">
+            <tr>
+                <th class="px-6 py-4 text-sm w-24 text-center">Gambar</th>
+                <th class="px-6 py-4 text-sm">Judul</th>
+                <th class="px-6 py-4 text-sm">Kategori</th>
+                <th class="px-6 py-4 text-sm text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            @forelse($ensiklopedia as $item)
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 text-center">
+                    @if($item->gambar) <img src="{{ asset('storage/'.$item->gambar) }}" class="w-16 h-12 object-cover rounded mx-auto"> @else - @endif
+                </td>
+                <td class="px-6 py-4 text-sm font-medium">{{ $item->judul }}</td>
+                <td class="px-6 py-4 text-sm">{{ $item->kategori }}</td>
+                <td class="px-6 py-4 text-center">
+                    <form action="{{ route('admin.ensiklopedia.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus artikel?')">
+                        @csrf @method('DELETE')
+                        <button class="text-red-500 hover:text-red-700"><i class="fas fa-trash-alt text-lg"></i></button>
+                    </form>
+                </td>
+            </tr>
+            @empty
+            <tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">Belum ada artikel.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Tambah -->
+<div id="tambahModal" class="fixed inset-0 z-50 hidden bg-gray-900/50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl">
+        <div class="flex justify-between p-4 border-b">
+            <h3 class="text-lg font-bold">Tambah Artikel</h3>
+            <button onclick="closeModal('tambahModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <form action="{{ route('admin.ensiklopedia.store') }}" method="POST" enctype="multipart/form-data" class="p-4">
+            @csrf
+            <div class="mb-3"><label class="block text-sm mb-1">Judul</label><input type="text" name="judul" class="w-full border p-2 rounded" required></div>
+            <div class="mb-3"><label class="block text-sm mb-1">Kategori</label><input type="text" name="kategori" class="w-full border p-2 rounded" required></div>
+            <div class="mb-3"><label class="block text-sm mb-1">Gambar</label><input type="file" name="gambar" class="w-full border p-1 rounded"></div>
+            <div class="mb-3"><label class="block text-sm mb-1">Konten</label><textarea name="konten" rows="5" class="w-full border p-2 rounded" required></textarea></div>
+            <div class="flex justify-end gap-2 mt-4">
+                <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 border rounded">Batal</button>
+                <button type="submit" class="px-4 py-2 bg-[#254261] text-white rounded">Simpan</button>
             </div>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-white text-gray-600 text-sm border-b border-gray-200">
-                        <th class="p-4 font-semibold w-16 text-center">No</th>
-                        <th class="p-4 font-semibold">Judul Artikel</th>
-                        <th class="p-4 font-semibold">Tags</th>
-                        <th class="p-4 font-semibold">Tanggal Publish</th>
-                        <th class="p-4 font-semibold w-36 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="p-4 text-center text-gray-500">1</td>
-                        <td class="p-4 font-medium text-gray-800">Mengenal Apa Itu Artificial Intelligence di 2026</td>
-                        <td class="p-4">
-                            <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">AI</span>
-                            <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Tech</span>
-                        </td>
-                        <td class="p-4 text-gray-600">09 Okt 2026</td>
-                        <td class="p-4 text-center">
-                            <div class="flex justify-center space-x-2">
-                                <button class="w-8 h-8 rounded bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100"><i class="fas fa-eye"></i></button>
-                                <button class="w-8 h-8 rounded bg-blue-50 border border-blue-100 text-blue-600 hover:bg-blue-100"><i class="fas fa-edit"></i></button>
-                                <button class="w-8 h-8 rounded bg-red-50 border border-red-100 text-red-600 hover:bg-red-100"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        </form>
     </div>
 </div>
+<script> function openModal(id) { document.getElementById(id).classList.remove('hidden'); } function closeModal(id) { document.getElementById(id).classList.add('hidden'); } </script>
 @endsection

@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Konsultasi extends Model
 {
+    use HasFactory;
+
     protected $table = 'konsultasi';
+    protected $guarded = ['id'];
 
-    protected $fillable = [
-        'client_id', 'tanggal_konsultasi', 'waktu_konsultasi',
-        'catatan_klien', 'status', 'link_meeting',
-    ];
-
-    protected $casts = [
-        'tanggal_konsultasi' => 'date',
-    ];
-
+    // Relasi ke tabel clients
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class, 'client_id');
     }
 }
