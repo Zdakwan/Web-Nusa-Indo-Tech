@@ -45,6 +45,8 @@ Route::middleware('auth:client')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])
+    ->name('profile.avatar.delete');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

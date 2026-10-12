@@ -9,7 +9,6 @@
 @section('left_desc', 'Manajemen dan Konsultasi IT profesional untuk mengoptimalkan kinerja bisnis Anda secara digital.')
 
 @section('left_extra')
-    <!-- Poin 1 -->
     <div class="flex items-start">
         <div class="flex-shrink-0 mt-0.5">
             <i class="fas fa-check-circle text-[#f7bd55] text-xl"></i>
@@ -19,7 +18,7 @@
             <p class="text-xs text-gray-500 mt-1 leading-relaxed">Solusi aplikasi berbasis web dan sistem manajemen terpusat yang dirancang khusus untuk kebutuhan bisnis Anda.</p>
         </div>
     </div>
-    <!-- Poin 2 -->
+
     <div class="flex items-start">
         <div class="flex-shrink-0 mt-0.5">
             <i class="fas fa-check-circle text-[#f7bd55] text-xl"></i>
@@ -29,7 +28,7 @@
             <p class="text-xs text-gray-500 mt-1 leading-relaxed">Pendampingan penuh dalam transformasi digital, dari perancangan sistem hingga implementasi dan pemeliharaan.</p>
         </div>
     </div>
-    <!-- Poin 3 -->
+
     <div class="flex items-start">
         <div class="flex-shrink-0 mt-0.5">
             <i class="fas fa-check-circle text-[#f7bd55] text-xl"></i>
@@ -45,53 +44,68 @@
     <div class="max-w-md w-full mx-auto">
         <h2 class="text-4xl font-extrabold text-white mb-8">Login</h2>
 
-        <!-- Alert Login Gagal -->
         @if(session('error'))
-        <div class="bg-red-100 border border-red-300 rounded-lg p-3 mb-6 relative">
-            <div class="flex items-start">
-                <i class="fas fa-times-circle text-red-600 mt-1 mr-2"></i>
-                <div>
-                    <h3 class="text-red-800 font-bold text-sm">Login Gagal!</h3>
-                    <p class="text-red-700 text-xs mt-1">{{ session('error') }}</p>
+            <div class="bg-red-100 border border-red-300 rounded-lg p-3 mb-6 relative">
+                <div class="flex items-start">
+                    <i class="fas fa-times-circle text-red-600 mt-1 mr-2"></i>
+                    <div>
+                        <h3 class="text-red-800 font-bold text-sm">Login Gagal!</h3>
+                        <p class="text-red-700 text-xs mt-1">{{ session('error') }}</p>
+                    </div>
+                    <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-700" onclick="this.parentElement.parentElement.style.display='none'">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-700" onclick="this.parentElement.parentElement.style.display='none'">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
-        </div>
         @endif
 
-        <!-- Alert Register Sukses (Baru) -->
         @if(session('success'))
-        <div class="bg-green-100 border border-green-300 rounded-lg p-3 mb-6 relative">
-            <div class="flex items-start">
-                <i class="fas fa-check-circle text-green-600 mt-1 mr-2"></i>
-                <div>
-                    <h3 class="text-green-800 font-bold text-sm">Berhasil!</h3>
-                    <p class="text-green-700 text-xs mt-1">{{ session('success') }}</p>
+            <div class="bg-green-100 border border-green-300 rounded-lg p-3 mb-6 relative">
+                <div class="flex items-start">
+                    <i class="fas fa-check-circle text-green-600 mt-1 mr-2"></i>
+                    <div>
+                        <h3 class="text-green-800 font-bold text-sm">Berhasil!</h3>
+                        <p class="text-green-700 text-xs mt-1">{{ session('success') }}</p>
+                    </div>
+                    <button type="button" class="absolute top-2 right-2 text-green-500 hover:text-green-700" onclick="this.parentElement.parentElement.style.display='none'">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <button type="button" class="absolute top-2 right-2 text-green-500 hover:text-green-700" onclick="this.parentElement.parentElement.style.display='none'">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
-        </div>
         @endif
 
-        <form action="{{ route('login.process') }}" method="POST">
+        <form action="{{ route('login.process') }}" method="POST" autocomplete="off">
             @csrf
 
             <div class="input-box rounded-2xl px-5 py-3 mb-5 shadow-sm">
-                <label class="block text-[11px] font-bold text-gray-400 tracking-wide uppercase mb-1">Email / Username</label>
-                <input type="email" name="email" value="{{ old('email') }}" required
+                <label class="block text-[11px] font-bold text-gray-400 tracking-wide uppercase mb-1">
+                    Email / Username
+                </label>
+                <input
+                    type="text"
+                    name="login"
+                    value="{{ old('login') }}"
+                    required
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
                     class="w-full bg-transparent border-none outline-none text-white text-sm font-medium focus:ring-0 p-0"
-                    placeholder="Masukkan email Anda">
+                    placeholder="Masukkan email atau username Anda">
             </div>
 
             <div class="input-box rounded-2xl px-5 py-3 mb-6 shadow-sm relative">
-                <label class="block text-[11px] font-bold text-gray-400 tracking-wide uppercase mb-1">Password</label>
-                <input type="password" name="password" required id="password"
+                <label class="block text-[11px] font-bold text-gray-400 tracking-wide uppercase mb-1">
+                    Password
+                </label>
+                <input
+                    type="password"
+                    name="password"
+                    required
+                    id="password"
+                    autocomplete="current-password"
                     class="w-full bg-transparent border-none outline-none text-white text-sm font-medium focus:ring-0 p-0 pr-8"
                     placeholder="••••••••">
+
                 <div class="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer mt-1" onclick="togglePassword()">
                     <i class="fas fa-eye-slash text-gray-400 hover:text-white transition-colors" id="eyeIcon"></i>
                 </div>
@@ -111,7 +125,8 @@
         </form>
 
         <div class="mt-8 text-center text-sm text-gray-300 font-medium">
-            Belum punya akun? <a href="{{ route('register') }}" class="font-bold text-[#f7bd55] hover:underline">Buat Akun</a>
+            Belum punya akun?
+            <a href="{{ route('register') }}" class="font-bold text-[#f7bd55] hover:underline">Buat Akun</a>
         </div>
     </div>
 @endsection

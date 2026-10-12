@@ -9,7 +9,9 @@
             <i class="fas fa-check-circle text-green-600 mr-3 text-lg"></i>
             <span class="text-green-800 font-bold text-sm">{{ session('success') }}</span>
         </div>
-        <button onclick="this.parentElement.style.display='none'" class="text-green-600 hover:text-green-800"><i class="fas fa-times"></i></button>
+        <button onclick="this.parentElement.style.display='none'" class="text-green-600 hover:text-green-800">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
     @endif
 
@@ -17,6 +19,7 @@
         <h2 class="text-2xl font-bold text-gray-900">Profil</h2>
     </div>
 
+    {{-- Foto dan identitas client --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6 flex items-center">
         <div class="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border-4 border-gray-50 flex items-center justify-center flex-shrink-0">
             @if($client->avatar)
@@ -25,49 +28,69 @@
                 <i class="fas fa-user text-6xl text-gray-300 mt-4"></i>
             @endif
         </div>
+
         <div class="ml-8">
             <h1 class="text-3xl font-bold text-gray-900">{{ $client->name }}</h1>
             <p class="text-gray-500 font-medium text-lg mt-1">Klien</p>
         </div>
     </div>
 
+    {{-- Informasi pribadi --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
         <h3 class="text-lg font-bold text-gray-900 mb-6">Informasi Pribadi</h3>
 
         <div class="space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Nama Lengkap</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Nama Lengkap</div>
                 <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->name }}</div>
             </div>
+
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Email</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Email</div>
                 <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->email }}</div>
             </div>
+
+            {{-- Menampilkan nomor telepon --}}
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Perusahaan</div>
-                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->company ?? '-' }}</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">No Telepon</div>
+                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->phone ?: '-' }}</div>
             </div>
+
+            {{-- Menampilkan alamat --}}
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Jabatan</div>
-                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->position ?? '-' }}</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Alamat</div>
+                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->address ?: '-' }}</div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center">
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Perusahaan</div>
+                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->company ?: '-' }}</div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center">
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Jabatan</div>
+                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->position ?: '-' }}</div>
             </div>
         </div>
     </div>
 
+    {{-- Informasi akun --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
         <h3 class="text-lg font-bold text-gray-900 mb-6">Informasi Akun</h3>
 
         <div class="space-y-4 mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Username</div>
-                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ explode('@', $client->email)[0] }}</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Username</div>
+                <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: {{ $client->username ?: '-' }}</div>
             </div>
+
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Status</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Status</div>
                 <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: Aktif</div>
             </div>
+
             <div class="flex flex-col sm:flex-row sm:items-center">
-                <div class="w-full sm:w-1/4 text-gray-600 font-medium font-semibold text-sm">Role</div>
+                <div class="w-full sm:w-1/4 text-gray-600 font-semibold text-sm">Role</div>
                 <div class="w-full sm:w-3/4 text-gray-900 font-semibold text-sm">: Client</div>
             </div>
         </div>
