@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PengaturanController;
 use App\Http\Controllers\Admin\EnsiklopediaController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\PublicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,41 +22,54 @@ use App\Http\Controllers\Admin\ClientController;
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->group(function () {
-
-    // Belum login sebagai admin
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
         Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
     });
 
-    // Sudah login sebagai admin
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-        // Khusus Super Admin
+        // Khusus Super Admin (Sesuai kondisi commit 70a1ef2 Anda)
         Route::middleware('admin.role:super_admin')->group(function () {
-
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-            // --- ROUTE APPROVAL KONSULTASI ---
             Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
             Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
 
-            // --- ROUTE PENGATURAN ---
             Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
             Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 
-            // --- ROUTE RESOURCE (PENGGUNA & KELOLA KONTEN) ---
             Route::resource('ensiklopedia', EnsiklopediaController::class);
             Route::resource('pengguna', PenggunaController::class);
             Route::resource('client', ClientController::class);
             Route::resource('layanan', LayananController::class);
             Route::resource('portofolio', PortofolioController::class);
             Route::resource('pelatihan', PelatihanController::class);
-
         });
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes (Halaman Publik / Pengunjung) Terhubung ke Database
+|--------------------------------------------------------------------------
+*/
+Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/tentang-kami', [PublicController::class, 'tentangKami'])->name('tentang-kami');
+Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
+
+// Portofolio & Detail
+Route::get('/portofolio', [PublicController::class, 'portofolio'])->name('portofolio.index');
+Route::get('/portofolio/{id}', [PublicController::class, 'detailPortofolio'])->name('portofolio.detail');
+
+// Ensiklopedia & Detail
+Route::get('/ensiklopedia', [PublicController::class, 'ensiklopedia'])->name('ensiklopedia.index');
+Route::get('/ensiklopedia/{id}', [PublicController::class, 'detailEnsiklopedia'])->name('ensiklopedia.detail');
+
+// Pelatihan & Detail
+Route::get('/pelatihan', [PublicController::class, 'pelatihan'])->name('pelatihan.index');
+Route::get('/pelatihan/{id}', [PublicController::class, 'detailPelatihan'])->name('pelatihan.detail');
 
 /*
 |--------------------------------------------------------------------------
@@ -70,31 +84,13 @@ Route::middleware('guest:client')->group(function () {
 });
 
 Route::middleware('auth:client')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+    Route::get('/konsultasi/booking', [KonsultasiController::class, 'booking'])->name('konsultasi.booking');
+    Route::get('/konsultasi', [KonsultasiController::class, 'index'])->name('konsultasi.index');
+    Route::get('/konsultasi/{id}', [KonsultasiController::class, 'detail'])->name('konsultasi.detail');
+    Route::get('/konsultasi/{id}/jadwal', [KonsultasiController::class, 'jadwal'])->name('konsultasi.jadwal');
+    Route::get('/notifikasi', [KonsultasiController::class, 'notifikasi'])->name('notifikasi.index');
 
-    // Route untuk menampilkan halaman Booking Konsultasi
-    Route::get('/konsultasi/booking', [KonsultasiController::class, 'booking'])
-        ->name('konsultasi.booking');
-
-    // Route halaman Konsultasi Saya
-    Route::get('/konsultasi', [KonsultasiController::class, 'index'])
-        ->name('konsultasi.index');
-
-    // Route detail pendaftaran konsultasi
-    Route::get('/konsultasi/{id}', [KonsultasiController::class, 'detail'])
-        ->name('konsultasi.detail');
-
-    // Route detail jadwal konsultasi
-    Route::get('/konsultasi/{id}/jadwal', [KonsultasiController::class, 'jadwal'])
-        ->name('konsultasi.jadwal');
-
-    // Route halaman Notifikasi
-    Route::get('/notifikasi', [KonsultasiController::class, 'notifikasi'])
-        ->name('notifikasi.index');
-
-    // Rute Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

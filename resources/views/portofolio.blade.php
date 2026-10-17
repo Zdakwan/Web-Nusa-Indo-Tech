@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.public')
 
 @section('title', 'Portofolio Proyek Unggulan - Nusa Indo Technology')
 

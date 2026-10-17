@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.public')
 
 @section('title', 'Detail Pelatihan - Pengembangan Web dengan Laravel 12')
 

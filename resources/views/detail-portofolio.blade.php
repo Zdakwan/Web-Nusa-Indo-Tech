@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.public')
 
 @section('title', 'Detail Portofolio - Dinas Kebudayaan Pariwisata JATIM')
 
