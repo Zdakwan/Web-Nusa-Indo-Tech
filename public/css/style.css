@@ -1,0 +1,2749 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* --- Reset & Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #0f172a; /* Slate 900 */
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease-in-out;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.navbar .nav-container {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    background-color: #f59e0b;
+    color: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.2);
+}
+
+.brand-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 0.65rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #f59e0b;
+}
+
+.btn-login {
+    padding: 0.6rem 1.75rem;
+    border-radius: 9999px;
+    background-color: #1e293b;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.btn-login:hover {
+    background-color: #334155;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background-color: #fbbf24; /* Kuning Brand */
+    padding: 5rem 0;
+    overflow: hidden;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.hero-desc {
+    color: #1e293b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 520px;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background-color: #0f172a;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #1e293b;
+    transform: translateY(-2px);
+}
+
+/* Hero Art Illustration */
+.hero-illustration {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 320px;
+}
+
+.art-card {
+    width: 210px;
+    height: 250px;
+    background-color: #f8fafc;
+    border-radius: 28px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgba(255, 255, 255, 0.85);
+    transform: rotate(-3deg);
+    z-index: 2;
+}
+
+.lightbulb-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #fbbf24;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 2.5rem;
+}
+
+.gear-cyan {
+    position: absolute;
+    left: 10px;
+    bottom: 20px;
+    font-size: 4rem;
+    color: #38bdf8;
+    z-index: 3;
+    animation: spin 18s linear infinite;
+}
+
+.gear-indigo {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 6rem;
+    color: #4f46e5;
+    z-index: 1;
+    animation: spinReverse 25s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spinReverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* --- Section Title --- */
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* --- Services Section --- */
+.services-section {
+    background-color: #0f172a;
+    padding: 5rem 0;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.service-card {
+    background-color: #f59e0b;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 20px -3px rgba(0, 0, 0, 0.3);
+}
+
+.icon-box {
+    width: 44px;
+    height: 44px;
+    background-color: #0f172a;
+    color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+}
+
+.card-heading {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.card-desc {
+    font-size: 0.85rem;
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+/* --- Why Us Section --- */
+.why-us-section {
+    background-color: #0f172a;
+    padding: 4rem 0 5rem;
+    border-top: 1px solid #1e293b;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.feature-card {
+    background-color: #f59e0b;
+    border-radius: 14px;
+    padding: 1.5rem;
+}
+
+.icon-box-sm {
+    width: 36px;
+    height: 36px;
+    background-color: #0f172a;
+    color: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.feature-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.feature-desc {
+    font-size: 0.78rem;
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+/* --- CTA Banner --- */
+.cta-section {
+    background-color: #fbbf24;
+    padding: 2.75rem 0;
+}
+
+.cta-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cta-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.cta-subtitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: #090d16;
+    color: #94a3b8;
+    padding: 4rem 0 2rem;
+    font-size: 0.8rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid #1e293b;
+}
+
+.footer-desc {
+    margin: 1rem 0;
+    line-height: 1.6;
+    max-width: 380px;
+}
+
+.footer-contact p {
+    margin-bottom: 0.4rem;
+    color: #cbd5e1;
+}
+
+.footer-contact i {
+    color: #f59e0b;
+    margin-right: 0.5rem;
+}
+
+.footer-heading {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-links a:hover {
+    color: #fbbf24;
+}
+
+.footer-bottom {
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+/* --- Responsiveness (Media Queries) --- */
+@media (max-width: 992px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-desc {
+        margin: 0 auto 2rem;
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-title {
+        font-size: 2.1rem;
+    }
+
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+/* --- Styling Logo Gambar --- */
+.flex-brand {
+    display: flex;
+    align-items: center;
+}
+
+.brand-img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-img-footer {
+    height: 36px;
+    width: auto;
+    filter: brightness(0) invert(1); /* Opsional: jika logo gelap ingin dibuat putih di footer */
+}
+
+/* --- Halaman Tentang Kami --- */
+.about-hero {
+    background-color: #0f172a;
+    padding: 4.5rem 0 3rem;
+}
+
+.about-hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.about-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.about-subtitle {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 480px;
+}
+
+.about-hero-img img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.text-left {
+    text-align: left;
+    margin-bottom: 1.75rem;
+}
+
+/* Visi & Misi */
+.visi-misi-section {
+    background-color: #0f172a;
+    padding: 1.5rem 0 3.5rem;
+}
+
+.visi-misi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+}
+
+.visi-card, .misi-card {
+    background-color: #f59e0b;
+    border-radius: 16px;
+    padding: 2.25rem 2.5rem;
+    color: #0f172a;
+}
+
+.vm-heading {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.vm-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Tim Kami */
+.team-section {
+    background-color: #0f172a;
+    padding-bottom: 5rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.team-card {
+    background-color: #f59e0b;
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+}
+
+.team-photo-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #e2e8f0;
+}
+
+.team-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-info {
+    text-align: center;
+    padding-top: 0.75rem;
+}
+
+.member-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.15rem;
+}
+
+.member-role {
+    font-size: 0.75rem;
+    color: #334155;
+    font-weight: 600;
+}
+
+/* Responsive Tablet & Mobile */
+@media (max-width: 992px) {
+    .about-hero-grid {
+        grid-template-columns: 1fr;
+    }
+    .visi-misi-grid {
+        grid-template-columns: 1fr;
+    }
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-title {
+        font-size: 2rem;
+    }
+}
+/* ========================================================
+   HALAMAN LAYANAN (SERVICES PAGE)
+   ======================================================== */
+
+/* Header Layanan (Kuning) */
+.services-hero-header {
+    background-color: #fbbf24;
+    padding: 3.5rem 0 4rem;
+}
+
+.services-hero-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.sub-badge-title {
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 2px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+}
+
+.service-item-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.85rem;
+}
+
+.service-lead-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #1e293b;
+    margin-bottom: 1.25rem;
+}
+
+.service-points-block {
+    margin-bottom: 0.75rem;
+}
+
+.points-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.35rem;
+}
+
+.points-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    font-size: 0.82rem;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.case-text {
+    font-size: 0.82rem;
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+/* Wrapper Dark Navy untuk sisa layanan */
+.services-dark-wrapper {
+    background-color: #0f172a;
+    padding: 4.5rem 0 5rem;
+}
+
+.service-zigzag-row {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 3.5rem;
+    align-items: center;
+    margin-bottom: 5.5rem;
+}
+
+.service-zigzag-row.reverse-row {
+    grid-template-columns: 0.75fr 1.25fr;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.text-muted {
+    color: #94a3b8 !important;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ========================================================
+   ILUSTRASI 3D (CUSTOM CSS & ICON SHAPES)
+   ======================================================== */
+
+/* 1. Clipboard 3D (Hero Layanan) */
+.isometric-board {
+    width: 210px;
+    height: 270px;
+    background: #ffffff;
+    border-radius: 24px;
+    position: relative;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    padding: 2.5rem 1.25rem 1.25rem;
+    border: 4px solid #f1f5f9;
+}
+
+.board-clip {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 24px;
+    background: #38bdf8;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.check-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.check-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.checked-blue { background: #3b82f6; }
+.checked-yellow { background: #f59e0b; }
+
+.check-line {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 9999px;
+    flex-grow: 1;
+}
+
+.floating-hand {
+    position: absolute;
+    width: 50px;
+    height: 60px;
+    background: #3b82f6;
+    border-radius: 20px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+}
+
+.left-hand {
+    left: -25px;
+    bottom: 25px;
+    transform: rotate(20deg);
+}
+
+.right-hand {
+    right: -25px;
+    top: 50px;
+    transform: rotate(-15deg);
+}
+
+.floating-pencil {
+    width: 14px;
+    height: 45px;
+    background: #38bdf8;
+    border-radius: 6px;
+    position: absolute;
+    top: -10px;
+    right: -5px;
+}
+
+/* 2. Monitor 3D + Lock (IT Governance) */
+.monitor-3d {
+    position: relative;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.monitor-screen {
+    width: 230px;
+    height: 155px;
+    background: #38bdf8;
+    border: 8px solid #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.mock-browser-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mock-browser-bars span {
+    height: 7px;
+    background: #f59e0b;
+    border-radius: 4px;
+}
+
+.mock-browser-bars span:nth-child(1) { width: 55%; }
+.mock-browser-bars span:nth-child(2) { width: 40%; }
+.mock-browser-bars span:nth-child(3) { width: 70%; background: #ffffff; }
+
+.monitor-inner-icons {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.gear-amber { font-size: 2.2rem; color: #f59e0b; }
+.gear-cyan { font-size: 1.6rem; color: #ffffff; margin-top: 15px; }
+
+.monitor-stand {
+    width: 25px;
+    height: 25px;
+    background: #0284c7;
+}
+
+.monitor-base {
+    width: 90px;
+    height: 12px;
+    background: #0284c7;
+    border-radius: 8px;
+}
+
+.lock-3d-badge {
+    position: absolute;
+    right: -10px;
+    bottom: 10px;
+    width: 65px;
+    height: 60px;
+    background: #f59e0b;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f172a;
+    font-size: 1.4rem;
+}
+
+.shackle-3d {
+    position: absolute;
+    top: -16px;
+    width: 34px;
+    height: 24px;
+    border: 7px solid #cbd5e1;
+    border-bottom: none;
+    border-radius: 18px 18px 0 0;
+}
+
+/* 3. Bubbles 3D Group (Enterprise Architecture) */
+.bubbles-3d-group {
+    position: relative;
+    width: 200px;
+    height: 160px;
+}
+
+.bubble-3d {
+    position: absolute;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+.bubble-purple {
+    width: 130px;
+    height: 100px;
+    background: #8b5cf6;
+    color: #fbbf24;
+    font-size: 1.8rem;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.bubble-yellow {
+    width: 110px;
+    height: 85px;
+    background: #fbbf24;
+    color: #ffffff;
+    font-size: 1.4rem;
+    bottom: 0;
+    right: 0;
+    z-index: 3;
+}
+
+/* 4. Hardware Unit 3D (Hardware Development) */
+.hardware-3d-unit {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    width: 240px;
+    height: 180px;
+}
+
+.pc-tower-3d {
+    width: 75px;
+    height: 160px;
+    background: #3b82f6;
+    border-radius: 16px;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.35);
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tower-drive {
+    height: 10px;
+    background: #1d4ed8;
+    border-radius: 4px;
+}
+
+.tower-btn {
+    width: 14px;
+    height: 14px;
+    background: #fbbf24;
+    border-radius: 50%;
+    margin-top: 15px;
+}
+
+.hardware-screen-3d {
+    width: 140px;
+    height: 125px;
+    background: #60a5fa;
+    border-radius: 16px;
+    border: 6px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.35);
+}
+
+.chip-socket {
+    font-size: 3rem;
+    color: #fbbf24;
+}
+
+.tool-wrench-3d {
+    position: absolute;
+    right: 5px;
+    bottom: -10px;
+    font-size: 3.5rem;
+    color: #fbbf24;
+    transform: rotate(45deg);
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+}
+
+/* 5. IDE Code Window (Software Development) */
+.ide-window-3d {
+    position: relative;
+    width: 230px;
+    height: 150px;
+    background: #38bdf8;
+    border-radius: 20px;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.35);
+    border: 6px solid #e0f2fe;
+    padding: 12px;
+}
+
+.window-header {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.w-dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.window-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.code-line {
+    height: 8px;
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+.w-60 { width: 60%; }
+.w-80 { width: 80%; background: #f59e0b; }
+.w-40 { width: 40%; }
+
+.floating-badge-code {
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    width: 65px;
+    height: 60px;
+    background: #f59e0b;
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+/* 6. Multi Media Cluster 3D */
+.multimedia-3d-cluster {
+    position: relative;
+    width: 220px;
+    height: 180px;
+}
+
+.player-card-3d {
+    width: 140px;
+    height: 110px;
+    background: #ffffff;
+    border-radius: 18px;
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.play-triangle-btn {
+    font-size: 2.2rem;
+    color: #f59e0b;
+}
+
+.film-strip-3d {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 3rem;
+    color: #3b82f6;
+    z-index: 1;
+}
+
+.mini-photo-3d {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    width: 45px;
+    height: 45px;
+    background: #38bdf8;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.2rem;
+    z-index: 3;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.music-note-3d {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2.2rem;
+    color: #f59e0b;
+}
+
+.stylus-pencil-3d {
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    background: #38bdf8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.2rem;
+    z-index: 3;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* ========================================================
+   BOTTOM BOXES (PELATIHAN & ENSIKLOPEDIA)
+   ======================================================== */
+.bottom-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-box-yellow {
+    background-color: #f59e0b;
+    border-radius: 18px;
+    padding: 2.25rem 2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.box-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.75rem;
+}
+
+.box-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+
+.btn-box-action {
+    display: inline-block;
+    padding: 0.65rem 1.75rem;
+    background-color: #0f172a;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.btn-box-action:hover {
+    background-color: #1e293b;
+    transform: translateY(-2px);
+}
+
+/* ========================================================
+   RESPONSIVE (LAYANAN)
+   ======================================================== */
+@media (max-width: 992px) {
+    .services-hero-grid,
+    .service-zigzag-row,
+    .service-zigzag-row.reverse-row {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .service-zigzag-row.reverse-row .illustration-box {
+        order: 2;
+    }
+    
+    .service-zigzag-row.reverse-row .service-zigzag-text {
+        order: 1;
+    }
+
+    .bottom-features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* --- Wrapper Halaman Portofolio --- */
+.portfolio-page-wrapper {
+    background-color: #0f172a; /* Navy background */
+    padding: 3.5rem 0 5rem;
+}
+
+/* Judul dengan Garis Bawah */
+.portfolio-header {
+    margin-bottom: 2rem;
+}
+
+.portfolio-main-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    border-bottom: 2.5px solid #ffffff;
+    padding-bottom: 6px;
+}
+
+/* Tombol-Tombol Kategori Filter */
+.portfolio-filters {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.filter-pill {
+    padding: 0.55rem 1.6rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    background-color: #ffffff;
+    color: #0f172a;
+    transition: all 0.2s ease;
+}
+
+.filter-pill.active {
+    background-color: #f59e0b;
+    color: #0f172a;
+}
+
+.filter-pill:hover:not(.active) {
+    background-color: #e2e8f0;
+}
+
+/* Grid Kartu 3 Kolom */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+}
+
+.portfolio-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #f59e0b; /* Warna kuning card */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.4);
+}
+
+.card-img-wrap {
+    height: 170px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content-yellow {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.card-project-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.card-project-desc {
+    font-size: 0.72rem;
+    color: #334155;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+.card-footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+/* Mini Tech Icons di Card */
+.tech-mini-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.icon-laravel {
+    color: #ef4444;
+    font-size: 1.15rem;
+}
+
+.badge-php-mini {
+    background-color: #6366f1;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.badge-mysql-mini {
+    background-color: #0284c7;
+    color: #f8fafc;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+/* Tombol Lihat Selengkapnya */
+.btn-detail-link {
+    font-size: 0.72rem;
+    font-weight: 800;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-detail-link:hover {
+    background-color: #1e293b;
+    transform: translateX(2px);
+}
+
+/* Responsive Grid untuk Tablet & Mobile */
+@media (max-width: 992px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+    .portfolio-main-title {
+        font-size: 1.4rem;
+    }
+}
+/* ========================================================
+   DETAIL PORTOFOLIO STYLES
+   ======================================================== */
+
+.detail-page-wrapper {
+    background-color: #0f172a; /* Navy tua */
+    padding: 3rem 0 5rem;
+    color: #ffffff;
+}
+
+/* Navigasi Back */
+.back-nav {
+    margin-bottom: 2rem;
+}
+
+.back-link {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #f59e0b;
+}
+
+/* Grid Hero Detail */
+.detail-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.75rem;
+    align-items: center;
+    margin-bottom: 3.5rem;
+}
+
+.detail-banner-img {
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.detail-banner-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.badge-tag-blue {
+    display: inline-block;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.85rem;
+    border-radius: 9999px;
+    margin-bottom: 0.75rem;
+}
+
+.detail-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+}
+
+.text-amber {
+    color: #f59e0b;
+}
+
+.detail-short-desc {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Kotak Kuning Info Badges */
+.info-badges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.info-badge-item {
+    background-color: #f59e0b;
+    color: #0f172a;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.info-badge-item.col-span-2 {
+    grid-column: span 2;
+}
+
+.badge-icon {
+    font-size: 1.1rem;
+    color: #0f172a;
+}
+
+.badge-title {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.badge-val {
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0f172a;
+}
+
+.link-text {
+    word-break: break-all;
+    text-decoration: underline;
+}
+
+/* Deskripsi & Meta Grid */
+.detail-section-block {
+    margin-bottom: 2.5rem;
+}
+
+.section-subheading {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+
+.detail-full-text {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    max-width: 900px;
+}
+
+.detail-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 2.5rem;
+    align-items: flex-start;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid #1e293b;
+    margin-bottom: 3.5rem;
+}
+
+.meta-heading {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.feature-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+}
+
+.feature-bullets i {
+    color: #38bdf8;
+    margin-right: 0.4rem;
+}
+
+/* Highlight Browser Mockup */
+.highlight-browser-mockup {
+    background-color: #1e293b;
+    border: 2px solid #334155;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.browser-header {
+    background-color: #0f172a;
+    padding: 6px 10px;
+    display: flex;
+    gap: 6px;
+}
+
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.d-red { background: #ef4444; }
+.d-yellow { background: #f59e0b; }
+.d-green { background: #10b981; }
+
+.browser-content {
+    display: flex;
+    height: 140px;
+    background-color: #ffffff;
+}
+
+.mockup-sidebar {
+    width: 25%;
+    background-color: #0284c7;
+    height: 100%;
+}
+
+.mockup-table {
+    flex-grow: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mockup-line {
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+}
+
+.w-80 { width: 80%; background-color: #f87171; }
+.w-100 { width: 100%; }
+.w-60 { width: 60%; }
+.w-90 { width: 90%; background-color: #34d399; }
+
+/* Teknologi Badge Logos */
+.tech-logos-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.tech-icon-laravel {
+    font-size: 2.8rem;
+    color: #ef4444;
+}
+
+.php-pill-logo {
+    background-color: #6366f1;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+}
+
+.mysql-text-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0284c7;
+    letter-spacing: -0.03em;
+}
+
+/* Related Portfolio */
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .detail-hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-meta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .related-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-badges-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-badge-item.col-span-2 {
+        grid-column: span 1;
+    }
+}
+/* ========================================================
+   HALAMAN ENSIKLOPEDIA TEKNOLOGI INFORMASI
+   ======================================================== */
+
+/* Header Pencarian (Kuning) */
+.ensiklo-hero-header {
+    background-color: #fbbf24; /* Kuning brand */
+    padding: 4rem 1.5rem 3.5rem;
+    text-align: center;
+}
+
+.ensiklo-main-title {
+    font-size: 2.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.65rem;
+}
+
+.ensiklo-sub-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2rem;
+}
+
+/* Form Search */
+.ensiklo-search-wrapper {
+    max-width: 580px;
+    margin: 0 auto;
+}
+
+.ensiklo-search-form {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ensiklo-search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 0.8rem 1.25rem;
+    font-size: 0.88rem;
+    color: #1e293b;
+    font-family: inherit;
+}
+
+.ensiklo-search-input::placeholder {
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.ensiklo-search-btn {
+    background-color: #0f172a;
+    border: none;
+    outline: none;
+    padding: 0 1.5rem;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.ensiklo-search-btn:hover {
+    background-color: #1e293b;
+}
+
+/* Wrapper Area Navy */
+.ensiklo-content-wrapper {
+    background-color: #0f172a; /* Navy background */
+    padding: 3.5rem 0 5.5rem;
+    color: #ffffff;
+}
+
+.ensiklo-section-heading {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+/* Tag Populer Cloud */
+.popular-tags-section {
+    margin-bottom: 4rem;
+}
+
+.tags-pill-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.65rem;
+    max-width: 980px;
+}
+
+.tag-pill {
+    background-color: #38bdf8;
+    color: #0f172a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.tag-pill:hover {
+    background-color: #0284c7;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Materi Populer Grid */
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+}
+
+.material-card {
+    background-color: #f59e0b; /* Warna kuning card */
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.material-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 25px rgba(0, 0, 0, 0.4);
+}
+
+.material-img-wrap {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.material-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Badge 3D IT di Gambar */
+.material-overlay-badge {
+    position: absolute;
+    top: 50%;
+    right: 15%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.it-cube-badge {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 900;
+    padding: 0.8rem 1.1rem;
+    border-radius: 14px;
+    border: 3px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+    transform: rotate(5deg);
+}
+
+.material-card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.material-card-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+.material-card-desc {
+    font-size: 0.75rem;
+    color: #334155;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+.material-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.material-mini-tags {
+    display: flex;
+    gap: 0.35rem;
+}
+
+.mini-tag {
+    background-color: #0284c7;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+}
+
+.btn-read-material {
+    font-size: 0.72rem;
+    font-weight: 800;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-read-material:hover {
+    background-color: #1e293b;
+    transform: translateX(2px);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .materials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .materials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ensiklo-main-title {
+        font-size: 1.6rem;
+    }
+    
+    .tags-pill-cloud {
+        justify-content: center;
+    }
+}
+/* ========================================================
+   DETAIL ENSIKLOPEDIA STYLES
+   ======================================================== */
+
+.ensiklo-detail-wrapper {
+    background-color: #0f172a; /* Navy background */
+    padding: 3rem 0 5rem;
+    color: #ffffff;
+}
+
+/* Hero Detail */
+.ensiklo-hero-detail-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.ensiklo-article-title {
+    font-size: 2.35rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.ensiklo-article-lead {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 580px;
+}
+
+/* Tags Pill Cyan */
+.article-tags-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.badge-pill-cyan {
+    background-color: #38bdf8;
+    color: #0f172a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.3rem 0.9rem;
+    border-radius: 9999px;
+}
+
+/* Thumbnail Header dengan Badge */
+.article-thumb-wrap {
+    position: relative;
+    height: 220px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.article-thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-badge-it-wrap {
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+}
+
+.article-divider-line {
+    height: 1.5px;
+    background-color: #f59e0b;
+    margin: 2rem 0 3.5rem;
+    opacity: 0.8;
+}
+
+/* Isi Konten */
+.content-section-block {
+    margin-bottom: 3rem;
+}
+
+.content-heading {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.85rem;
+}
+
+.content-paragraph {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #cbd5e1;
+    max-width: 980px;
+}
+
+.mb-4 {
+    margin-bottom: 1.25rem !important;
+}
+
+/* Komponen 4 Outline Card */
+.komponen-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.komponen-card-outline {
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    background-color: rgba(15, 23, 42, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.komponen-card-outline:hover {
+    border-color: #38bdf8;
+    transform: translateY(-3px);
+}
+
+.komponen-icon-box {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.komponen-card-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+}
+
+.komponen-card-desc {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* Banner Manfaat Utama IT (Kuning Horizontal) */
+.manfaat-yellow-banner {
+    background-color: #f59e0b;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.manfaat-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: #0f172a;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.manfaat-item i {
+    font-size: 0.9rem;
+    color: #0f172a;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Cek Artikel Lainnya */
+.other-articles-section {
+    margin-top: 4.5rem;
+    padding-top: 3.5rem;
+    border-top: 1px solid #1e293b;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .ensiklo-hero-detail-grid {
+        grid-template-columns: 1fr;
+    }
+    .komponen-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .manfaat-yellow-banner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .ensiklo-article-title {
+        font-size: 1.85rem;
+    }
+    .komponen-cards-grid {
+        grid-template-columns: 1fr;
+    }
+    .manfaat-yellow-banner {
+        grid-template-columns: 1fr;
+    }
+}
+/* ========================================================
+   HALAMAN PELATIHAN IT
+   ======================================================== */
+
+.pelatihan-page-wrapper {
+    background-color: #0f172a; /* Navy tua */
+    padding: 3.5rem 0 5rem;
+    color: #ffffff;
+}
+
+/* Header & Title */
+.pelatihan-header-section {
+    margin-bottom: 2.5rem;
+}
+
+.pelatihan-main-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    border-bottom: 2.5px solid #ffffff;
+    padding-bottom: 6px;
+    margin-bottom: 1.5rem;
+}
+
+/* Kotak Pencarian */
+.pelatihan-search-box {
+    max-width: 500px;
+}
+
+.search-form-flex {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 42px;
+}
+
+.search-input-field {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 0 1rem;
+    font-size: 0.85rem;
+    color: #1e293b;
+    font-family: inherit;
+}
+
+.search-submit-btn {
+    background-color: #1e293b;
+    color: #ffffff;
+    border: none;
+    padding: 0 1.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.search-submit-btn:hover {
+    background-color: #334155;
+}
+
+/* Kategori */
+.kategori-section {
+    margin-bottom: 3.5rem;
+}
+
+.kategori-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.kategori-pills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.kategori-pill {
+    background-color: #ffffff;
+    color: #0f172a;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kategori-pill.active {
+    background-color: #f59e0b;
+}
+
+.kategori-pill:hover:not(.active) {
+    background-color: #e2e8f0;
+}
+
+/* Grid Pelatihan */
+.pelatihan-list-section {
+    text-align: center;
+}
+
+.pelatihan-section-heading {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+}
+
+.pelatihan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: left;
+}
+
+/* Kartu Pelatihan */
+.pelatihan-card {
+    background-color: #f59e0b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+
+.pelatihan-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Bagian Atas Kartu (Banner Putih) */
+.card-top-banner {
+    background-color: #f8fafc;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.laravel-brand-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.laravel-logo-icon {
+    color: #ef4444; /* Merah Laravel */
+    font-size: 2.5rem;
+}
+
+.laravel-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    letter-spacing: -0.02em;
+}
+
+.laravel-version {
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: 6px;
+    line-height: 1;
+}
+
+.laravel-tagline {
+    font-size: 0.65rem;
+    color: #475569;
+    font-weight: 600;
+}
+
+/* Bagian Bawah Kartu (Konten Kuning) */
+.card-bottom-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.pelatihan-card-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+.pelatihan-card-desc {
+    font-size: 0.75rem;
+    color: #1e293b;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.pelatihan-price {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 1.25rem;
+    margin-top: auto;
+}
+
+.pelatihan-card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-pelatihan {
+    flex: 1;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.5rem 0;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-dark {
+    background-color: transparent;
+    color: #0f172a;
+    border: 1.5px solid #0f172a;
+}
+
+.btn-outline-dark:hover {
+    background-color: #0f172a;
+    color: #ffffff;
+}
+
+.btn-solid-dark {
+    background-color: #0f172a;
+    color: #ffffff;
+    border: 1.5px solid #0f172a;
+}
+
+.btn-solid-dark:hover {
+    background-color: #1e293b;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .pelatihan-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .pelatihan-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .kategori-pills-container {
+        justify-content: flex-start;
+    }
+}
+/* ========================================================
+   DETAIL PELATIHAN STYLES
+   ======================================================== */
+
+.detail-pelatihan-hero {
+    background-color: #1e293b; /* Biru Navy yang sedikit lebih terang dari background utama */
+    padding: 3rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Bentuk Kuning Miring di Latar Belakang */
+.hero-yellow-shape {
+    position: absolute;
+    top: -50px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    background-color: #f59e0b;
+    transform: rotate(25deg);
+    z-index: 0;
+    border-radius: 40px;
+}
+
+.relative { position: relative; }
+.z-10 { z-index: 10; }
+
+.back-nav-pelatihan {
+    margin-bottom: 2rem;
+}
+
+.pelatihan-hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-title-large {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle-light {
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    margin-bottom: 1.75rem;
+    max-width: 500px;
+    line-height: 1.5;
+}
+
+/* Badge Tags Biru Muda */
+.hero-tags-group {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.badge-pill-light-blue {
+    background-color: #93c5fd;
+    color: #1e3a8a;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+}
+
+/* 3D Laravel Illustration Box */
+.pelatihan-hero-illustration {
+    display: flex;
+    justify-content: center;
+}
+
+.laravel-3d-board {
+    position: relative;
+    width: 260px;
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+    border: 8px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(4deg);
+}
+
+.board-top-dots {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    display: flex;
+    gap: 6px;
+}
+
+.board-top-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.board-top-dots span:nth-child(1) { background-color: #ef4444; }
+.board-top-dots span:nth-child(2) { background-color: #f59e0b; }
+.board-top-dots span:nth-child(3) { background-color: #10b981; }
+
+.logo-center {
+    font-size: 7rem;
+    color: #ef4444;
+}
+
+.floating-badge-code {
+    position: absolute;
+    left: -20px;
+    bottom: -15px;
+    width: 65px;
+    height: 65px;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: rotate(-8deg);
+}
+
+.floating-badge-version {
+    position: absolute;
+    right: -15px;
+    bottom: -10px;
+    width: 65px;
+    height: 65px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: rotate(5deg);
+}
+
+/* KONTEN PELATIHAN */
+.pelatihan-content-wrapper {
+    background-color: #0f172a;
+    padding: 4rem 0 5rem;
+    color: #ffffff;
+}
+
+.pelatihan-desc-price-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+}
+
+.price-box {
+    background-color: transparent;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.price-amount {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.15rem;
+}
+
+.price-note {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 1.25rem;
+}
+
+.btn-daftar-full {
+    display: block;
+    text-align: center;
+    background-color: #f59e0b;
+    color: #0f172a;
+    font-weight: 800;
+    padding: 0.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-daftar-full:hover {
+    background-color: #fbbf24;
+}
+
+/* Materi Section */
+.materi-section { margin-bottom: 3.5rem; }
+
+.materi-check-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.check-item {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    line-height: 1.5;
+}
+
+.text-amber { color: #f59e0b !important; }
+
+/* Target Audience */
+.target-audience-section { margin-bottom: 3.5rem; }
+
+.audience-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.audience-card {
+    border: 1px solid #334155;
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    text-align: center;
+    background-color: rgba(30, 41, 59, 0.4);
+}
+
+.audience-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.audience-desc {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+/* Trainer Section */
+.trainer-section { margin-bottom: 4.5rem; }
+
+.trainer-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.trainer-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+    background-color: #334155;
+}
+
+.trainer-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.15rem;
+}
+
+.trainer-role {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #f59e0b;
+    margin-bottom: 0.75rem;
+}
+
+.trainer-desc {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    max-width: 800px;
+}
+
+/* Related Pelatihan */
+.related-pelatihan-section {
+    border-top: 1px solid #1e293b;
+    padding-top: 3.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .pelatihan-hero-grid,
+    .pelatihan-desc-price-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-yellow-shape {
+        display: none;
+    }
+    
+    .materi-check-grid,
+    .audience-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .materi-check-grid,
+    .audience-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-title-large {
+        font-size: 2.2rem;
+    }
+    
+    .trainer-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
