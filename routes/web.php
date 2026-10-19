@@ -45,6 +45,14 @@ Route::middleware('auth:client')->group(function () {
     Route::get('/notifikasi', [KonsultasiController::class, 'notifikasi'])
         ->name('notifikasi.index');
 
+    // Menampilkan detail satu notifikasi.
+    Route::get('/notifikasi/{id}', [KonsultasiController::class, 'detailNotifikasi'])
+        ->name('notifikasi.detail');
+
+    // Route untuk menandai semua notifikasi sebagai sudah dibaca
+    Route::post('/notifikasi/baca-semua', [KonsultasiController::class, 'tandaiSemuaDibaca'])
+        ->name('notifikasi.baca-semua');
+
     // Rute Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

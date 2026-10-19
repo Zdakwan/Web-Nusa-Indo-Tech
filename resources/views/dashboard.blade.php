@@ -1,4 +1,4 @@
- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Dashboard - Nusa Indo Tech')
 
@@ -16,9 +16,14 @@
                     {{ $jumlahPermintaan }}
                 </p>
             </div>
-            <!-- Gelombang Kuning Bawah -->
+
             <svg class="absolute bottom-0 w-full h-16 text-yellow-100/50" preserveAspectRatio="none" viewBox="0 0 1440 320" style="fill:url(#grad-yellow)">
-                <defs><linearGradient id="grad-yellow" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#fef08a;stop-opacity:1" /><stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" /></linearGradient></defs>
+                <defs>
+                    <linearGradient id="grad-yellow" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fef08a;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
                 <path d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,170.7C960,160,1056,192,1152,213.3C1248,235,1344,245,1392,250.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
             </svg>
         </div>
@@ -32,13 +37,19 @@
                         {{ $jumlahJadwalMendatang }}
                     </p>
                 </div>
+
                 <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-500">
                     <i class="fas fa-clipboard-list"></i>
                 </div>
             </div>
-            <!-- Gelombang Hijau Bawah -->
+
             <svg class="absolute bottom-0 w-full h-16" preserveAspectRatio="none" viewBox="0 0 1440 320" style="fill:url(#grad-green)">
-                <defs><linearGradient id="grad-green" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#86efac;stop-opacity:1" /><stop offset="100%" style="stop-color:#10b981;stop-opacity:1" /></linearGradient></defs>
+                <defs>
+                    <linearGradient id="grad-green" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#86efac;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
                 <path d="M0,256L60,250.7C120,245,240,235,360,245.3C480,256,600,288,720,277.3C840,267,960,213,1080,181.3C1200,149,1320,139,1380,133.3L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
             </svg>
         </div>
@@ -51,9 +62,14 @@
                     {{ $jumlahRiwayat }}
                 </p>
             </div>
-            <!-- Gelombang Biru Bawah -->
+
             <svg class="absolute bottom-0 w-full h-16 text-blue-100/50" preserveAspectRatio="none" viewBox="0 0 1440 320" style="fill:url(#grad-blue)">
-                <defs><linearGradient id="grad-blue" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" /><stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" /></linearGradient></defs>
+                <defs>
+                    <linearGradient id="grad-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
                 <path d="M0,160L48,149.3C96,139,192,117,288,133.3C384,149,480,203,576,218.7C672,235,768,213,864,176C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
             </svg>
         </div>
@@ -66,7 +82,6 @@
         @if ($jadwalTerdekat)
             <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
 
-                <!-- Judul Jadwal Konsultasi Terdekat -->
                 <div class="flex items-center mb-6">
                     <i class="fas fa-calendar-alt text-[#1e3352] text-xl mr-3"></i>
                     <h3 class="font-bold text-gray-900 text-lg">Jadwal Konsultasi Terdekat</h3>
@@ -77,6 +92,7 @@
                         <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-4">
                             <i class="fas fa-desktop"></i>
                         </div>
+
                         <h4 class="font-bold text-gray-900 text-lg">
                             Konsultasi #{{ $jadwalTerdekat->id }}
                         </h4>
@@ -127,16 +143,14 @@
                 </div>
             </div>
         @else
-            {{-- Tampilan ketika belum ada jadwal konsultasi --}}
+            <!-- Tampilan ketika belum ada jadwal konsultasi -->
             <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 min-h-[280px] flex flex-col">
 
-                <!-- Judul Jadwal Konsultasi Terdekat -->
                 <div class="flex items-center mb-6 self-start">
                     <i class="fas fa-calendar-alt text-[#1e3352] text-xl mr-3"></i>
                     <h3 class="font-bold text-gray-900 text-lg">Jadwal Konsultasi Terdekat</h3>
                 </div>
 
-                <!-- Pesan kosong tetap berada di tengah -->
                 <div class="flex-grow flex flex-col items-center justify-center text-center">
                     <i class="fas fa-calendar-alt text-gray-400 text-3xl mb-4"></i>
 
@@ -177,7 +191,6 @@
                     </p>
 
                     @php
-                        // Menentukan tahap progress berdasarkan status konsultasi
                         $status = $pendaftaranTerbaru->status;
 
                         $tahapAktif = match ($status) {
@@ -206,6 +219,7 @@
                                 <div class="w-6 h-6 rounded-full bg-white border-2
                                     {{ $nomor < $tahapAktif ? 'border-green-500 text-green-500' : ($nomor == $tahapAktif ? 'border-blue-500 text-blue-500' : 'border-gray-300 text-gray-300') }}
                                     flex items-center justify-center">
+
                                     @if ($nomor < $tahapAktif)
                                         <i class="fas fa-check text-xs"></i>
                                     @elseif ($nomor == $tahapAktif)
@@ -281,7 +295,6 @@
     <!-- Notifikasi Terbaru -->
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm">
         <div class="flex justify-between items-center p-5 border-b border-gray-100">
-            <!-- Judul notifikasi menggunakan gaya yang sama dengan Status Pendaftaran -->
             <div class="flex items-center">
                 <i class="fas fa-bell text-[#1e3352] text-xl mr-3"></i>
                 <h3 class="font-bold text-gray-900 text-lg">Notifikasi Terbaru</h3>
@@ -295,40 +308,95 @@
 
         <div class="divide-y divide-gray-100">
             @forelse ($notifikasiTerbaru as $notifikasi)
-                <!-- Item Notifikasi dari Database -->
-                <div class="p-5 flex items-start hover:bg-gray-50 transition
-                    {{ $notifikasi->is_read ? '' : 'bg-blue-50/30' }}">
 
-                    <div class="flex-shrink-0 w-8 h-8 rounded-full
-                        {{ $notifikasi->is_read ? 'bg-gray-100 text-gray-500' : 'bg-blue-100 text-blue-500' }}
-                        flex items-center justify-center mt-1">
-                        <i class="fas fa-bell"></i>
-                    </div>
+                @php
+                    /*
+                     * Menentukan ikon dan warna berdasarkan judul notifikasi.
+                     * Warna menggunakan CSS biasa, bukan class Tailwind.
+                     */
+                    $judul = strtolower($notifikasi->judul);
 
-                    <div class="ml-4 flex-1 min-w-0">
-                        <div class="flex flex-wrap justify-between items-start gap-2">
-                            <h4 class="text-sm font-bold text-gray-900">
-                                {{ $notifikasi->judul }}
-                            </h4>
+                    if (str_contains($judul, 'jadwal')) {
+                        $icon = 'far fa-calendar-alt';
+                        $warna = '#2874d0';
+                    } elseif (
+                        str_contains($judul, 'ditolak') ||
+                        str_contains($judul, 'tolak')
+                    ) {
+                        $icon = 'fas fa-times';
+                        $warna = '#ffc04d';
+                    } elseif (
+                        str_contains($judul, 'disetujui') ||
+                        str_contains($judul, 'berhasil')
+                    ) {
+                        $icon = 'fas fa-check';
+                        $warna = '#00d639';
+                    } else {
+                        $icon = 'fas fa-bell';
+                        $warna = '#2874d0';
+                    }
 
-                            <span class="text-xs text-gray-400 font-medium">
-                                {{ $notifikasi->created_at
-                                    ? \Carbon\Carbon::parse($notifikasi->created_at)->locale('id')->translatedFormat('d M Y, H:i')
-                                    : '-' }}
-                            </span>
+                    // Notifikasi yang sudah dibaca menggunakan warna abu-abu.
+                    $warnaLatar = $notifikasi->is_read ? '#f3f4f6' : $warna;
+                    $warnaIkon = $notifikasi->is_read ? '#6b7280' : '#ffffff';
+                @endphp
+
+                <!-- Item notifikasi dapat diklik menuju detail -->
+                <a
+                    href="{{ route('notifikasi.detail', $notifikasi->id) }}"
+                    class="block p-5 hover:bg-gray-50 transition
+                        {{ $notifikasi->is_read ? '' : 'bg-blue-50/30' }}"
+                    style="display: block; text-decoration: none;"
+                >
+                    <div class="flex items-start">
+
+                        <!-- Ikon notifikasi dengan warna CSS inline -->
+                        <div
+                            style="
+                                flex-shrink: 0;
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                                background-color: {{ $warnaLatar }};
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin-top: 4px;
+                            "
+                        >
+                            <i
+                                class="{{ $icon }}"
+                                style="color: {{ $warnaIkon }}; font-size: 14px;"
+                            ></i>
                         </div>
 
-                        <p class="text-xs text-gray-500 font-medium mt-1">
-                            {{ $notifikasi->pesan }}
-                        </p>
+                        <!-- Isi notifikasi -->
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex flex-wrap justify-between items-start gap-2">
+                                <h4 class="text-sm font-bold text-gray-900">
+                                    {{ $notifikasi->judul }}
+                                </h4>
 
-                        @if (!$notifikasi->is_read)
-                            <span class="inline-block mt-2 text-[10px] font-bold text-blue-600">
-                                Belum dibaca
-                            </span>
-                        @endif
+                                <span class="text-xs text-gray-400 font-medium">
+                                    {{ $notifikasi->created_at
+                                        ? \Carbon\Carbon::parse($notifikasi->created_at)->locale('id')->translatedFormat('d M Y, H:i')
+                                        : '-' }}
+                                </span>
+                            </div>
+
+                            <p class="text-xs text-gray-500 font-medium mt-1">
+                                {{ $notifikasi->pesan }}
+                            </p>
+
+                            @if (!$notifikasi->is_read)
+                                <span class="inline-block mt-2 text-[10px] font-bold text-blue-600">
+                                    Belum dibaca
+                                </span>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                </a>
+
             @empty
                 <!-- Tampilan ketika belum ada notifikasi -->
                 <div class="min-h-[180px] p-6 flex flex-col items-center justify-center text-center">

@@ -102,7 +102,7 @@
                 // Menentukan kapan dropdown Konsultasi terbuka
                 $menuKonsultasiAktif =
                     request()->is('konsultasi*')
-                    || request()->routeIs('notifikasi.index');
+                    || request()->routeIs('notifikasi.*');
             @endphp
 
             <div class="mb-2 mt-4">
@@ -149,7 +149,7 @@
                     {{-- MENU NOTIFIKASI --}}
                     <a
                         href="{{ route('notifikasi.index') }}"
-                        class="block text-sm {{ request()->routeIs('notifikasi.index') ? 'text-[#f7bd55] font-bold' : 'hover:text-white transition-colors' }}"
+                        class="block text-sm {{ request()->routeIs('notifikasi.*') ? 'text-[#f7bd55] font-bold' : 'hover:text-white transition-colors' }}"
                     >
                         <i class="far fa-bell w-5"></i>
                         Notifikasi
