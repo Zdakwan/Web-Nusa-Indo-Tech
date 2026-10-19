@@ -66,6 +66,12 @@ Route::middleware('auth:client')->group(function () {
     Route::get('/pengaturan', [PengaturanController::class, 'index'])
         ->name('pengaturan.index');
 
+    // Route untuk menyimpan perubahan pengaturan notifikasi client.
+    Route::put('/pengaturan/notifikasi', [
+        PengaturanController::class,
+        'updateNotifikasi'
+    ])->name('pengaturan.notifikasi.update');
+
     // Route halaman FAQ
     Route::get('/pengaturan/faq', [FaqController::class, 'index'])
         ->name('pengaturan.faq');

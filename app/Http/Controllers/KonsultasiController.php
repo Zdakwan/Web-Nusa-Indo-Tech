@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Konsultasi;
 use App\Models\Notifikasi;
+use App\Models\PreferensiNotifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,11 @@ class KonsultasiController extends Controller
         // Mengambil ID client yang sedang login.
         $clientId = Auth::guard('client')->id();
 
+        // Pastikan proses hanya berjalan untuk client yang sudah login.
+        if (!$clientId) {
+            abort(401, 'Silakan login terlebih dahulu.');
+        }
+
         // Menyimpan konsultasi dan notifikasi dalam satu transaksi.
         DB::transaction(function () use ($validated, $clientId) {
             // Menyimpan pendaftaran konsultasi.
@@ -54,15 +60,34 @@ class KonsultasiController extends Controller
                 'status' => 'pending',
             ]);
 
-            // Membuat notifikasi untuk client yang mengajukan konsultasi.
-            Notifikasi::create([
-                'client_id' => $clientId,
-                'judul' => 'Pendaftaran Konsultasi Berhasil',
-                'pesan' => 'Pendaftaran konsultasi '
-                    . $konsultasi->jenis_konsultasi
-                    . ' berhasil dikirim dan sedang menunggu persetujuan Admin.',
-                'is_read' => false,
-            ]);
+            /*
+             * Ambil preferensi khusus client yang sedang login.
+             * Jika belum ada, buat preferensi dengan semua notifikasi aktif.
+             */
+            $preferensi = PreferensiNotifikasi::firstOrCreate(
+                ['client_id' => $clientId],
+                [
+                    'update_konsultasi' => true,
+                    'perubahan_jadwal' => true,
+                    'updated_proyek' => true,
+                    'artikel_ensiklopedia' => true,
+                ]
+            );
+
+            /*
+             * Buat notifikasi pendaftaran hanya jika update konsultasi aktif.
+             * Pendaftaran konsultasi tetap tersimpan meskipun notifikasi OFF.
+             */
+            if ($preferensi->update_konsultasi) {
+                Notifikasi::create([
+                    'client_id' => $clientId,
+                    'judul' => 'Pendaftaran Konsultasi Berhasil',
+                    'pesan' => 'Pendaftaran konsultasi '
+                        . $konsultasi->jenis_konsultasi
+                        . ' berhasil dikirim dan sedang menunggu persetujuan Admin.',
+                    'is_read' => false,
+                ]);
+            }
         });
 
         // Mengarahkan client ke dashboard setelah pendaftaran berhasil.
