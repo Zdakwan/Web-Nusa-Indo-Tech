@@ -91,6 +91,29 @@
                     >
                 </div>
 
+                {{-- Jabatan PIC --}}
+                <div class="mb-3">
+                    <label
+                        for="jabatan_pic"
+                        class="block text-base font-semibold text-black mb-1.5"
+                    >
+                        Jabatan PIC
+                    </label>
+
+                    <input
+                        type="text"
+                        id="jabatan_pic"
+                        name="jabatan_pic"
+                        value="{{ old('jabatan_pic') }}"
+                        placeholder="Contoh: Project Manager"
+                        class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+
+                    @error('jabatan_pic')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 {{-- Email PIC --}}
                 <div class="mb-3">
                     <label

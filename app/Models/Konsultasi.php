@@ -14,6 +14,7 @@ class Konsultasi extends Model
         'client_id',
         'nama_perusahaan',
         'nama_pic',
+        'jabatan_pic',
         'email_pic',
         'telepon_pic',
         'jenis_konsultasi',
