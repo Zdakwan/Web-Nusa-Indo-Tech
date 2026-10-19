@@ -22,13 +22,25 @@
         </p>
     </div>
 
-
     {{-- =====================================================
          FORM PENDAFTARAN
-         Saat ini masih frontend, belum diproses ke database
+         Data divalidasi dan disimpan ke database
          ===================================================== --}}
-    <form action="#" method="POST">
+    <form action="{{ route('konsultasi.store') }}" method="POST">
         @csrf
+
+        {{-- Menampilkan pesan validasi jika input tidak sesuai --}}
+        @if ($errors->any())
+            <div class="mb-4 rounded-xl border border-red-300 bg-red-50 p-4 text-red-700">
+                <p class="font-semibold mb-2">Periksa kembali formulir:</p>
+
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
@@ -119,7 +131,6 @@
 
             </div>
 
-
             {{-- =================================================
                  DATA KONSULTASI
                  ================================================= --}}
@@ -145,19 +156,19 @@
                             name="jenis_konsultasi"
                             class="w-full h-14 px-4 pr-12 rounded-xl bg-[#f1f4f8] text-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            <option value="" selected disabled>
+                            <option value="" disabled {{ old('jenis_konsultasi') ? '' : 'selected' }}>
                                 Pilih Jenis Konsultasi
                             </option>
 
-                            <option value="IT Training">
+                            <option value="IT Training" {{ old('jenis_konsultasi') == 'IT Training' ? 'selected' : '' }}>
                                 IT Training
                             </option>
 
-                            <option value="IT Consulting">
+                            <option value="IT Consulting" {{ old('jenis_konsultasi') == 'IT Consulting' ? 'selected' : '' }}>
                                 IT Consulting
                             </option>
 
-                            <option value="Software Development">
+                            <option value="Software Development" {{ old('jenis_konsultasi') == 'Software Development' ? 'selected' : '' }}>
                                 Software Development
                             </option>
                         </select>
@@ -166,7 +177,6 @@
 
                     </div>
                 </div>
-
 
                 {{-- Deskripsi Kebutuhan --}}
                 <div class="mb-3">
@@ -184,7 +194,6 @@
                         class="w-full h-60 px-4 py-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >{{ old('deskripsi_kebutuhan') }}</textarea>
                 </div>
-
 
                 {{-- Tanggal Konsultasi --}}
                 <div class="mb-3">
@@ -204,7 +213,6 @@
                     >
                 </div>
 
-
                 {{-- Waktu Konsultasi --}}
                 <div>
                     <label
@@ -222,7 +230,6 @@
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                 </div>
-
 
                 {{-- =================================================
                      TOMBOL AKSI

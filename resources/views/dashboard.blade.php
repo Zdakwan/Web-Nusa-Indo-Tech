@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
 @section('title', 'Dashboard - Nusa Indo Tech')
 
@@ -91,7 +91,7 @@
                     <div class="flex items-center text-sm text-gray-600 font-medium">
                         <i class="fas fa-calendar-alt w-5 text-gray-400 -ml-5"></i>
                         <span class="text-gray-900">
-                            {{ \Carbon\Carbon::parse($jadwalTerdekat->tanggal_konsultasi)->format('d-m-Y') }}
+                            {{ \Carbon\Carbon::parse($jadwalTerdekat->tanggal_konsultasi)->locale('id')->translatedFormat('d M Y') }}
                         </span>
                     </div>
 
@@ -172,7 +172,7 @@
                     <p class="text-xs text-gray-500 font-medium mt-1 mb-8">
                         Diajukan pada
                         {{ $pendaftaranTerbaru->created_at
-                            ? \Carbon\Carbon::parse($pendaftaranTerbaru->created_at)->format('d M Y')
+                            ? \Carbon\Carbon::parse($pendaftaranTerbaru->created_at)->locale('id')->translatedFormat('d M Y')
                             : '-' }}
                     </p>
 
@@ -220,9 +220,9 @@
 
                                 <p class="text-[10px] text-gray-500">
                                     @if ($nomor == 1)
-                                        {{ \Carbon\Carbon::parse($pendaftaranTerbaru->created_at)->format('d M') }}
+                                        {{ \Carbon\Carbon::parse($pendaftaranTerbaru->created_at)->locale('id')->translatedFormat('d M Y') }}
                                     @elseif ($nomor == 3 && $pendaftaranTerbaru->tanggal_konsultasi)
-                                        {{ \Carbon\Carbon::parse($pendaftaranTerbaru->tanggal_konsultasi)->format('d M') }}
+                                        {{ \Carbon\Carbon::parse($pendaftaranTerbaru->tanggal_konsultasi)->locale('id')->translatedFormat('d M Y') }}
                                     @else
                                         &nbsp;
                                     @endif
@@ -313,7 +313,7 @@
 
                             <span class="text-xs text-gray-400 font-medium">
                                 {{ $notifikasi->created_at
-                                    ? \Carbon\Carbon::parse($notifikasi->created_at)->format('d M Y, H:i')
+                                    ? \Carbon\Carbon::parse($notifikasi->created_at)->locale('id')->translatedFormat('d M Y, H:i')
                                     : '-' }}
                             </span>
                         </div>

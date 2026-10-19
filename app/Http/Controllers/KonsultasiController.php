@@ -2,18 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Konsultasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KonsultasiController extends Controller
 
-//Form Booking Konsultasi
+// Form Booking Konsultasi
 {
     public function booking()
     {
         return view('konsultasi.booking');
     }
 
-     /**
+    /**
+     * Menyimpan pendaftaran konsultasi dari client.
+     */
+    public function store(Request $request)
+    {
+        // Validasi data formulir
+        $validated = $request->validate([
+            'nama_perusahaan' => 'required|string|max:255',
+            'nama_pic' => 'required|string|max:255',
+            'email_pic' => 'required|email|max:255',
+            'telepon_pic' => 'required|string|max:30',
+            'jenis_konsultasi' => 'required|in:IT Training,IT Consulting,Software Development',
+            'deskripsi_kebutuhan' => 'required|string|max:5000',
+            'tanggal_konsultasi' => 'required|date|after_or_equal:today',
+            'waktu_konsultasi' => 'required|date_format:H:i',
+        ]);
+
+        // Menyimpan data konsultasi milik client yang sedang login
+        Konsultasi::create([
+            'client_id' => Auth::guard('client')->id(),
+            'nama_perusahaan' => $validated['nama_perusahaan'],
+            'nama_pic' => $validated['nama_pic'],
+            'email_pic' => $validated['email_pic'],
+            'telepon_pic' => $validated['telepon_pic'],
+            'jenis_konsultasi' => $validated['jenis_konsultasi'],
+            'tanggal_konsultasi' => $validated['tanggal_konsultasi'],
+            'waktu_konsultasi' => $validated['waktu_konsultasi'],
+            'catatan_klien' => $validated['deskripsi_kebutuhan'],
+            'status' => 'pending',
+        ]);
+
+        // Kembali ke dashboard dengan pesan berhasil
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Pendaftaran konsultasi berhasil dikirim.');
+    }
+
+    /**
      * Menampilkan daftar konsultasi milik client.
      *
      * Data yang digunakan saat ini masih berupa data dummy.
@@ -100,7 +139,7 @@ class KonsultasiController extends Controller
     /**
      * Menampilkan detail pendaftaran konsultasi.
      *
-     * Data saat ini masih berupa data dummy
+     * Data saat ini masih berupa data dummy.
      */
     public function detail($id)
     {

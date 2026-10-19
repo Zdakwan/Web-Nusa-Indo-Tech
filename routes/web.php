@@ -25,6 +25,10 @@ Route::middleware('auth:client')->group(function () {
     Route::get('/konsultasi/booking', [KonsultasiController::class, 'booking'])
         ->name('konsultasi.booking');
 
+    // Route untuk menyimpan pendaftaran konsultasi ke database
+    Route::post('/konsultasi/booking', [KonsultasiController::class, 'store'])
+        ->name('konsultasi.store');
+
     // Route halaman Konsultasi Saya
     Route::get('/konsultasi', [KonsultasiController::class, 'index'])
         ->name('konsultasi.index');
