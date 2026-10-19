@@ -8,6 +8,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\CallCenterController;
+use App\Http\Controllers\DashboardController;
 
 Route::middleware('guest:client')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -17,9 +18,8 @@ Route::middleware('guest:client')->group(function () {
 });
 
 Route::middleware('auth:client')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');
 
     // Route untuk menampilkan halaman Booking Konsultasi
     Route::get('/konsultasi/booking', [KonsultasiController::class, 'booking'])
