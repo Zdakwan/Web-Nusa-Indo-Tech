@@ -9,9 +9,7 @@
 
 <div class="min-h-screen bg-[#f1f5f9] px-10 py-8">
 
-    {{-- =====================================================
-         HEADER HALAMAN
-         ===================================================== --}}
+    {{-- HEADER HALAMAN --}}
     <div class="mb-5">
         <h1 class="text-4xl font-bold text-black">
             Pendaftaran Konsultasi
@@ -22,17 +20,16 @@
         </p>
     </div>
 
-    {{-- =====================================================
-         FORM PENDAFTARAN
-         Data divalidasi dan disimpan ke database
-         ===================================================== --}}
+    {{-- FORM PENDAFTARAN --}}
     <form action="{{ route('konsultasi.store') }}" method="POST">
         @csrf
 
-        {{-- Menampilkan pesan validasi jika input tidak sesuai --}}
+        {{-- Menampilkan pesan validasi --}}
         @if ($errors->any())
             <div class="mb-4 rounded-xl border border-red-300 bg-red-50 p-4 text-red-700">
-                <p class="font-semibold mb-2">Periksa kembali formulir:</p>
+                <p class="font-semibold mb-2">
+                    Periksa kembali formulir:
+                </p>
 
                 <ul class="list-disc pl-5">
                     @foreach ($errors->all() as $error)
@@ -68,8 +65,13 @@
                         name="nama_perusahaan"
                         value="{{ old('nama_perusahaan') }}"
                         placeholder="Nama Perusahaan"
+                        required
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+
+                    @error('nama_perusahaan')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Nama PIC --}}
@@ -87,8 +89,13 @@
                         name="nama_pic"
                         value="{{ old('nama_pic') }}"
                         placeholder="Nama PIC"
+                        required
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+
+                    @error('nama_pic')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Jabatan PIC --}}
@@ -128,12 +135,17 @@
                         id="email_pic"
                         name="email_pic"
                         value="{{ old('email_pic') }}"
-                        placeholder="Email@.com"
+                        placeholder="Email perusahaan"
+                        required
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+
+                    @error('email_pic')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                {{-- No Telepon PIC --}}
+                {{-- Nomor Telepon PIC --}}
                 <div>
                     <label
                         for="telepon_pic"
@@ -148,8 +160,13 @@
                         name="telepon_pic"
                         value="{{ old('telepon_pic') }}"
                         placeholder="+62"
+                        required
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+
+                    @error('telepon_pic')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
             </div>
@@ -173,32 +190,76 @@
                     </label>
 
                     <div class="relative">
-
                         <select
                             id="jenis_konsultasi"
                             name="jenis_konsultasi"
-                            class="w-full h-14 px-4 pr-12 rounded-xl bg-[#f1f4f8] text-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            class="w-full h-14 px-4 pr-12 rounded-xl bg-[#f1f4f8] text-gray-700 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            <option value="" disabled {{ old('jenis_konsultasi') ? '' : 'selected' }}>
+                            <option
+                                value=""
+                                disabled
+                                {{ old('jenis_konsultasi') ? '' : 'selected' }}
+                            >
                                 Pilih Jenis Konsultasi
                             </option>
 
-                            <option value="IT Training" {{ old('jenis_konsultasi') == 'IT Training' ? 'selected' : '' }}>
-                                IT Training
+                            <option
+                                value="IT Portfolio Management"
+                                {{ old('jenis_konsultasi') == 'IT Portfolio Management' ? 'selected' : '' }}
+                            >
+                                IT Portfolio Management
                             </option>
 
-                            <option value="IT Consulting" {{ old('jenis_konsultasi') == 'IT Consulting' ? 'selected' : '' }}>
-                                IT Consulting
+                            <option
+                                value="Enterprise Architecture"
+                                {{ old('jenis_konsultasi') == 'Enterprise Architecture' ? 'selected' : '' }}
+                            >
+                                Enterprise Architecture
                             </option>
 
-                            <option value="Software Development" {{ old('jenis_konsultasi') == 'Software Development' ? 'selected' : '' }}>
+                            <option
+                                value="IT Governance"
+                                {{ old('jenis_konsultasi') == 'IT Governance' ? 'selected' : '' }}
+                            >
+                                IT Governance
+                            </option>
+
+                            <option
+                                value="Multimedia"
+                                {{ old('jenis_konsultasi') == 'Multimedia' ? 'selected' : '' }}
+                            >
+                                Multimedia
+                            </option>
+
+                            <option
+                                value="Software Development"
+                                {{ old('jenis_konsultasi') == 'Software Development' ? 'selected' : '' }}
+                            >
                                 Software Development
+                            </option>
+
+                            <option
+                                value="Hardware Development"
+                                {{ old('jenis_konsultasi') == 'Hardware Development' ? 'selected' : '' }}
+                            >
+                                Hardware Development
+                            </option>
+
+                            <option
+                                value="Training IT"
+                                {{ old('jenis_konsultasi') == 'Training IT' ? 'selected' : '' }}
+                            >
+                                Training IT
                             </option>
                         </select>
 
                         <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
-
                     </div>
+
+                    @error('jenis_konsultasi')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Deskripsi Kebutuhan --}}
@@ -213,9 +274,15 @@
                     <textarea
                         id="deskripsi_kebutuhan"
                         name="deskripsi_kebutuhan"
-                        placeholder="Deskripsi Kebutuhan"
+                        placeholder="Jelaskan kebutuhan konsultasi Anda"
+                        required
+                        maxlength="5000"
                         class="w-full h-60 px-4 py-4 rounded-xl bg-[#f1f4f8] text-gray-700 placeholder-gray-500 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >{{ old('deskripsi_kebutuhan') }}</textarea>
+
+                    @error('deskripsi_kebutuhan')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Tanggal Konsultasi --}}
@@ -232,8 +299,14 @@
                         id="tanggal_konsultasi"
                         name="tanggal_konsultasi"
                         value="{{ old('tanggal_konsultasi') }}"
+                        min="{{ date('Y-m-d') }}"
+                        required
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+
+                    @error('tanggal_konsultasi')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Waktu Konsultasi --}}
@@ -250,13 +323,16 @@
                         id="waktu_konsultasi"
                         name="waktu_konsultasi"
                         value="{{ old('waktu_konsultasi') }}"
+                        required
                         class="w-full h-14 px-4 rounded-xl bg-[#f1f4f8] text-gray-700 shadow-[0_5px_5px_rgba(0,0,0,0.18)] border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+
+                    @error('waktu_konsultasi')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                {{-- =================================================
-                     TOMBOL AKSI
-                     ================================================= --}}
+                {{-- TOMBOL AKSI --}}
                 <div class="flex justify-end items-center gap-3 mt-10">
 
                     <button
@@ -279,7 +355,6 @@
             </div>
 
         </div>
-
     </form>
 
 </div>

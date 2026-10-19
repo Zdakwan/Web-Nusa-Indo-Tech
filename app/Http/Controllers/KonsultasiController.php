@@ -8,6 +8,7 @@ use App\Models\PreferensiNotifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class KonsultasiController extends Controller
 {
@@ -29,7 +30,13 @@ class KonsultasiController extends Controller
             'jabatan_pic' => 'nullable|string|max:100',
             'email_pic' => 'required|email|max:255',
             'telepon_pic' => 'required|string|max:30',
-            'jenis_konsultasi' => 'required|in:IT Training,IT Consulting,Software Development',
+
+            // Daftar jenis konsultasi yang diperbolehkan.
+            'jenis_konsultasi' => [
+                'required',
+                'in:IT Portfolio Management,Enterprise Architecture,IT Governance,Multimedia,Software Development,Hardware Development,Training IT',
+            ],
+
             'deskripsi_kebutuhan' => 'required|string|max:5000',
             'tanggal_konsultasi' => 'required|date|after_or_equal:today',
             'waktu_konsultasi' => 'required|date_format:H:i',
@@ -76,7 +83,7 @@ class KonsultasiController extends Controller
 
             /*
              * Buat notifikasi pendaftaran hanya jika update konsultasi aktif.
-             * Pendaftaran konsultasi tetap tersimpan meskipun notifikasi OFF.
+             * Pendaftaran tetap tersimpan meskipun notifikasi dinonaktifkan.
              */
             if ($preferensi->update_konsultasi) {
                 Notifikasi::create([
@@ -125,7 +132,7 @@ class KonsultasiController extends Controller
 
                 // Menampilkan tanggal dan waktu konsultasi.
                 if (in_array($konsultasi->status, ['approved', 'completed'])) {
-                    $jadwal = \Carbon\Carbon::parse(
+                    $jadwal = Carbon::parse(
                         $konsultasi->tanggal_konsultasi
                     )
                         ->locale('id')
@@ -268,7 +275,7 @@ class KonsultasiController extends Controller
 
         // Format tanggal konsultasi dalam bahasa Indonesia.
         $tanggal = $data->tanggal_konsultasi
-            ? \Carbon\Carbon::parse($data->tanggal_konsultasi)
+            ? Carbon::parse($data->tanggal_konsultasi)
                 ->locale('id')
                 ->translatedFormat('l, d F Y')
             : 'Belum ditentukan';
