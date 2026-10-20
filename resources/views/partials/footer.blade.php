@@ -4,7 +4,7 @@
             <!-- Kolom 1: Info Brand -->
             <div>
                 <div class="brand-footer">
-                    <img src="{{ asset('img/LogoNusa.png') }}" alt="Logo Nusa Indo Technology" class="brand-img-footer">
+                   <img src="{{ asset('images/LogoNusa.png') }}" alt="Logo Nusa Indo Tech" class="h-8 w-auto object-contain">
                 </div>
                 <p class="footer-desc">
                     Solusi IT terintegrasi untuk masa depan bisnis Anda. Menyediakan layanan konsultasi, arsitektur sistem, tata kelola, dan pengembangan teknologi profesional.
@@ -32,7 +32,7 @@
                 <ul class="footer-links">
                     <li><a href="{{ route('register') }}">Pendaftaran Akun (Registrasi)</a></li>
                     <li><a href="{{ url('/dashboard-client') }}">Dashboard Klien</a></li>
-                    
+
                     <!-- Kedua login admin sementara diarahkan ke form login utama -->
                     <li><a href="{{ route('login') }}">Login Admin Layanan</a></li>
                     <li><a href="{{ route('login') }}">Login Super Admin</a></li>
@@ -42,7 +42,7 @@
 
         <div class="footer-bottom">
             <p>© 2026 Nusa Indo Technology. Hak cipta dilindungi.</p>
-            <p>Web / IT Management Consultant Project</p>
+            <p>By Politeknik Negeri Jember PSDKU Sidoarjo</p>
         </div>
     </div>
 </footer>

@@ -2,7 +2,7 @@
     <div class="container nav-container">
         <div class="brand">
             <a href="{{ url('/') }}" class="flex-brand">
-                <img src="{{ asset('img/LogoNusa.png') }}" alt="Logo Nusa Indo Technology" class="brand-img">
+                <img src="{{ asset('images/LogoNusa.png') }}" alt="Logo Nusa Indo Tech" class="h-8 w-auto object-contain">
             </a>
         </div>
 

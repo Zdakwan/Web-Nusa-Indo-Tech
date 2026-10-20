@@ -1,78 +1,73 @@
 ﻿@extends('layouts.public')
 
-@section('title', 'Portofolio Proyek Unggulan - Nusa Indo Technology')
+@section('title', 'Portofolio - Nusa Indo Technology')
 
 @section('content')
-<div class="portfolio-page-wrapper">
-    <div class="container">
-        
-        <!-- Header Judul -->
-        <div class="portfolio-header">
-            <h1 class="portfolio-main-title">PORTOFOLIO PROYEK UNGGULAN</h1>
+
+    <!-- HERO SECTION PORTOFOLIO -->
+    <!-- Menambahkan bg-nusaNavy agar teks putih terbaca jelas -->
+    <section class="portfolio-hero bg-nusaNavy py-16 lg:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f5b73e_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Our Works & Portfolios</h1>
+            <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+                Berbagai proyek solusi IT yang telah kami kerjakan untuk membantu berbagai perusahaan mencapai target digital mereka.
+            </p>
         </div>
+    </section>
 
-        <!-- Filter Tab Kategori -->
-        <div class="portfolio-filters">
-            <button class="filter-pill active" onclick="filterPortfolio('semua')">Semua</button>
-            <button class="filter-pill" onclick="filterPortfolio('is-management')">Is Management</button>
-            <button class="filter-pill" onclick="filterPortfolio('is-development')">Is Development</button>
-            <button class="filter-pill" onclick="filterPortfolio('multimedia')">Multimedia</button>
-        </div>
+    <!-- KONTEN PORTOFOLIO -->
+    <section class="portfolio-content py-16 lg:py-24 bg-gray-50">
+        <div class="container mx-auto px-6 max-w-7xl">
 
-        <!-- Grid 12 Kartu Portofolio (3 Kolom x 4 Baris) Sesuai Desain Mockup -->
-        <div class="portfolio-grid">
-            @for ($i = 1; $i <= 12; $i++)
-                <div class="portfolio-card" data-category="is-development">
-                    <!-- Foto Proyek -->
-                    <div class="card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=700&q=80" alt="Dinas Kebudayaan Pariwisata JATIM">
-                    </div>
-                    
-                    <!-- Kotak Konten Warna Kuning -->
-                    <div class="card-content-yellow">
-                        <h3 class="card-project-title">Dinas Kebudayaan Pariwisata JATIM</h3>
-                        <p class="card-project-desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @forelse($portofolio ?? [] as $item)
+                    <!-- Card Portofolio -->
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col group">
 
-                        <!-- Logo Mini Teknologi & Tombol Detail -->
-                        <div class="card-footer-action">
-                            <div class="tech-mini-icons">
-                                <i class="fa-brands fa-laravel icon-laravel" title="Laravel"></i>
-                                <span class="badge-php-mini">php</span>
-                                <span class="badge-mysql-mini">My<span class="text-white">SQL</span></span>
-                            </div>
-                            
-                          <!-- Tombol Menuju Halaman Detail -->
-                           <!-- Tombol Menuju Halaman Detail -->
-                            <a href="{{ route('portofolio.detail') }}" class="btn-selengkapnya">
-                                Lihat Selengkapnya <i class="fa-solid fa-arrow-right"></i>
+                        <!-- Gambar Proyek -->
+                        <div class="relative h-56 bg-nusaNavy overflow-hidden">
+                            @if($item->gambar)
+                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul ?? $item->nama_proyek }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-nusaYellow text-5xl">
+                                    <i class="fa-solid fa-laptop-code"></i>
+                                </div>
+                            @endif
+
+                            <!-- Kategori Badge -->
+                            <span class="absolute top-4 right-4 bg-nusaYellow text-nusaNavyDark text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                                {{ $item->kategori ?? 'Layanan IT' }}
+                            </span>
+                        </div>
+
+                        <!-- Info Proyek -->
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-nusaNavy mb-3">{{ $item->judul ?? $item->nama_proyek }}</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                                {{ \Illuminate\Support\Str::limit($item->deskripsi, 100) }}
+                            </p>
+
+                            <a href="{{ route('portofolio.detail', ['id' => $item->id]) }}" class="block text-center w-full py-3 px-4 rounded-xl border-2 border-nusaNavy text-nusaNavy font-bold hover:bg-nusaNavy hover:text-white transition-colors">
+                                Lihat Detail Proyek
                             </a>
                         </div>
                     </div>
-                </div>
-            @endfor
+                @empty
+                    <!-- Empty State -->
+                    <div class="col-span-full flex justify-center">
+                        <div class="bg-white border-2 border-dashed border-gray-300 rounded-3xl p-12 text-center max-w-lg w-full shadow-sm">
+                            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fa-solid fa-folder-open text-4xl text-gray-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-nusaNavy mb-2">Belum Ada Portofolio</h3>
+                            <p class="text-gray-500">Super Admin belum menambahkan data portofolio proyek ke sistem.</p>
+                        </div>
+                    </div>
+                @endforelse
+            </div>
+
         </div>
+    </section>
 
-    </div>
-</div>
-@endsection
-
-@section('scripts')
-<script>
-    function filterPortfolio(category) {
-        const buttons = document.querySelectorAll('.filter-pill');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-
-        const cards = document.querySelectorAll('.portfolio-card');
-        cards.forEach(card => {
-            if (category === 'semua' || card.getAttribute('data-category') === category) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-</script>
 @endsection

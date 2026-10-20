@@ -1,91 +1,72 @@
 ﻿@extends('layouts.public')
 
-@section('title', 'Ensiklopedia Teknologi Informasi - Nusa Indo Technology')
+@section('title', 'Ensiklopedia IT - Nusa Indo Technology')
 
 @section('content')
-    <!-- HERO HEADER: ENSIKLOPEDIA TEKNOLOGI INFORMASI (KUNING) -->
-    <section class="ensiklo-hero-header">
-        <div class="container text-center">
-            <h1 class="ensiklo-main-title">ENSIKLOPEDIA TEKNOLOGI INFORMASI</h1>
-            <p class="ensiklo-sub-title">
-                Temukan Berbagai Informasi Dan Pengetahuan Seputar Dunia Teknologi Informasi
-            </p>
 
-            <!-- Search Bar -->
-            <div class="ensiklo-search-wrapper">
-                <form action="#" method="GET" class="ensiklo-search-form">
-                    <input 
-                        type="text" 
-                        name="q" 
-                        class="ensiklo-search-input" 
-                        placeholder="Cari judul atau kata kunci"
-                    >
-                    <button type="submit" class="ensiklo-search-btn" aria-label="Cari">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
-            </div>
+    <!-- HERO SECTION ENSIKLOPEDIA -->
+    <section class="encyclopedia-hero bg-nusaNavy py-16 lg:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f5b73e_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Ensiklopedia IT</h1>
+            <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+                Jelajahi kumpulan artikel, dokumentasi teknis, dan panduan komprehensif seputar dunia Teknologi Informasi dari para ahli kami.
+            </p>
         </div>
     </section>
 
-    <!-- WRAPPER KONTEN (NAVY GELAP) -->
-    <div class="ensiklo-content-wrapper">
-        <div class="container">
+    <!-- KONTEN ENSIKLOPEDIA -->
+    <section class="encyclopedia-content py-16 lg:py-24 bg-gray-50">
+        <div class="container mx-auto px-6 max-w-7xl">
 
-            <!-- SECTION: TAG POPULER -->
-            <section class="popular-tags-section">
-                <h2 class="ensiklo-section-heading">Tag Populer</h2>
-                <div class="tags-pill-cloud">
-                    @php
-                        // Daftar tag pill sesuai tampilan pada desain
-                        $tags = array_fill(0, 31, '#pemula');
-                    @endphp
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @forelse($ensiklopedia ?? [] as $item)
+                    <!-- Card Ensiklopedia -->
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col group">
 
-                    @foreach($tags as $tag)
-                        <a href="#" class="tag-pill">{{ $tag }}</a>
-                    @endforeach
-                </div>
-            </section>
-
-            <!-- SECTION: MATERI POPULER (GRID 3x3) -->
-            <section class="popular-materials-section">
-                <h2 class="ensiklo-section-heading">Materi Populer</h2>
-
-                <div class="materials-grid">
-                    @for($i = 1; $i <= 9; $i++)
-                        <div class="material-card">
-                            <!-- Thumbnail Gambar dengan Badge IT -->
-                            <div class="material-img-wrap">
-                                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=700&q=80" alt="Mengenal IT Untuk Pemula">
-                                <div class="material-overlay-badge">
-                                    <div class="it-cube-badge">IT</div>
-                                </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <!-- Ikon -->
+                            <div class="w-14 h-14 rounded-xl bg-nusaYellow/10 text-nusaYellow flex items-center justify-center text-2xl mb-6 group-hover:bg-nusaYellow group-hover:text-nusaNavy transition-colors">
+                                <i class="fa-solid fa-book-open"></i>
                             </div>
 
-                            <!-- Konten Kuning -->
-                            <div class="material-card-body">
-                                <h3 class="material-card-title">Mengenal IT Untuk Pemula</h3>
-                                <p class="material-card-desc">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
+                            <!-- Judul -->
+                            <h3 class="text-xl font-bold text-nusaNavy mb-4 line-clamp-2">
+                                {{ $item->judul ?? $item->nama_artikel ?? 'Judul Artikel' }}
+                            </h3>
 
-                                <!-- Footer Kartu (Tag & Tombol Detail) -->
-                                <div class="material-card-footer">
-                                    <div class="material-mini-tags">
-                                        <span class="mini-tag">#IT</span>
-                                        <span class="mini-tag">#Belajar</span>
-                                    </div>
-                                   <a href="{{ route('ensiklopedia.detail') }}" class="btn-read-material">
-                                        Lihat Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                    </a>
-                                </div>
-                            </div>
+                            <!-- Deskripsi Singkat -->
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($item->deskripsi ?? $item->konten), 120) }}
+                            </p>
+
+                            <!-- Tombol -->
+                            <a href="{{ route('ensiklopedia.detail', ['id' => $item->id]) }}" class="inline-flex items-center text-nusaNavy font-bold text-sm hover:text-nusaYellow transition-colors mt-auto">
+                                Baca Selengkapnya <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                            </a>
                         </div>
-                    @endfor
-                </div>
-            </section>
+
+                        <!-- Footer Card (Tanggal) -->
+                        <div class="px-8 py-4 border-t border-gray-50 bg-gray-50/50 text-xs text-gray-500 font-medium flex items-center gap-2">
+                            <i class="fa-regular fa-calendar-alt text-gray-400"></i>
+                            {{ $item->created_at ? $item->created_at->format('d M Y') : 'Baru saja' }}
+                        </div>
+                    </div>
+                @empty
+                    <!-- Empty State -->
+                    <div class="col-span-full flex justify-center">
+                        <div class="bg-white border-2 border-dashed border-gray-300 rounded-3xl p-12 text-center max-w-lg w-full shadow-sm">
+                            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fa-solid fa-book text-4xl text-gray-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-nusaNavy mb-2">Belum Ada Artikel</h3>
+                            <p class="text-gray-500">Super Admin belum menambahkan artikel atau panduan teknis ke Ensiklopedia.</p>
+                        </div>
+                    </div>
+                @endforelse
+            </div>
 
         </div>
-    </div>
+    </section>
+
 @endsection
