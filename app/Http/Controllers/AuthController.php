@@ -75,7 +75,8 @@ class AuthController extends Controller
                 'max:255',
                 'unique:clients,email',
             ],
-            'phone' => ['required', 'string', 'max:20'],
+            // UBAH 'phone' MENJADI 'no_telp' AGAR SINKRON DENGAN BLADE & DATABASE
+            'no_telp' => ['required', 'string', 'max:20'],
             'password' => [
                 'required',
                 'confirmed',
@@ -88,7 +89,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'],
+            'no_telp' => $validated['no_telp'], // SINKRONISASI VARIABEL
             'password' => Hash::make($validated['password']),
         ]);
 
