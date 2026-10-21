@@ -1,4 +1,4 @@
-<header class="navbar">
+<header class="navbar w-full bg-white sticky top-0 z-50 shadow-sm !mt-0 !pt-0">
     <div class="container nav-container">
         <div class="brand">
             <a href="{{ url('/') }}" class="flex-brand">

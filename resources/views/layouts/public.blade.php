@@ -47,7 +47,7 @@
     </main>
 
     <!-- FOOTER PUBLIK -->
-    @include('partials/footer')
+    @include('partials.footer')
 
     @stack('scripts')
 </body>
