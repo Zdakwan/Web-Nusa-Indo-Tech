@@ -30,22 +30,32 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-        // Khusus Super Admin (Sesuai kondisi commit 70a1ef2 Anda)
-        Route::middleware('admin.role:super_admin')->group(function () {
+        // 1. DASHBOARD UMUM: Bisa diakses oleh KETIGA role admin
+        Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        });
 
+        // 2. KHUSUS SUPER ADMIN & ADMIN LAYANAN
+        Route::middleware('admin.role:super_admin,admin_layanan')->group(function () {
             Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
             Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
 
-            Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
-            Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
-
-            Route::resource('ensiklopedia', EnsiklopediaController::class);
-            Route::resource('pengguna', PenggunaController::class);
-            Route::resource('client', ClientController::class);
             Route::resource('layanan', LayananController::class);
+            Route::resource('client', ClientController::class);
+        });
+
+        // 3. KHUSUS SUPER ADMIN & ADMIN KONTEN
+        Route::middleware('admin.role:super_admin,admin_konten')->group(function () {
+            Route::resource('ensiklopedia', EnsiklopediaController::class);
             Route::resource('portofolio', PortofolioController::class);
             Route::resource('pelatihan', PelatihanController::class);
+        });
+
+        // 4. KHUSUS SUPER ADMIN SAJA (Akses Penuh / Inti)
+        Route::middleware('admin.role:super_admin')->group(function () {
+            Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+            Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
+            Route::resource('pengguna', PenggunaController::class);
         });
     });
 });

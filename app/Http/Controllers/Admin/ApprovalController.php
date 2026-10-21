@@ -3,34 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Konsultasi;
 use Illuminate\Http\Request;
+use App\Models\Konsultasi; // Pastikan model Konsultasi di-import
 
 class ApprovalController extends Controller
 {
     public function index()
     {
-        // Mengambil data konsultasi beserta relasi client, urut terbaru
-        $approvals = Konsultasi::with('client')->latest()->paginate(10);
-        return view('admin.approval.index', compact('approvals'));
+        // Mengambil semua data konsultasi, diurutkan dari yang terbaru
+        $konsultasi = Konsultasi::with('client')->orderBy('created_at', 'desc')->get();
+        return view('admin.approval.index', compact('konsultasi'));
     }
 
     public function updateStatus(Request $request, $id)
     {
+        // Validasi input dari modal
+        $request->validate([
+            'status' => 'required|in:approved,rejected,completed,pending',
+            'pesan_admin' => 'nullable|string'
+        ]);
+
+        // Cari data konsultasi
         $konsultasi = Konsultasi::findOrFail($id);
 
-        $request->validate([
-            'status' => 'required|in:pending,approved,rejected,completed',
-            'link_meeting' => 'nullable|url' // Validasi link meeting jika diisi
-        ]);
+        // Update status dan simpan pesan balasan
+        $konsultasi->status = $request->status;
+        if ($request->pesan_admin) {
+            $konsultasi->pesan_admin = $request->pesan_admin;
+        }
+        $konsultasi->save();
 
-        $konsultasi->update([
-            'status' => $request->status,
-            'link_meeting' => $request->link_meeting ?? $konsultasi->link_meeting
-        ]);
+        // (Opsional) Jika Anda menggunakan sistem notifikasi bawaan Laravel:
+        // $konsultasi->client->notify(new \App\Notifications\KonsultasiDiupdate($konsultasi));
 
-        $pesan = $request->status == 'approved' ? 'Konsultasi berhasil disetujui.' : 'Status konsultasi berhasil diperbarui.';
-
-        return redirect()->back()->with('success', $pesan);
+        return redirect()->back()->with('success', 'Status konsultasi berhasil diperbarui dan pesan balasan telah dikirim ke Klien.');
     }
 }

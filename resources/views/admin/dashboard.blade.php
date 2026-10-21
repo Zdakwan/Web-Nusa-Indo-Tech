@@ -1,6 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Super Admin')
+@php
+    // Mengambil role dari admin yang sedang login dan memformatnya (contoh: 'admin_konten' menjadi 'Admin Konten')
+    $roleRaw = Auth::guard('admin')->user()->role ?? 'admin';
+    $roleFormatted = ucwords(str_replace('_', ' ', $roleRaw));
+@endphp
+
+@section('title', 'Dashboard ' . $roleFormatted)
 
 @section('content')
     <h1 class="text-3xl font-extrabold mb-6">Ringkasan</h1>
@@ -9,10 +15,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         @php
             $cards = [
-                ['label' => 'Total Permintaan Konsultasi', 'value' => $stats['total'],    'icon' => 'fa-comment-dots'],
-                ['label' => 'Menunggu',                    'value' => $stats['menunggu'], 'icon' => 'fa-clock'],
-                ['label' => 'Diproses',                    'value' => $stats['diproses'], 'icon' => 'fa-gear'],
-                ['label' => 'Selesai',                     'value' => $stats['selesai'],  'icon' => 'fa-circle-check'],
+                ['label' => 'Total Permintaan Konsultasi', 'value' => $stats['total'] ?? 0,    'icon' => 'fa-comment-dots'],
+                ['label' => 'Menunggu',                    'value' => $stats['menunggu'] ?? 0, 'icon' => 'fa-clock'],
+                ['label' => 'Diproses',                    'value' => $stats['diproses'] ?? 0, 'icon' => 'fa-gear'],
+                ['label' => 'Selesai',                     'value' => $stats['selesai'] ?? 0,  'icon' => 'fa-circle-check'],
             ];
         @endphp
 
@@ -54,7 +60,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($aktivitas as $k)
+                @forelse($aktivitas ?? [] as $k)
                     @php
                         $status = match ($k->status) {
                             'pending'   => ['label' => 'Menunggu', 'class' => 'bg-gray-300 text-gray-800'],
