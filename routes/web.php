@@ -4,17 +4,26 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KonsultasiController;
+
+// --- Controller Admin (Milik Anda) ---
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\ApprovalController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\PortofolioController;
-use App\Http\Controllers\Admin\PengaturanController;
+use App\Http\Controllers\Admin\PengaturanController as AdminPengaturanController; // Alias agar tidak bentrok
 use App\Http\Controllers\Admin\EnsiklopediaController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\PublicController;
+
+// --- Controller Client (Tambahan Syahrul) ---
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\CallCenterController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +39,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-        // 1. DASHBOARD UMUM: Bisa diakses oleh KETIGA role admin
+        // 1. DASHBOARD UMUM
         Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         });
@@ -51,10 +60,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('pelatihan', PelatihanController::class);
         });
 
-        // 4. KHUSUS SUPER ADMIN SAJA (Akses Penuh / Inti)
+        // 4. KHUSUS SUPER ADMIN SAJA
         Route::middleware('admin.role:super_admin')->group(function () {
-            Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
-            Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
+            Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
+            Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
             Route::resource('pengguna', PenggunaController::class);
         });
     });
@@ -62,22 +71,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes (Halaman Publik / Pengunjung) Terhubung ke Database
+| Public Routes (Halaman Publik / Pengunjung)
 |--------------------------------------------------------------------------
 */
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PublicController::class, 'tentangKami'])->name('tentang-kami');
 Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
 
-// Portofolio & Detail
 Route::get('/portofolio', [PublicController::class, 'portofolio'])->name('portofolio.index');
 Route::get('/portofolio/{id}', [PublicController::class, 'detailPortofolio'])->name('portofolio.detail');
 
-// Ensiklopedia & Detail
 Route::get('/ensiklopedia', [PublicController::class, 'ensiklopedia'])->name('ensiklopedia.index');
 Route::get('/ensiklopedia/{id}', [PublicController::class, 'detailEnsiklopedia'])->name('ensiklopedia.detail');
 
-// Pelatihan & Detail
 Route::get('/pelatihan', [PublicController::class, 'pelatihan'])->name('pelatihan.index');
 Route::get('/pelatihan/{id}', [PublicController::class, 'detailPelatihan'])->name('pelatihan.detail');
 
@@ -94,16 +100,33 @@ Route::middleware('guest:client')->group(function () {
 });
 
 Route::middleware('auth:client')->group(function () {
-    Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+    // --- Dashboard Client ---
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // --- Konsultasi ---
     Route::get('/konsultasi/booking', [KonsultasiController::class, 'booking'])->name('konsultasi.booking');
+    Route::post('/konsultasi/booking', [KonsultasiController::class, 'store'])->name('konsultasi.store');
     Route::get('/konsultasi', [KonsultasiController::class, 'index'])->name('konsultasi.index');
     Route::get('/konsultasi/{id}', [KonsultasiController::class, 'detail'])->name('konsultasi.detail');
     Route::get('/konsultasi/{id}/jadwal', [KonsultasiController::class, 'jadwal'])->name('konsultasi.jadwal');
-    Route::get('/notifikasi', [KonsultasiController::class, 'notifikasi'])->name('notifikasi.index');
 
+    // --- Notifikasi ---
+    Route::get('/notifikasi', [KonsultasiController::class, 'notifikasi'])->name('notifikasi.index');
+    Route::get('/notifikasi/{id}', [KonsultasiController::class, 'detailNotifikasi'])->name('notifikasi.detail');
+    Route::post('/notifikasi/baca-semua', [KonsultasiController::class, 'tandaiSemuaDibaca'])->name('notifikasi.baca-semua');
+
+    // --- Profile ---
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
+
+    // --- Pengaturan Client ---
+    Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+    Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'updateNotifikasi'])->name('pengaturan.notifikasi.update');
+    Route::get('/pengaturan/faq', [FaqController::class, 'index'])->name('pengaturan.faq');
+    Route::get('/pengaturan/panduan', [PanduanController::class, 'index'])->name('pengaturan.panduan');
+    Route::get('/pengaturan/call-center', [CallCenterController::class, 'index'])->name('pengaturan.call-center');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
