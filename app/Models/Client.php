@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Client extends Authenticatable
 {
-    use Notifiable;
+   use Notifiable;
 
     protected $table = 'clients';
 
@@ -15,12 +15,17 @@ class Client extends Authenticatable
         'name',
         'username',
         'email',
+        'no_telp',
         'phone',
         'password',
         'avatar',
+        'foto_profil',
         'address',
+        'alamat',
         'company',
+        'nama_perusahaan',
         'position',
+        'jabatan',
     ];
 
     protected $hidden = [
