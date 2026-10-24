@@ -156,7 +156,8 @@ Route::middleware('auth:client')->group(function () {
     Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'updateNotifikasi'])->name('pengaturan.notifikasi.update');
     Route::get('/pengaturan/faq', [FaqController::class, 'index'])->name('pengaturan.faq');
     Route::get('/pengaturan/panduan', [PanduanController::class, 'index'])->name('pengaturan.panduan');
-    Route::get('/pengaturan/call-center', [CallCenterController::class, 'index'])->name('pengaturan.call-center');
+    Route::get('/pengaturan/call-center', [CallCenterController::class, 'index']);
+    Route::post('/pengaturan/call-center', [CallCenterController::class, 'store'])->name('call-center.store');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
