@@ -19,11 +19,13 @@ class LayananController extends Controller
     {
         $request->validate([
             'nama_layanan' => 'required|string|max:255',
-            'deskripsi'  => 'required|string',
-            'icon'       => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'kategori'     => 'required|string|max:100',
+            'deskripsi'    => 'required|string',
+            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);
 
-        $data = $request->only(['nama_layanan', 'deskripsi']);
+        // Tambahkan 'kategori' agar ikut ditangkap dari form
+        $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         if ($request->hasFile('icon')) {
             $data['icon'] = $request->file('icon')->store('layanan', 'public');
@@ -40,11 +42,13 @@ class LayananController extends Controller
 
         $request->validate([
             'nama_layanan' => 'required|string|max:255',
-            'deskripsi'  => 'required|string',
-            'icon'       => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'kategori'     => 'required|string|max:100',
+            'deskripsi'    => 'required|string',
+            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);
 
-        $data = $request->only(['nama_layanan', 'deskripsi']);
+        // Tambahkan 'kategori' agar ikut ditangkap dari form
+        $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         if ($request->hasFile('icon')) {
             // Hapus file lama untuk efisiensi penyimpanan

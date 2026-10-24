@@ -102,7 +102,7 @@
                     name="password"
                     required
                     id="password"
-                    autocomplete="current-password"
+                    autocomplete="new-password"
                     class="w-full bg-transparent border-none outline-none text-white text-sm font-medium focus:ring-0 p-0 pr-8"
                     placeholder="••••••••">
 

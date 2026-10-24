@@ -34,6 +34,7 @@
                     <th class="px-6 py-4 text-sm font-semibold text-gray-600 w-16 text-center">No</th>
                     <th class="px-6 py-4 text-sm font-semibold text-gray-600 w-32 text-center">Icon</th>
                     <th class="px-6 py-4 text-sm font-semibold text-gray-600">Nama Layanan</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-gray-600">Kategori</th>
                     <th class="px-6 py-4 text-sm font-semibold text-gray-600">Deskripsi</th>
                     <th class="px-6 py-4 text-sm font-semibold text-gray-600 w-32 text-center">Aksi</th>
                 </tr>
@@ -51,10 +52,18 @@
                             </div>
                         @endif
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-800 font-medium">{{ $item->nama_layanan }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-800 font-bold">{{ $item->nama_layanan }}</td>
+
+                    <!-- Menampilkan Kategori di Tabel -->
+                    <td class="px-6 py-4">
+                        <span class="inline-block px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase bg-[#254261]/10 text-[#254261] rounded">
+                            {{ $item->kategori ?? 'Umum' }}
+                        </span>
+                    </td>
+
                     <td class="px-6 py-4 text-sm text-gray-600">{{ Str::limit($item->deskripsi, 80) }}</td>
-                    <td class="px-6 py-4 text-center space-x-2">
-                        <button onclick="openEditModal({{ $item->id }}, '{{ addslashes($item->nama_layanan) }}', '{{ addslashes($item->deskripsi) }}')" class="text-blue-500 hover:text-blue-700 transition-colors" title="Edit">
+                    <td class="px-6 py-4 text-center space-x-2 whitespace-nowrap">
+                        <button onclick="openEditModal({{ $item->id }}, '{{ addslashes($item->nama_layanan) }}', '{{ addslashes($item->kategori ?? 'Umum') }}', '{{ addslashes($item->deskripsi) }}')" class="text-blue-500 hover:text-blue-700 transition-colors" title="Edit">
                             <i class="fas fa-edit text-lg"></i>
                         </button>
                         <form action="{{ route('admin.layanan.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus layanan ini?')">
@@ -67,7 +76,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                    <td colspan="6" class="px-6 py-12 text-center text-gray-500">
                         <div class="flex flex-col items-center justify-center">
                             <i class="fas fa-box-open text-5xl text-gray-300 mb-4"></i>
                             <p class="text-base font-medium text-gray-600">Belum ada data layanan</p>
@@ -93,10 +102,24 @@
             </div>
             <form action="{{ route('admin.layanan.store') }}" method="POST" enctype="multipart/form-data" class="p-4">
                 @csrf
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Nama Layanan</label>
-                    <input type="text" name="nama_layanan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Nama Layanan</label>
+                        <input type="text" name="nama_layanan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
+                    </div>
+
+                    <!-- INPUT DROPDOWN KATEGORI (TAMBAH) -->
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Kategori</label>
+                        <select name="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
+                            <option value="Umum">Umum</option>
+                            <option value="Tata Kelola">Tata Kelola</option>
+                            <option value="Development">Development</option>
+                            <option value="Infrastruktur">Infrastruktur</option>
+                        </select>
+                    </div>
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-medium text-gray-900">Deskripsi</label>
                     <textarea name="deskripsi" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[#254261] focus:border-[#254261]" required></textarea>
@@ -124,10 +147,24 @@
             </div>
             <form id="editForm" method="POST" enctype="multipart/form-data" class="p-4">
                 @csrf @method('PUT')
-                <div class="mb-4">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Nama Layanan</label>
-                    <input type="text" name="nama_layanan" id="edit_nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Nama Layanan</label>
+                        <input type="text" name="nama_layanan" id="edit_nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required>
+                    </div>
+
+                    <!-- INPUT DROPDOWN KATEGORI (EDIT) -->
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Kategori</label>
+                        <select name="kategori" id="edit_kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required>
+                            <option value="Umum">Umum</option>
+                            <option value="Tata Kelola">Tata Kelola</option>
+                            <option value="Development">Development</option>
+                            <option value="Infrastruktur">Infrastruktur</option>
+                        </select>
+                    </div>
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-medium text-gray-900">Deskripsi</label>
                     <textarea name="deskripsi" id="edit_deskripsi" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" required></textarea>
@@ -150,8 +187,10 @@
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    function openEditModal(id, nama, deskripsi) {
+    // Tambahkan parameter kategori di fungsi edit JS
+    function openEditModal(id, nama, kategori, deskripsi) {
         document.getElementById('edit_nama').value = nama;
+        document.getElementById('edit_kategori').value = kategori;
         document.getElementById('edit_deskripsi').value = deskripsi;
         document.getElementById('editForm').action = '/admin/layanan/' + id;
         openModal('editModal');

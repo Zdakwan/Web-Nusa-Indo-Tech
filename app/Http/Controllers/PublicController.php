@@ -23,9 +23,13 @@ class PublicController extends Controller
         return view('tentang-kami');
     }
 
-    public function layanan()
+    public function layanan(Request $request)
     {
-        $layanan = Layanan::latest()->get();
+        // Mengambil semua data layanan beserta jumlah portofolio dan rata-rata ratingnya
+        $layanan = \App\Models\Layanan::withCount('portofolios')
+            ->withAvg('portofolios', 'rating')
+            ->get();
+
         return view('layanan', compact('layanan'));
     }
 
@@ -63,5 +67,14 @@ class PublicController extends Controller
     {
         $pelatihan = Pelatihan::findOrFail($id);
         return view('detail-pelatihan', compact('pelatihan'));
+    }
+
+    public function detailLayanan($id)
+    {
+        // Pastikan Anda sudah use App\Models\Layanan; di atas
+        $layanan = \App\Models\Layanan::findOrFail($id);
+
+        // Memanggil file detail-layanan.blade.php
+        return view('detail-layanan', compact('layanan'));
     }
 }

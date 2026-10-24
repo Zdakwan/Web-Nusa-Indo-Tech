@@ -9,6 +9,19 @@ class Layanan extends Model
 {
     use HasFactory;
 
+    // Tambahkan baris ini agar Laravel tidak mencari tabel 'layanans'
     protected $table = 'layanan';
-    protected $guarded = ['id'];
+
+    protected $fillable = [
+        'nama_layanan',
+        'kategori',
+        'deskripsi',
+        'icon',
+    ];
+
+    public function portofolios()
+    {
+        // Ganti 'id_layanan' menjadi 'layanan_id' agar cocok dengan kolom database
+        return $this->hasMany(Portofolio::class, 'layanan_id');
+    }
 }

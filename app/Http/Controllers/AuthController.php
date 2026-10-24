@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use App\Models\Client;
 
 class AuthController extends Controller
@@ -19,9 +18,13 @@ class AuthController extends Controller
     // Memproses login menggunakan username atau email
     public function login(Request $request)
     {
+        // Validasi input login
         $validated = $request->validate([
-            'login' => ['required', 'string'],
+            'login' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
+        ], [
+            'login.required' => 'Email atau Username wajib diisi.',
+            'password.required' => 'Password wajib diisi.'
         ]);
 
         $login = trim($validated['login']);
@@ -40,7 +43,6 @@ class AuthController extends Controller
             ])
         ) {
             $request->session()->regenerate();
-
             return redirect()->intended('dashboard');
         }
 
@@ -58,6 +60,7 @@ class AuthController extends Controller
     // Memproses registrasi client
     public function register(Request $request)
     {
+        // Validasi dan Keamanan Input Register
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'username' => [
@@ -75,13 +78,35 @@ class AuthController extends Controller
                 'max:255',
                 'unique:clients,email',
             ],
-            // UBAH 'phone' MENJADI 'no_telp' AGAR SINKRON DENGAN BLADE & DATABASE
-            'no_telp' => ['required', 'string', 'max:20'],
+            'no_telp' => [
+                'required',
+                'string',
+                'min:10',             // Minimal 10 digit
+                'max:13',             // Maksimal 13 digit
+                'regex:/^[0-9]+$/',   // Hanya boleh angka (0-9)
+            ],
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(6),
+                'string',
+                'min:8',              // Minimal 8 karakter
+                'regex:/[a-z]/',      // Harus mengandung huruf kecil
+                'regex:/[A-Z]/',      // Harus mengandung huruf besar
+                'regex:/[0-9]/',      // Harus mengandung angka
+                'regex:/[@$!%*#?&]/', // Harus mengandung karakter spesial
             ],
+        ], [
+            // Pesan Error Kustom Berbahasa Indonesia
+            'username.unique' => 'Username ini sudah digunakan, silakan pilih yang lain.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, strip (-), dan garis bawah (_).',
+            'email.unique' => 'Email ini sudah terdaftar. Silakan gunakan email lain atau login.',
+            'no_telp.required' => 'Nomor telepon wajib diisi.',
+            'no_telp.min' => 'Nomor telepon terlalu pendek, minimal 10 angka.',
+            'no_telp.max' => 'Nomor telepon terlalu panjang, maksimal 13 angka.',
+            'no_telp.regex' => 'Format nomor telepon tidak valid. Hanya masukkan angka tanpa spasi atau simbol.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok dengan password yang Anda masukkan.',
+            'password.min' => 'Password minimal harus 8 karakter.',
+            'password.regex' => 'Password harus mengandung kombinasi huruf besar, huruf kecil, angka, dan karakter spesial (@$!%*#?&).'
         ]);
 
         // Simpan akun baru ke database
@@ -89,7 +114,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'no_telp' => $validated['no_telp'], // SINKRONISASI VARIABEL
+            'no_telp' => $validated['no_telp'],
             'password' => Hash::make($validated['password']),
         ]);
 

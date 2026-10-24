@@ -12,7 +12,9 @@ class PelatihanController extends Controller
     public function index()
     {
         $pelatihan = Pelatihan::latest()->paginate(10);
-        return view('admin.pelatihan.index', compact('pelatihan'));
+        $layanan = \App\Models\Layanan::all(); // Tambahkan baris ini
+
+        return view('admin.pelatihan.index', compact('pelatihan', 'layanan')); // Tambahkan 'layanan' ke compact
     }
 
     public function store(Request $request)

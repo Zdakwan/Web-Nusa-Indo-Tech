@@ -14,7 +14,7 @@
                 extend: {
                     colors: {
                         nusaNavy: '#254261',
-                        nusaNavyDark: '#1e3249', /* Warna background form login */
+                        nusaNavyDark: '#1e3249',
                         nusaYellow: '#f5b73e',
                     },
                     fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], }
@@ -24,7 +24,6 @@
     </script>
     <style>
         input:focus { outline: none !important; box-shadow: none !important; }
-        /* Perbaikan paksa warna autofill Chrome agar tetap gelap dan font putih */
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
@@ -39,7 +38,7 @@
 
     <div class="min-h-screen flex flex-col lg:flex-row">
 
-        <!-- KOLOM KIRI (Informasi) -->
+        <!-- KOLOM KIRI -->
         <div class="w-full lg:w-1/2 flex flex-col px-8 py-10 lg:px-16 xl:px-24 min-h-[50vh] lg:min-h-screen">
             <a href="{{ route('home') }}" class="mb-10 inline-block">
                 <img src="{{ asset('images/LogoNusa.png') }}" alt="Logo Nusa Indo Tech" class="h-9 w-auto">
@@ -91,7 +90,7 @@
             </div>
         </div>
 
-        <!-- KOLOM KANAN (Formulir Pendaftaran) -->
+        <!-- KOLOM KANAN -->
         <div class="w-full lg:w-1/2 bg-[#1e3249] text-white flex flex-col px-8 py-10 lg:px-16 xl:px-24 min-h-[50vh] lg:min-h-screen">
 
             <div class="flex-grow flex flex-col justify-center max-w-[450px] w-full mx-auto">
@@ -107,36 +106,46 @@
                     </div>
                 @endif
 
-                <form action="{{ route('register.process') }}" method="POST" class="space-y-4">
+                <form action="{{ route('register.process') }}" method="POST" class="space-y-4" autocomplete="off">
                     @csrf
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Background kotak input disamakan dengan gaya Login (#2a4460) -->
                         <div class="bg-[#2a4460] rounded-xl px-4 py-2 border border-transparent focus-within:border-nusaYellow transition-all">
                             <label class="block text-[10px] font-bold text-gray-300 uppercase tracking-wider mb-0.5">Nama Lengkap</label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="Masukkan nama" required>
+                            <input type="text" name="name" value="{{ old('name') }}" autocomplete="off" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="Masukkan nama" required>
                         </div>
 
                         <div class="bg-[#2a4460] rounded-xl px-4 py-2 border border-transparent focus-within:border-nusaYellow transition-all">
                             <label class="block text-[10px] font-bold text-gray-300 uppercase tracking-wider mb-0.5">Username</label>
-                            <input type="text" name="username" value="{{ old('username') }}" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="Buat username" required>
+                            <input type="text" name="username" value="{{ old('username') }}" autocomplete="off" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="Buat username" required>
                         </div>
                     </div>
 
                     <div class="bg-[#2a4460] rounded-xl px-4 py-2 border border-transparent focus-within:border-nusaYellow transition-all">
                         <label class="block text-[10px] font-bold text-gray-300 uppercase tracking-wider mb-0.5">No Telepon</label>
-                        <input type="text" name="no_telp" value="{{ old('no_telp') }}" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="0812xxxxxxx" required>
+                        <input type="text"
+                               name="no_telp"
+                               value="{{ old('no_telp') }}"
+                               autocomplete="off"
+                               minlength="10"
+                               maxlength="13"
+                               pattern="[0-9]{10,13}"
+                               title="Nomor telepon harus berupa angka, minimal 10 digit dan maksimal 13 digit."
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400"
+                               placeholder="0812xxxxxxx"
+                               required>
                     </div>
 
                     <div class="bg-[#2a4460] rounded-xl px-4 py-2 border border-transparent focus-within:border-nusaYellow transition-all">
                         <label class="block text-[10px] font-bold text-gray-300 uppercase tracking-wider mb-0.5">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="Email aktif Anda" required>
+                        <input type="email" name="email" value="{{ old('email') }}" autocomplete="off" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400" placeholder="Email aktif Anda" required>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-[#2a4460] rounded-xl px-4 py-2 border border-transparent focus-within:border-nusaYellow transition-all relative">
                             <label class="block text-[10px] font-bold text-gray-300 uppercase tracking-wider mb-0.5">Password</label>
-                            <input type="password" name="password" id="password" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400 pr-8" placeholder="Min. 6 karakter" required>
+                            <input type="password" name="password" id="password" autocomplete="new-password" minlength="8" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400 pr-8" placeholder="Kombinasi A-z, 0-9, @#!" required>
                             <button type="button" onclick="togglePassword('password', this)" class="absolute right-3 top-[22px] text-gray-400 hover:text-white transition-colors">
                                 <i class="fa-solid fa-eye-slash text-xs"></i>
                             </button>
@@ -144,11 +153,16 @@
 
                         <div class="bg-[#2a4460] rounded-xl px-4 py-2 border border-transparent focus-within:border-nusaYellow transition-all relative">
                             <label class="block text-[10px] font-bold text-gray-300 uppercase tracking-wider mb-0.5">Konfirmasi</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400 pr-8" placeholder="Ulangi password" required>
+                            <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="new-password" minlength="8" class="w-full bg-transparent border-none p-0 text-[13px] text-white placeholder-gray-400 pr-8" placeholder="Ulangi password" required>
                             <button type="button" onclick="togglePassword('password_confirmation', this)" class="absolute right-3 top-[22px] text-gray-400 hover:text-white transition-colors">
                                 <i class="fa-solid fa-eye-slash text-xs"></i>
                             </button>
                         </div>
+                    </div>
+
+                    <!-- Teks Petunjuk Password -->
+                    <div class="text-[10.5px] text-gray-400 -mt-1 mb-2 px-1">
+                        *Minimal 8 karakter (mengandung huruf besar, huruf kecil, angka, dan simbol).
                     </div>
 
                     <div class="pt-2">

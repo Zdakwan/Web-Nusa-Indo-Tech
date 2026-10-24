@@ -1,13 +1,13 @@
 ﻿@extends('layouts.public')
 
-@section('title', 'Detail Pelatihan - Pengembangan Web dengan Laravel 12')
+@section('title', 'Detail Pelatihan - ' . $pelatihan->judul)
 
 @section('content')
 
     <!-- HERO SECTION DETAIL PELATIHAN -->
     <section class="detail-pelatihan-hero">
         <div class="hero-yellow-shape"></div> <!-- Bentuk kuning di kanan atas -->
-        
+
         <div class="container relative z-10">
             <!-- Navigasi Back -->
             <div class="back-nav-pelatihan">
@@ -20,35 +20,27 @@
                 <!-- Teks & Tag -->
                 <div class="pelatihan-hero-text">
                     <h1 class="hero-title-large">
-                        Pengembangan Web<br>
-                        dengan <span class="text-amber">Laravel 12</span>
+                        {{ $pelatihan->judul }}
                     </h1>
                     <p class="hero-subtitle-light">
-                        Bangun aplikasi web modern, aman, dan scalable dengan framework laravel terbaru.
+                        {{ Str::limit($pelatihan->deskripsi, 120) }}
                     </p>
-                    
+
                     <div class="hero-tags-group">
-                        <span class="badge-pill-light-blue">#laravel</span>
-                        <span class="badge-pill-light-blue">#webdevelopment</span>
-                        <span class="badge-pill-light-blue">#php</span>
-                        <span class="badge-pill-light-blue">#backend</span>
+                        <span class="badge-pill-light-blue">#{{ Str::slug($pelatihan->kategori ?? 'pelatihan') }}</span>
                     </div>
                 </div>
 
-                <!-- Ilustrasi 3D Laravel (CSS/Mockup) -->
+                <!-- Gambar Pelatihan (Dinamis) -->
                 <div class="pelatihan-hero-illustration">
-                    <div class="laravel-3d-board">
-                        <div class="board-top-dots">
-                            <span></span><span></span><span></span>
+                    @if($pelatihan->gambar)
+                        <img src="{{ asset('storage/' . $pelatihan->gambar) }}" alt="{{ $pelatihan->judul }}" class="w-full h-auto object-cover rounded-2xl shadow-2xl" style="max-height: 350px;">
+                    @else
+                        <div class="w-full h-64 bg-gray-100 rounded-2xl shadow-xl flex flex-col items-center justify-center text-gray-400">
+                            <i class="fa-solid fa-image text-5xl mb-2"></i>
+                            <span>Tidak ada gambar</span>
                         </div>
-                        <i class="fa-brands fa-laravel logo-center"></i>
-                        
-                        <!-- Floating Badges -->
-                        <div class="floating-badge-code">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-                        <div class="floating-badge-version">12</div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -57,121 +49,113 @@
     <!-- KONTEN UTAMA PELATIHAN -->
     <div class="pelatihan-content-wrapper">
         <div class="container">
-            
+
             <!-- DESKRIPSI & KOTAK HARGA -->
             <div class="pelatihan-desc-price-grid">
                 <div class="desc-column">
                     <h2 class="content-heading">Deskripsi Pelatihan</h2>
                     <p class="content-paragraph">
-                        Pelatihan ini dirancang untuk membantu peserta memahami dan menguasai pengembangan aplikasi web menggunakan Laravel 12. Peserta akan mempelajari konsep dasar hingga implementasi fitur real world dengan pendekatan praktis dan studi kasus yang relevan dengan kebutuhan industri.
+                        {!! nl2br(e($pelatihan->deskripsi)) !!}
                     </p>
                 </div>
-                
+
                 <div class="price-column">
                     <div class="price-box">
-                        <h3 class="price-amount">Rp 500.000</h3>
+                        <h3 class="price-amount">Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}</h3>
                         <p class="price-note">per peserta</p>
-                        <!-- Tombol Daftar Sekarang Utama (Sudah diperbaiki) -->
+                        <!-- Tombol Daftar Sekarang -->
                         <a href="{{ route('register') }}" class="btn-daftar-pelatihan">Daftar Sekarang</a>
                     </div>
                 </div>
             </div>
 
-            <!-- APA YANG AKAN DIPELAJARI? -->
+            <!-- APA YANG AKAN DIPELAJARI? (Statis - Belum ada di Database) -->
             <div class="materi-section">
                 <h2 class="content-heading">Apa yang akan Dipelajari?</h2>
                 <div class="materi-check-grid">
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Pengenalan Laravel 12 dan ekosistemnya
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Routing, controlling
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Authentication & Authorization
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Testing & Debugging
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Instalasi dan konfigurasi project
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Database ORM
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> API Development dengan Laravel
-                    </div>
-                    <div class="check-item">
-                        <i class="fa-solid fa-circle-check text-amber"></i> Deployment ke server
-                    </div>
+                    <div class="check-item"><i class="fa-solid fa-circle-check text-amber"></i> Pemahaman konsep dasar</div>
+                    <div class="check-item"><i class="fa-solid fa-circle-check text-amber"></i> Praktek studi kasus</div>
+                    <div class="check-item"><i class="fa-solid fa-circle-check text-amber"></i> Implementasi langsung</div>
+                    <div class="check-item"><i class="fa-solid fa-circle-check text-amber"></i> Evaluasi hasil belajar</div>
                 </div>
             </div>
 
-            <!-- SIAPA YANG COCOK MENGIKUTI? -->
+            <!-- SIAPA YANG COCOK MENGIKUTI? (Statis - Belum ada di Database) -->
             <div class="target-audience-section">
                 <h2 class="content-heading">Siapa yang Cocok Mengikuti?</h2>
                 <div class="audience-grid">
                     <div class="audience-card">
-                        <h4 class="audience-title">Web Developer</h4>
-                        <p class="audience-desc">Pemula - menengah</p>
+                        <h4 class="audience-title">Pemula</h4>
+                        <p class="audience-desc">Yang baru terjun ke bidang ini</p>
                     </div>
                     <div class="audience-card">
-                        <h4 class="audience-title">IT Professional</h4>
-                        <p class="audience-desc">yang ingin memperdalam Laravel</p>
+                        <h4 class="audience-title">Mahasiswa/Pelajar</h4>
+                        <p class="audience-desc">Untuk menambah portofolio</p>
                     </div>
                     <div class="audience-card">
-                        <h4 class="audience-title">Mahasiswa</h4>
-                        <p class="audience-desc">yang tertarik di bidang web development</p>
-                    </div>
-                    <div class="audience-card">
-                        <h4 class="audience-title">Tim Developer</h4>
-                        <p class="audience-desc">di perusahaan masing-masing</p>
+                        <h4 class="audience-title">Profesional</h4>
+                        <p class="audience-desc">Untuk peningkatan karir</p>
                     </div>
                 </div>
             </div>
 
-            <!-- TRAINER -->
+            <!-- TRAINER (Statis - Belum ada di Database) -->
             <div class="trainer-section">
                 <h2 class="content-heading">Trainer</h2>
                 <div class="trainer-box">
-                    <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=300&q=80" alt="Ahmad Rizki" class="trainer-img">
-                    <div class="trainer-info">
-                        <h3 class="trainer-name">Ahmad Rizki</h3>
-                        <p class="trainer-role">Senior Web Developer</p>
+                    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-3xl">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="trainer-info ml-6">
+                        <h3 class="trainer-name">Tim Ahli Nusa Indo Tech</h3>
+                        <p class="trainer-role">Instruktur Profesional</p>
                         <p class="trainer-desc">
-                            Berpengalaman lebih dari 7 tahun dalam pengembangan aplikasi web dengan Laravel. Telah menangani berbagai proyek untuk pemerintahan dan perusahaan swasta.
+                            Pelatihan ini akan dibawakan secara langsung oleh tim ahli dan praktisi berpengalaman dari Nusa Indo Technology.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- CEK PELATIHAN LAINNYA -->
+            <!-- CEK PELATIHAN LAINNYA (Dinamis dari Database) -->
             <div class="related-pelatihan-section">
                 <h2 class="content-heading mb-4">Cek Pelatihan Lainnya</h2>
                 <div class="pelatihan-grid">
-                    @for ($i = 1; $i <= 3; $i++)
-                        <div class="pelatihan-card">
-                            <div class="card-top-banner">
-                                <div class="laravel-brand-box">
-                                    <i class="fa-brands fa-laravel laravel-logo-icon"></i>
-                                    <span class="laravel-text">Laravel <span class="laravel-version">12</span></span>
-                                </div>
-                                <p class="laravel-tagline">Faster, Smarter, and More Powerful than Ever!</p>
+                    @php
+                        // Mengambil 3 pelatihan lain dari database secara acak
+                        $relatedPelatihan = \App\Models\Pelatihan::where('id', '!=', $pelatihan->id)->inRandomOrder()->take(3)->get();
+                    @endphp
+
+                    @forelse ($relatedPelatihan as $item)
+                        <div class="pelatihan-card flex flex-col bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+                            <!-- Banner Atas -->
+                            <div class="h-40 w-full bg-gray-100 flex-shrink-0">
+                                @if($item->gambar)
+                                    <img src="{{ asset('storage/' . $item->gambar) }}" class="w-full h-full object-cover" alt="{{ $item->judul }}">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-gray-300 text-4xl">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                @endif
                             </div>
-                            
-                            <div class="card-bottom-content">
-                                <h3 class="pelatihan-card-title">Pengembangan Web Dengan Laravel 12</h3>
-                                <p class="pelatihan-card-desc">Bangun aplikasi web modern dengan laravel 12</p>
-                                <p class="pelatihan-price">Rp 500.000</p>
-                                <div class="pelatihan-card-actions">
-                                    <a href="{{ url('/pelatihan/detail') }}" class="btn-pelatihan btn-outline-dark">Lihat Selengkapnya</a>
-                                    <!-- Tombol Daftar Sekarang di Bagian Rekomendasi (Sudah diperbaiki) -->
-                                    <a href="{{ route('register') }}" class="btn-daftar-pelatihan">Daftar Sekarang</a>
+
+                            <!-- Konten Card Bawah -->
+                            <div class="p-6 flex flex-col flex-grow">
+                                <span class="inline-block px-3 py-1 bg-amber-100 text-amber-600 text-[10px] font-bold uppercase rounded-md mb-3 self-start">
+                                    {{ $item->kategori }}
+                                </span>
+                                <h3 class="text-lg font-bold text-nusaNavy mb-2">{{ $item->judul }}</h3>
+                                <p class="text-sm text-gray-500 mb-4 flex-grow">{{ Str::limit($item->deskripsi, 60) }}</p>
+                                <p class="text-lg font-extrabold text-nusaNavy mb-4">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
+
+                                <div class="flex gap-2 mt-auto">
+                                    <a href="{{ url('/pelatihan/' . $item->id) }}" class="flex-1 text-center py-2.5 border-2 border-gray-200 text-gray-600 font-bold text-xs rounded-xl hover:bg-gray-50">Info Detail</a>
+                                    <a href="{{ route('register') }}" class="flex-1 text-center py-2.5 bg-nusaYellow text-nusaNavyDark font-bold text-xs rounded-xl hover:bg-nusaYellowHover">Daftar Kelas</a>
                                 </div>
                             </div>
                         </div>
-                    @endfor
+                    @empty
+                        <p class="text-gray-500 text-sm">Belum ada pelatihan lain yang tersedia.</p>
+                    @endforelse
                 </div>
             </div>
 

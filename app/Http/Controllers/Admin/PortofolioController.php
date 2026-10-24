@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Portofolio;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,7 +13,9 @@ class PortofolioController extends Controller
     public function index()
     {
         $portofolio = Portofolio::latest()->paginate(10);
-        return view('admin.portofolio.index', compact('portofolio'));
+        $layanan = Layanan::all();
+
+        return view('admin.portofolio.index', compact('portofolio', 'layanan'));
     }
 
     public function store(Request $request)
@@ -24,6 +27,10 @@ class PortofolioController extends Controller
             'link_project' => 'nullable|url|max:255',
             'tahun'        => 'nullable|string|max:4',
             'kategori'     => 'nullable|string|max:100',
+            'layanan_id'   => 'required|exists:layanan,id',
+            'rating'       => 'required|numeric|min:1|max:5',
+            'fitur_utama'  => 'nullable|string',
+            'teknologi'    => 'nullable|string|max:255',
             'gambar'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -48,6 +55,10 @@ class PortofolioController extends Controller
             'link_project' => 'nullable|url|max:255',
             'tahun'        => 'nullable|string|max:4',
             'kategori'     => 'nullable|string|max:100',
+            'layanan_id'   => 'required|exists:layanan,id',
+            'rating'       => 'required|numeric|min:1|max:5',
+            'fitur_utama'  => 'nullable|string',
+            'teknologi'    => 'nullable|string|max:255',
             'gambar'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 

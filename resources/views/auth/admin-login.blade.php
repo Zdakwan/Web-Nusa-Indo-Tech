@@ -68,19 +68,19 @@
         </div>
         @endif
 
-        <form action="{{ route('admin.login.process') }}" method="POST">
+        <form action="{{ route('admin.login.process') }}" method="POST" autocomplete="off">
             @csrf
 
             <div class="input-box rounded-2xl px-5 py-3 mb-5 shadow-sm">
                 <label class="block text-[11px] font-bold text-gray-400 tracking-wide uppercase mb-1">Email Admin</label>
-                <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="off"
                     class="w-full bg-transparent border-none outline-none text-white text-sm font-medium focus:ring-0 p-0"
                     placeholder="admin@nusaindotech.com">
             </div>
 
             <div class="input-box rounded-2xl px-5 py-3 mb-6 shadow-sm relative">
                 <label class="block text-[11px] font-bold text-gray-400 tracking-wide uppercase mb-1">Password</label>
-                <input type="password" name="password" required id="password"
+                <input type="password" name="password" required id="password" autocomplete="new-password"
                     class="w-full bg-transparent border-none outline-none text-white text-sm font-medium focus:ring-0 p-0 pr-8"
                     placeholder="••••••••">
                 <div class="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer mt-1" onclick="togglePassword()">
