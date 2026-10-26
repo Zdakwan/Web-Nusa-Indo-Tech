@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\EnsiklopediaController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\Admin\TentangKamiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,11 +39,10 @@ use App\Http\Controllers\PublicController;
 RateLimiter::for('admin-login', function (Request $request) {
     $email = $request->input('email');
     $admin = DB::table('admins')->where('email', $email)->first();
-    $limit = ($admin && $admin->role === 'super_admin') ? 3 : 6;
+    $limit = ($admin && $admin->role === 'super_admin') ? 3 : 5;
     return Limit::perMinute($limit)->by($email ?: $request->ip());
 });
 
-// Throttle Client (Login & Register - 7 Kali Per Menit)
 RateLimiter::for('client-auth', function (Request $request) {
     return Limit::perMinute(7)->by($request->input('login') ?: $request->ip());
 });
@@ -79,12 +79,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('ensiklopedia', EnsiklopediaController::class);
             Route::resource('portofolio', PortofolioController::class);
             Route::resource('pelatihan', PelatihanController::class);
+
         });
 
         Route::middleware('admin.role:super_admin')->group(function () {
             Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
             Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
             Route::resource('pengguna', PenggunaController::class);
+            Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tentang-kami.index');
+            Route::put('/tentang-kami/profil', [TentangKamiController::class, 'updateProfil'])->name('tentang-kami.profil.update');
+            Route::post('/tentang-kami/tim', [TentangKamiController::class, 'storeTim'])->name('tentang-kami.tim.store');
+            Route::put('/tentang-kami/tim/{id}', [TentangKamiController::class, 'updateTim'])->name('tentang-kami.tim.update');
+            Route::delete('/tentang-kami/tim/{id}', [TentangKamiController::class, 'destroyTim'])->name('tentang-kami.tim.destroy');
         });
     });
 });

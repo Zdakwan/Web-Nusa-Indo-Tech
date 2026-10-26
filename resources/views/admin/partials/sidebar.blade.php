@@ -57,6 +57,10 @@
                 <a href="{{ route('admin.ensiklopedia.index') }}" class="nav-sub-link flex items-center gap-3 px-3 py-2 rounded-lg transition-colors {{ $segment == 'ensiklopedia' ? 'text-white font-bold bg-[#334f6c]' : 'text-gray-300 hover:text-white' }}">
                     <i class="fas fa-book w-4 shrink-0 text-center"></i> <span class="truncate">Ensiklopedia IT (CMS)</span>
                 </a>
+                <a href="{{ route('admin.tentang-kami.index') }}" class="flex items-center px-4 py-2 mt-1 text-gray-300 hover:bg-[#1a2f45] hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-info-circle w-6 text-center"></i>
+                    <span class="ml-2 text-sm font-medium">Tentang Kami</span>
+                </a>
                 @endif
 
             </div>

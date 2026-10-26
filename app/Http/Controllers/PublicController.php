@@ -7,6 +7,8 @@ use App\Models\Layanan;
 use App\Models\Portofolio;
 use App\Models\Ensiklopedia;
 use App\Models\Pelatihan;
+use App\Models\TentangKami;
+use App\Models\AnggotaTim;
 
 class PublicController extends Controller
 {
@@ -16,11 +18,6 @@ class PublicController extends Controller
         $layanan = Layanan::latest()->take(3)->get();
         $portofolio = Portofolio::latest()->take(3)->get();
         return view('home', compact('layanan', 'portofolio'));
-    }
-
-    public function tentangKami()
-    {
-        return view('tentang-kami');
     }
 
     public function layanan(Request $request)
@@ -76,5 +73,16 @@ class PublicController extends Controller
 
         // Memanggil file detail-layanan.blade.php
         return view('detail-layanan', compact('layanan'));
+    }
+
+    public function tentangKami()
+    {
+        // Ambil data profil perusahaan, jika kosong pakai nilai default
+        $tentang = TentangKami::first() ?? new TentangKami();
+
+        // Ambil semua data anggota tim
+        $tim = AnggotaTim::all();
+
+        return view('tentang-kami', compact('tentang', 'tim'));
     }
 }
