@@ -61,7 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+        Route::match(['get', 'post'], '/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
         // ---- AKSES SEMUA ADMIN (Super Admin, Konten, Layanan) ----
         Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
