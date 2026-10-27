@@ -45,12 +45,12 @@
         <h2 class="text-4xl font-extrabold text-white mb-8">Login</h2>
 
         @if(session('error'))
-            <div class="bg-red-100 border border-red-300 rounded-lg p-3 mb-6 relative">
+            <div id="alert-error-box" class="bg-red-100 border border-red-300 rounded-lg p-3 mb-6 relative">
                 <div class="flex items-start">
-                    <i class="fas fa-times-circle text-red-600 mt-1 mr-2"></i>
+                    <i id="alert-error-icon" class="fas fa-times-circle text-red-600 mt-1 mr-2"></i>
                     <div>
-                        <h3 class="text-red-800 font-bold text-sm">Login Gagal!</h3>
-                        <p class="text-red-700 text-xs mt-1">{{ session('error') }}</p>
+                        <h3 id="alert-error-title" class="text-red-800 font-bold text-sm">Login Gagal!</h3>
+                        <p id="alert-error-msg" class="text-red-700 text-xs mt-1">{{ session('error') }}</p>
                     </div>
                     <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-700" onclick="this.parentElement.parentElement.style.display='none'">
                         <i class="fas fa-times"></i>
@@ -119,7 +119,7 @@
                 <a href="#" class="text-sm font-bold text-[#f7bd55] hover:underline">Lupa password?</a>
             </div>
 
-            <button type="submit" class="w-full btn-yellow hover:bg-yellow-500 font-extrabold py-4 rounded-full transition duration-300 text-sm shadow-lg">
+            <button type="submit" id="btn-submit-login" class="w-full btn-yellow hover:bg-yellow-500 font-extrabold py-4 rounded-full transition duration-300 text-sm shadow-lg">
                 Login
             </button>
         </form>
@@ -129,23 +129,81 @@
             <a href="{{ route('register') }}" class="font-bold text-[#f7bd55] hover:underline">Buat Akun</a>
         </div>
     </div>
-@endsection
 
-@push('scripts')
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const eyeIcon = document.getElementById('eyeIcon');
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
 
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
         }
-    }
-</script>
-@endpush
+
+        (function () {
+            const errorMsgEl = document.getElementById('alert-error-msg');
+            if (!errorMsgEl) return;
+
+            const text = errorMsgEl.textContent;
+            const match = text.match(/(\d+)\s+detik/i);
+
+            if (match) {
+                let seconds = parseInt(match[1], 10);
+
+                errorMsgEl.innerHTML = text.replace(
+                    /(\d+)\s+detik/i,
+                    '<strong id="countdown-timer" class="underline font-extrabold text-sm">' + seconds + '</strong> detik'
+                );
+
+                const timerSpan = document.getElementById('countdown-timer');
+                const submitBtn = document.getElementById('btn-submit-login');
+                const errorBox = document.getElementById('alert-error-box');
+                const errorTitle = document.getElementById('alert-error-title');
+                const errorIcon = document.getElementById('alert-error-icon');
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+
+                const interval = setInterval(function () {
+                    seconds--;
+
+                    if (seconds > 0) {
+                        if (timerSpan) timerSpan.textContent = seconds;
+                    } else {
+                        clearInterval(interval);
+
+                        if (errorBox) {
+                            errorBox.classList.remove('bg-red-100', 'border-red-300');
+                            errorBox.classList.add('bg-green-100', 'border-green-300');
+                        }
+                        if (errorIcon) {
+                            errorIcon.classList.remove('fa-times-circle', 'text-red-600');
+                            errorIcon.classList.add('fa-check-circle', 'text-green-600');
+                        }
+                        if (errorTitle) {
+                            errorTitle.classList.remove('text-red-800');
+                            errorTitle.classList.add('text-green-800');
+                            errorTitle.textContent = 'Waktu Tunggu Selesai!';
+                        }
+                        errorMsgEl.classList.remove('text-red-700');
+                        errorMsgEl.classList.add('text-green-700', 'font-semibold');
+                        errorMsgEl.textContent = 'Silakan coba login kembali.';
+
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        }
+                    }
+                }, 1000);
+            }
+        })();
+    </script>
+@endsection

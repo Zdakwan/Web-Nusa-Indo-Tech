@@ -61,12 +61,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+       Route::match(['get', 'post'], '/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-        Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
+       Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         });
-
         Route::middleware('admin.role:super_admin,admin_layanan')->group(function () {
             Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
             Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
