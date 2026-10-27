@@ -63,10 +63,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
+        // ---- AKSES SEMUA ADMIN (Super Admin, Konten, Layanan) ----
         Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+            // Pindahkan Rute Pengaturan ke sini agar semua admin bisa akses
+            Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
+            Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
         });
 
+        // ---- AKSES SUPER ADMIN & ADMIN LAYANAN ----
         Route::middleware('admin.role:super_admin,admin_layanan')->group(function () {
             Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
             Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
@@ -75,17 +81,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('client', ClientController::class);
         });
 
+        // ---- AKSES SUPER ADMIN & ADMIN KONTEN ----
         Route::middleware('admin.role:super_admin,admin_konten')->group(function () {
             Route::resource('ensiklopedia', EnsiklopediaController::class);
             Route::resource('portofolio', PortofolioController::class);
             Route::resource('pelatihan', PelatihanController::class);
-
         });
 
+        // ---- AKSES KHUSUS SUPER ADMIN ----
         Route::middleware('admin.role:super_admin')->group(function () {
-            Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
-            Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
+            // Route pengaturan sudah dipindah ke atas
             Route::resource('pengguna', PenggunaController::class);
+
             Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tentang-kami.index');
             Route::put('/tentang-kami/profil', [TentangKamiController::class, 'updateProfil'])->name('tentang-kami.profil.update');
             Route::post('/tentang-kami/tim', [TentangKamiController::class, 'storeTim'])->name('tentang-kami.tim.store');

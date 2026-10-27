@@ -10,10 +10,10 @@
                 </p>
                 <div class="space-y-3 text-sm">
                     <p class="flex items-center gap-3 text-white">
-                        <i class="fa-solid fa-phone text-[#f5b73e]"></i> +62 812-3456-7890
+                        <i class="fa-solid fa-phone text-[#f5b73e]"></i> +62 878-5246-1990
                     </p>
                     <p class="flex items-center gap-3 text-white">
-                        <i class="fa-solid fa-envelope text-[#f5b73e]"></i> hello@nusatechindo.com
+                        <i class="fa-solid fa-envelope text-[#f5b73e]"></i> nusaindotech@gmail.com
                     </p>
                 </div>
             </div>

@@ -12,6 +12,11 @@ class Ensiklopedia extends Model
     // Mendefinisikan nama tabel secara eksplisit
     protected $table = 'ensiklopedia';
 
-    // Mengizinkan mass-assignment untuk proses Create/Update
-    protected $guarded = ['id'];
+    // Menggunakan fillable untuk memastikan Laravel membaca kolom ini secara eksplisit
+    protected $fillable = [
+        'judul',
+        'kategori',
+        'gambar',
+        'konten'
+    ];
 }

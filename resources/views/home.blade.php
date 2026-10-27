@@ -98,40 +98,50 @@
 
 
     <!-- SECTION PORTOFOLIO PROYEK (Dinamis dari Database Super Admin) -->
-    <section class="py-20 bg-gray-50 border-t border-gray-200">
-        <div class="container mx-auto px-6 max-w-7xl">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-nusaYellow font-bold tracking-wider uppercase text-sm">Portofolio</span>
-                <h2 class="text-3xl lg:text-4xl font-extrabold text-nusaNavy mt-2">Proyek Terbaru</h2>
-                <div class="w-16 h-1.5 bg-nusaYellow mx-auto mt-4 rounded-full"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @forelse($portofolio ?? [] as $porto)
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col">
-                        <div class="h-48 bg-nusaNavy relative flex items-center justify-center text-nusaYellow text-4xl">
-                            <i class="fas fa-folder-open"></i>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-nusaNavy mb-2">{{ $porto->judul ?? $porto->nama_proyek ?? 'Proyek IT' }}</h3>
-                                <p class="text-gray-600 text-sm mb-4">
-                                    {{ \Illuminate\Support\Str::limit($porto->deskripsi ?? '', 90) }}
-                                </p>
-                            </div>
-                            <a href="{{ route('portofolio.index') }}" class="text-nusaYellow font-bold text-sm inline-flex items-center gap-1 hover:underline">
-                                Detail Proyek <i class="fas fa-chevron-right text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-span-full text-center py-10 bg-white rounded-2xl border border-dashed border-gray-300">
-                        <p class="text-gray-500">Belum ada portofolio proyek yang diinput oleh Super Admin.</p>
-                    </div>
-                @endforelse
-            </div>
+<section class="py-20 bg-gray-50 border-t border-gray-200">
+    <div class="container mx-auto px-6 max-w-7xl">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-nusaYellow font-bold tracking-wider uppercase text-sm">Portofolio</span>
+            <h2 class="text-3xl lg:text-4xl font-extrabold text-nusaNavy mt-2">Proyek Terbaru</h2>
+            <div class="w-16 h-1.5 bg-nusaYellow mx-auto mt-4 rounded-full"></div>
         </div>
-    </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @forelse($portofolio ?? [] as $porto)
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col group">
+                    <!-- Ganti Bagian Ikon Folder dengan Gambar Dinamis -->
+                    <div class="h-48 md:h-56 bg-nusaNavy relative flex items-center justify-center overflow-hidden">
+                        {{-- Cek apakah portofolio punya gambar, pastikan nama kolom 'gambar' atau 'foto' sesuai dengan di database Anda --}}
+                        @if(!empty($porto->gambar))
+                            <img src="{{ asset('storage/' . $porto->gambar) }}" alt="{{ $porto->judul ?? 'Portofolio' }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        @elseif(!empty($porto->foto))
+                            <img src="{{ asset('storage/' . $porto->foto) }}" alt="{{ $porto->judul ?? 'Portofolio' }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        @else
+                            {{-- Fallback: Tampilkan ikon folder JIKA gambar tidak ada --}}
+                            <i class="fas fa-folder-open text-nusaYellow text-5xl"></i>
+                        @endif
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow justify-between relative bg-white z-10">
+                        <div>
+                            <h3 class="text-xl font-bold text-nusaNavy mb-2">{{ $porto->judul ?? $porto->nama_proyek ?? 'Proyek IT' }}</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                {{ \Illuminate\Support\Str::limit($porto->deskripsi ?? '', 90) }}
+                            </p>
+                        </div>
+                        <a href="{{ route('portofolio.index') }}" class="text-nusaYellow font-bold text-sm inline-flex items-center gap-1 hover:underline">
+                            Detail Proyek <i class="fas fa-chevron-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center py-10 bg-white rounded-2xl border border-dashed border-gray-300">
+                    <p class="text-gray-500">Belum ada portofolio proyek yang diinput oleh Super Admin.</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
+</section>
 
 
     <!-- BANNER CTA KUNING (Khas Nusa Indo Tech) -->

@@ -1,6 +1,6 @@
 ﻿@extends('layouts.public')
 
-@section('title', 'Detail Ensiklopedia - Mengenal IT Untuk Pemula')
+@section('title', 'Detail Ensiklopedia - ' . $ensiklopedia->judul)
 
 @section('content')
 <div class="ensiklo-detail-wrapper">
@@ -8,7 +8,7 @@
 
         <!-- Tombol Kembali -->
         <div class="back-nav">
-            <a href="{{ url('/ensiklopedia') }}" class="back-link">
+            <a href="{{ route('ensiklopedia.index') }}" class="back-link">
                 <i class="fa-solid fa-arrow-left"></i> Detail Ensiklopedia
             </a>
         </div>
@@ -18,24 +18,29 @@
             <!-- Teks Judul & Ringkasan -->
             <div class="hero-detail-text">
                 <h1 class="ensiklo-article-title">
-                    Mengenal IT <span class="text-amber">Untuk Pemula</span>
+                    {{ $ensiklopedia->judul }}
                 </h1>
                 <p class="ensiklo-article-lead">
-                    Pelajari dasar-dasar teknologi informasi, mulai dari pengertian, komponen utama, hingga peran pentingnyadalam kehidupan sehari-hari
+                    {{ \Illuminate\Support\Str::limit(strip_tags($ensiklopedia->konten), 150, '...') }}
                 </p>
 
                 <!-- Tags Pill -->
                 <div class="article-tags-group">
-                    <span class="badge-pill-cyan">#pemula</span>
-                    <span class="badge-pill-cyan">#teknologi</span>
-                    <span class="badge-pill-cyan">#digitalisasi</span>
+                    <span class="badge-pill-cyan">#{{ \Illuminate\Support\Str::slug($ensiklopedia->kategori, '') }}</span>
                 </div>
             </div>
 
             <!-- Gambar Header dengan Badge IT -->
             <div class="hero-detail-img-box">
                 <div class="article-thumb-wrap">
-                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Mengenal IT">
+                    @if($ensiklopedia->gambar)
+                        <img src="{{ asset('storage/' . $ensiklopedia->gambar) }}" alt="{{ $ensiklopedia->judul }}">
+                    @else
+                        <!-- Fallback jika tidak ada gambar -->
+                        <div style="width: 100%; height: 300px; background-color: #1a2f45; display: flex; align-items: center; justify-content: center; color: #a0aec0;">
+                            <i class="fas fa-image" style="font-size: 4rem;"></i>
+                        </div>
+                    @endif
                     <div class="article-badge-it-wrap">
                         <div class="it-cube-badge">IT</div>
                     </div>
@@ -47,70 +52,12 @@
 
         <!-- ISI KONTEN ARTIKEL -->
         <article class="article-body-content">
-            <!-- 1. Pengertian IT -->
             <section class="content-section-block">
-                <h2 class="content-heading">Pengertian IT</h2>
-                <p class="content-paragraph">
-                    Teknologi Informasi (Information Technology / IT) adalah segala bentuk teknologi yang digunakan untuk mengelola, memproses, menyimpan, dan mendistribusikan informasi dalam bentuk digital. IT mencakup perangkat keras, opoerangkat lunak, jaringan, data serta manusia yang mengoperasikannya.
-                </p>
-            </section>
-
-            <!-- 2. Komponen Utama IT -->
-            <section class="content-section-block">
-                <h2 class="content-heading">Komponen Utama IT</h2>
-                <p class="content-paragraph mb-4">
-                    Secara umum, teknologi informasi terdiri dari beberapa komponen utama
-                </p>
-
-                <!-- Grid 4 Card Komponen -->
-                <div class="komponen-cards-grid">
-                    @for($i = 1; $i <= 4; $i++)
-                        <div class="komponen-card-outline">
-                            <div class="komponen-icon-box">
-                                <i class="fa-solid fa-desktop"></i>
-                            </div>
-                            <h3 class="komponen-card-title">Perangkat Keras<br>(Hardware)</h3>
-                            <p class="komponen-card-desc">
-                                Komponen fisik seperti komputer, server, jaringan, dan perangkat lainnya
-                            </p>
-                        </div>
-                    @endfor
+                <!-- Kita asumsikan konten yang diinput dari admin sudah mencakup Tag Heading (H2, H3), Paragraf, dsb -->
+                <!-- nl2br untuk mengatur spasi enter jika input dari textarea biasa -->
+                <div class="content-paragraph text-gray-300">
+                    {!! nl2br(e($ensiklopedia->konten)) !!}
                 </div>
-            </section>
-
-            <!-- 3. Manfaat Utama IT (Box Banner Kuning) -->
-            <section class="content-section-block">
-                <h2 class="content-heading">Manfaat Utama IT</h2>
-                <p class="content-paragraph mb-4">
-                    Teknologi informasi memberikan banyak manfaat diantaranya
-                </p>
-
-                <div class="manfaat-yellow-banner">
-                    <div class="manfaat-item">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span>Memudahkan akses informasi kapan saja dan di mana saja</span>
-                    </div>
-                    <div class="manfaat-item">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span>Meningkatkan efesiensi dan produktivitas kerja</span>
-                    </div>
-                    <div class="manfaat-item">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span>Mendukung komunikasi yang lebih cepat dan efektif</span>
-                    </div>
-                    <div class="manfaat-item">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span>Membuka peluang inovasi dan bisnis baru</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Kesimpulan -->
-            <section class="content-section-block">
-                <h2 class="content-heading">Kesimpulan</h2>
-                <p class="content-paragraph">
-                    IT sudah menjadi bagian penting dalam kehidupan Modern. Dengan memahami dasar-ddasarnya anda dapat lebih siap menghadapi perkembangan teknologi dan memanfaatkannya untuk mendukung pendidikan, pekerjaan, maupun bisnis di masa depan.
-                </p>
             </section>
         </article>
 
@@ -119,33 +66,40 @@
             <h2 class="content-heading mb-4">Cek Artikel Lainnya</h2>
 
             <div class="materials-grid">
-                @for($k = 1; $k <= 3; $k++)
+                @forelse($artikel_lain ?? [] as $lain)
                     <div class="material-card">
                         <div class="material-img-wrap">
-                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=700&q=80" alt="Mengenal IT Untuk Pemula">
+                            @if($lain->gambar)
+                                <img src="{{ asset('storage/' . $lain->gambar) }}" alt="{{ $lain->judul }}">
+                            @else
+                                <div style="width: 100%; height: 200px; background-color: #254261; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-file-alt text-gray-400 text-4xl"></i>
+                                </div>
+                            @endif
                             <div class="material-overlay-badge">
                                 <div class="it-cube-badge">IT</div>
                             </div>
                         </div>
 
                         <div class="material-card-body">
-                            <h3 class="material-card-title">Mengenal IT Untuk Pemula</h3>
+                            <h3 class="material-card-title">{{ $lain->judul }}</h3>
                             <p class="material-card-desc">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                {{ \Illuminate\Support\Str::limit(strip_tags($lain->konten), 90, '...') }}
                             </p>
 
                             <div class="material-card-footer">
                                 <div class="material-mini-tags">
-                                    <span class="mini-tag">#IT</span>
-                                    <span class="mini-tag">#Belajar</span>
+                                    <span class="mini-tag">#{{ \Illuminate\Support\Str::slug($lain->kategori, '') }}</span>
                                 </div>
-                                <a href="{{ url('/ensiklopedia/detail') }}" class="btn-read-material">
+                                <a href="{{ route('ensiklopedia.detail', $lain->id) }}" class="btn-read-material">
                                     Lihat Selengkapnya <i class="fa-solid fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                @endfor
+                @empty
+                    <p class="text-gray-400">Belum ada artikel lain yang tersedia.</p>
+                @endforelse
             </div>
         </section>
 

@@ -1,7 +1,7 @@
 @php
     $segment = request()->segment(2);
     $dashboardAktif = ($segment == 'dashboard');
-    $kontenAktif    = in_array($segment, ['layanan', 'portofolio', 'pelatihan', 'ensiklopedia']);
+    $kontenAktif    = in_array($segment, ['layanan', 'portofolio', 'pelatihan', 'ensiklopedia', 'tentang-kami']);
     $penggunaAktif  = in_array($segment, ['pengguna', 'client']);
     $approvalAktif  = ($segment == 'approval');
     $pengaturanAktif = ($segment == 'pengaturan');
@@ -46,7 +46,7 @@
                 </a>
                 @endif
 
-                <!-- Portofolio, Pelatihan, Ensiklopedia (Super Admin & Admin Konten) -->
+                <!-- Portofolio, Pelatihan, Ensiklopedia, Tentang Kami (Super Admin & Admin Konten) -->
                 @if(in_array($adminRole, ['super_admin', 'admin_konten']))
                 <a href="{{ route('admin.portofolio.index') }}" class="nav-sub-link flex items-center gap-3 px-3 py-2 rounded-lg transition-colors {{ $segment == 'portofolio' ? 'text-white font-bold bg-[#334f6c]' : 'text-gray-300 hover:text-white' }}">
                     <i class="fas fa-folder-open w-4 shrink-0 text-center"></i> <span class="truncate">Portofolio Proyek</span>
@@ -57,12 +57,10 @@
                 <a href="{{ route('admin.ensiklopedia.index') }}" class="nav-sub-link flex items-center gap-3 px-3 py-2 rounded-lg transition-colors {{ $segment == 'ensiklopedia' ? 'text-white font-bold bg-[#334f6c]' : 'text-gray-300 hover:text-white' }}">
                     <i class="fas fa-book w-4 shrink-0 text-center"></i> <span class="truncate">Ensiklopedia IT (CMS)</span>
                 </a>
-                <a href="{{ route('admin.tentang-kami.index') }}" class="flex items-center px-4 py-2 mt-1 text-gray-300 hover:bg-[#1a2f45] hover:text-white rounded-lg transition-colors">
-                    <i class="fas fa-info-circle w-6 text-center"></i>
-                    <span class="ml-2 text-sm font-medium">Tentang Kami</span>
+                <a href="{{ route('admin.tentang-kami.index') }}" class="nav-sub-link flex items-center gap-3 px-3 py-2 rounded-lg transition-colors {{ $segment == 'tentang-kami' ? 'text-white font-bold bg-[#334f6c]' : 'text-gray-300 hover:text-white' }}">
+                    <i class="fas fa-info-circle w-4 shrink-0 text-center"></i> <span class="truncate">Tentang Kami</span>
                 </a>
                 @endif
-
             </div>
         @endif
 
@@ -94,19 +92,17 @@
             </div>
         @endif
 
-        <!-- Pengaturan (Hanya Super Admin) -->
-        @if($adminRole == 'super_admin')
-            <a href="{{ route('admin.pengaturan.index') }}" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ $pengaturanAktif ? 'bg-white text-[#254261] font-bold shadow-sm' : 'text-gray-200 hover:bg-[#334f6c]' }}">
-                <i class="fas fa-gear w-5 shrink-0 text-center {{ $pengaturanAktif ? 'text-[#254261]' : 'text-gray-200' }}"></i> <span class="truncate">Pengaturan</span>
-            </a>
-        @endif
-
         <!-- Approval (Super Admin & Admin Layanan) -->
         @if(in_array($adminRole, ['super_admin', 'admin_layanan']))
             <a href="{{ route('admin.approval.index') }}" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ $approvalAktif ? 'bg-white text-[#254261] font-bold shadow-sm' : 'text-gray-200 hover:bg-[#334f6c]' }}">
                 <i class="fas fa-file-circle-check w-5 shrink-0 text-center {{ $approvalAktif ? 'text-[#254261]' : 'text-gray-200' }}"></i> <span class="truncate">Approval</span>
             </a>
         @endif
+
+        <!-- PENGATURAN: SEKARANG TERSEDIA UNTUK SEMUA ROLE -->
+        <a href="{{ route('admin.pengaturan.index') }}" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ $pengaturanAktif ? 'bg-white text-[#254261] font-bold shadow-sm' : 'text-gray-200 hover:bg-[#334f6c]' }}">
+            <i class="fas fa-gear w-5 shrink-0 text-center {{ $pengaturanAktif ? 'text-[#254261]' : 'text-gray-200' }}"></i> <span class="truncate">Pengaturan</span>
+        </a>
 
         <!-- Keluar -->
         <form action="{{ route('admin.logout') }}" method="POST" class="mt-4 border-t border-white/10 pt-2">
