@@ -70,6 +70,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware('admin.role:super_admin,admin_layanan')->group(function () {
             Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
             Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
+            Route::put('/approval/call-center/{id}/status', [ApprovalController::class, 'updateCallCenterStatus'])->name('approval.call-center.updateStatus');
 
             Route::resource('layanan', LayananController::class);
             Route::resource('client', ClientController::class);
@@ -162,7 +163,8 @@ Route::middleware('auth:client')->group(function () {
     Route::put('/pengaturan/notifikasi', [PengaturanController::class, 'updateNotifikasi'])->name('pengaturan.notifikasi.update');
     Route::get('/pengaturan/faq', [FaqController::class, 'index'])->name('pengaturan.faq');
     Route::get('/pengaturan/panduan', [PanduanController::class, 'index'])->name('pengaturan.panduan');
-    Route::get('/pengaturan/call-center', [CallCenterController::class, 'index']);
+    Route::get('/pengaturan/call-center', [CallCenterController::class, 'index'])
+        ->name('pengaturan.call-center');
     Route::post('/pengaturan/call-center', [CallCenterController::class, 'store'])->name('call-center.store');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
