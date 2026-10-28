@@ -159,9 +159,22 @@
                 const errorTitle = document.getElementById('alert-error-title');
                 const errorIcon = document.getElementById('alert-error-icon');
 
+                // 1. Ambil elemen input email dan password
+                const emailInput = document.querySelector('input[name="email"]');
+                const passwordInput = document.getElementById('password');
+
+                // 2. Kunci tombol dan input saat hitung mundur dimulai
                 if (submitBtn) {
                     submitBtn.disabled = true;
                     submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+                if (emailInput) {
+                    emailInput.disabled = true;
+                    emailInput.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+                if (passwordInput) {
+                    passwordInput.disabled = true;
+                    passwordInput.classList.add('opacity-50', 'cursor-not-allowed');
                 }
 
                 const interval = setInterval(function () {
@@ -187,11 +200,22 @@
                         }
                         errorMsgEl.classList.remove('text-red-700');
                         errorMsgEl.classList.add('text-green-700', 'font-semibold');
-                        errorMsgEl.textContent = 'Silakan coba login kembali.';
+                        errorMsgEl.textContent = 'Silakan isi email dan password Anda untuk login kembali.';
 
+                        // 3. Buka kembali kuncian tombol dan input saat hitung mundur selesai
                         if (submitBtn) {
                             submitBtn.disabled = false;
                             submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        }
+                        if (emailInput) {
+                            emailInput.disabled = false;
+                            emailInput.classList.remove('opacity-50', 'cursor-not-allowed');
+                            emailInput.value = ''; // Opsional: mengosongkan email sebelumnya
+                        }
+                        if (passwordInput) {
+                            passwordInput.disabled = false;
+                            passwordInput.classList.remove('opacity-50', 'cursor-not-allowed');
+                            passwordInput.value = ''; // Opsional: mengosongkan password sebelumnya
                         }
                     }
                 }, 1000);

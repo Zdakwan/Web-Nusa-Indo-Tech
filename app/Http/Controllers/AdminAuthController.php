@@ -27,7 +27,6 @@ class AdminAuthController extends Controller
         $email = $request->input('email');
         $ipAddress = $request->ip();
 
-        // Kunci untuk menghitung jumlah salah & kunci untuk timer hukuman 60 detik
         $attemptKey = 'admin-attempts:' . Str::lower($email) . '|' . $ipAddress;
         $lockoutKey = 'admin-lockout:' . Str::lower($email) . '|' . $ipAddress;
 
@@ -44,7 +43,7 @@ class AdminAuthController extends Controller
         $role = $admin ? $admin->role : 'Tidak Diketahui';
 
         try {
-            // 2. Jika berhasil login, bersihkan semua catatan gagal
+            // 2. Jika berhasil login
             if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
                 RateLimiter::clear($attemptKey);
                 RateLimiter::clear($lockoutKey);
@@ -69,16 +68,14 @@ class AdminAuthController extends Controller
                 'status'     => 'Gagal'
             ]);
 
-            // Tambah 1 hitungan salah (disimpan selama 10 menit sampai berhasil login)
             RateLimiter::hit($attemptKey, 600);
             $sisaPercobaan = RateLimiter::retriesLeft($attemptKey, 3); // Batas Admin = 3 kali
 
-            // Jika kesempatan habis (sudah salah 3 kali), aktifkan timer hukuman MURNI 60 DETIK dari sekarang!
             if ($sisaPercobaan <= 0) {
-                RateLimiter::clear($attemptKey); // Reset hitungan agar nanti setelah 60 detik punya 3 kesempatan lagi
-                RateLimiter::hit($lockoutKey, 60); // Kunci tepat 60 detik penuh!
+                RateLimiter::clear($attemptKey);
+                RateLimiter::hit($lockoutKey, 60);
 
-                $pesanError = "Anda telah salah memasukkan password 3 kali. Akun ditangguhkan sementara, silakan tunggu 60 detik.";
+                $pesanError = "Anda telah salah memasukkan password 3 kali. Silakan tunggu 60 detik untuk mencoba lagi.";
             } else {
                 $pesanError = "Email atau password admin salah. Sisa percobaan: {$sisaPercobaan} kali lagi.";
             }
@@ -98,17 +95,6 @@ class AdminAuthController extends Controller
 
     public function logout(Request $request)
     {
-        $admin = Auth::guard('admin')->user();
-
-        if ($admin) {
-            LoginLog::create([
-                'email'      => $admin->email,
-                'role'       => $admin->role ?? 'admin',
-                'ip_address' => $request->ip(),
-                'status'     => 'Logout'
-            ]);
-        }
-
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
