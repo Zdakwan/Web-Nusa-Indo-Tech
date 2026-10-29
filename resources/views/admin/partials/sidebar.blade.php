@@ -92,7 +92,12 @@
                 </a>
                 @endif
             </div>
+        
         @endif
+
+        <a href="{{ route('admin.riwayat-login.index') }}" class="flex items-center px-4 py-2 text-sm text-gray-200 hover:bg-[#284260] hover:text-white transition gap-3">
+    <i class="fas fa-history"></i> Riwayat Log In
+</a>
 
         <!-- Pengaturan (Hanya Super Admin) -->
         @if($adminRole == 'super_admin')

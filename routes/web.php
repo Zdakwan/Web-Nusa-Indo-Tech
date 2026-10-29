@@ -35,7 +35,7 @@ use App\Http\Controllers\Admin\TentangKamiController;
 | KONFIGURASI PEMBATASAN LOGIN & REGISTER (THROTTLE)
 |--------------------------------------------------------------------------
 */
-// Throttle Admin Dinamis
+
 RateLimiter::for('admin-login', function (Request $request) {
     $email = $request->input('email');
     $admin = DB::table('admins')->where('email', $email)->first();
@@ -53,43 +53,59 @@ RateLimiter::for('client-auth', function (Request $request) {
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->group(function () {
+
+    // Rute Guest Admin (Belum Login)
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [AdminAuthController::class, 'login'])
-            ->middleware('throttle:admin-login')
-            ->name('login.process');
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
     });
 
+    // Rute Auth Admin (Sudah Login)
     Route::middleware('auth:admin')->group(function () {
-       Route::match(['get', 'post'], '/logout', [AdminAuthController::class, 'logout'])->name('logout');
+        Route::match(['get', 'post'], '/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-       Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
+        // Grup Dashboard & CRUD Aktivitas Admin (Bisa diakses super_admin, admin_konten, admin_layanan)
+        Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+            // Rute untuk fitur Modal CRUD Aktivitas di Dashboard
+            Route::post('/dashboard/aktivitas', [AdminDashboardController::class, 'storeAktivitas'])->name('dashboard.aktivitas.store');
+            Route::put('/dashboard/aktivitas/{id}', [AdminDashboardController::class, 'updateAktivitas'])->name('dashboard.aktivitas.update');
+            Route::delete('/dashboard/aktivitas/{id}', [AdminDashboardController::class, 'destroyAktivitas'])->name('dashboard.aktivitas.destroy');
         });
+
+        // Grup Layanan & Approval
         Route::middleware('admin.role:super_admin,admin_layanan')->group(function () {
             Route::get('/approval', [ApprovalController::class, 'index'])->name('approval.index');
             Route::put('/approval/{id}/status', [ApprovalController::class, 'updateStatus'])->name('approval.updateStatus');
 
             Route::resource('layanan', LayananController::class);
             Route::resource('client', ClientController::class);
+
+            Route::get('/riwayat-login', [\App\Http\Controllers\Admin\LoginLogController::class, 'index'])->name('riwayat-login.index');
         });
 
+
+        // Grup Konten
         Route::middleware('admin.role:super_admin,admin_konten')->group(function () {
             Route::resource('ensiklopedia', EnsiklopediaController::class);
             Route::resource('portofolio', PortofolioController::class);
             Route::resource('pelatihan', PelatihanController::class);
-
         });
 
+        // Grup Khusus Super Admin
         Route::middleware('admin.role:super_admin')->group(function () {
             Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
             Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
             Route::resource('pengguna', PenggunaController::class);
+
             Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tentang-kami.index');
             Route::put('/tentang-kami/profil', [TentangKamiController::class, 'updateProfil'])->name('tentang-kami.profil.update');
             Route::post('/tentang-kami/tim', [TentangKamiController::class, 'storeTim'])->name('tentang-kami.tim.store');
             Route::put('/tentang-kami/tim/{id}', [TentangKamiController::class, 'updateTim'])->name('tentang-kami.tim.update');
             Route::delete('/tentang-kami/tim/{id}', [TentangKamiController::class, 'destroyTim'])->name('tentang-kami.tim.destroy');
+
+            Route::get('/riwayat-login', [\App\Http\Controllers\Admin\LoginLogController::class, 'index'])->name('riwayat-login.index');
         });
     });
 });
@@ -102,19 +118,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/tentang-kami', [PublicController::class, 'tentangKami'])->name('tentang-kami');
 
-// Rute Layanan
 Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
 Route::get('/layanan/{id}', [PublicController::class, 'detailLayanan'])->name('layanan.detail');
 
-// Rute Portofolio
 Route::get('/portofolio', [PublicController::class, 'portofolio'])->name('portofolio.index');
 Route::get('/portofolio/{id}', [PublicController::class, 'detailPortofolio'])->name('portofolio.detail');
 
-// Rute Ensiklopedia
 Route::get('/ensiklopedia', [PublicController::class, 'ensiklopedia'])->name('ensiklopedia.index');
 Route::get('/ensiklopedia/{id}', [PublicController::class, 'detailEnsiklopedia'])->name('ensiklopedia.detail');
 
-// Rute Pelatihan
 Route::get('/pelatihan', [PublicController::class, 'pelatihan'])->name('pelatihan.index');
 Route::get('/pelatihan/{id}', [PublicController::class, 'detailPelatihan'])->name('pelatihan.detail');
 
@@ -125,15 +137,9 @@ Route::get('/pelatihan/{id}', [PublicController::class, 'detailPelatihan'])->nam
 */
 Route::middleware('guest:client')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
-    // Login Client dibatasi 7 kali percobaan
-    Route::post('/login', [AuthController::class, 'login'])
-        ->middleware('throttle:client-auth')
-        ->name('login.process');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-
-    // Register Client dibatasi 7 kali percobaan
     Route::post('/register', [AuthController::class, 'register'])
         ->middleware('throttle:client-auth')
         ->name('register.process');
@@ -164,5 +170,5 @@ Route::middleware('auth:client')->group(function () {
     Route::get('/pengaturan/call-center', [CallCenterController::class, 'index']);
     Route::post('/pengaturan/call-center', [CallCenterController::class, 'store'])->name('call-center.store');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 });

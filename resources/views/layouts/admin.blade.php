@@ -26,5 +26,8 @@
 
     <script src="{{ asset('js/admin.js') }}?v={{ filemtime(public_path('js/admin.js')) }}"></script>
     @stack('scripts')
+
+    <!-- Script Notifikasi tetap di sini (Paling Bawah) -->
+    
 </body>
 </html>
