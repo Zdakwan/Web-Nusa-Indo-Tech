@@ -5,6 +5,7 @@
     $penggunaAktif  = in_array($segment, ['pengguna', 'client']);
     $approvalAktif  = ($segment == 'approval');
     $pengaturanAktif = ($segment == 'pengaturan');
+    $riwayatAktif   = ($segment == 'riwayat-login');
 
     // Ambil role admin yang sedang login
     $adminRole = Auth::guard('admin')->user()->role;
@@ -90,6 +91,11 @@
                 </a>
                 @endif
             </div>
+
+            <!-- Riwayat Login (Super Admin & Admin Layanan) -->
+            <a href="{{ route('admin.riwayat-login.index') }}" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ $riwayatAktif ? 'bg-white text-[#254261] font-bold shadow-sm' : 'text-gray-200 hover:bg-[#334f6c]' }}">
+                <i class="fas fa-history w-5 shrink-0 text-center {{ $riwayatAktif ? 'text-[#254261]' : 'text-gray-200' }}"></i> <span class="truncate">Riwayat Log In</span>
+            </a>
         @endif
 
         <!-- Approval (Super Admin & Admin Layanan) -->
