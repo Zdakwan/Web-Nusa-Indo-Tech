@@ -18,7 +18,7 @@ class TentangKamiController extends Controller
         return view('admin.tentang-kami.index', compact('tentang', 'tim'));
     }
 
-    // --- FUNGSI UPDATE TEKS, VISI MISI & MAPS ---
+    // --- FUNGSI UPDATE TEKS, VISI MISI, & GAMBAR KOLABORASI ---
     public function updateProfil(Request $request)
     {
         $request->validate([
@@ -26,13 +26,32 @@ class TentangKamiController extends Controller
             'deskripsi' => 'required|string',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
-            'alamat' => 'nullable|string',
-            'telepon' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:100',
-            'gmaps_embed' => 'nullable|string',
+            'teks_kolaborasi_tim' => 'nullable|string',
+            'teks_kolaborasi_serah_terima' => 'nullable|string',
+            'foto_kolaborasi_tim' => 'nullable|image|max:3072',
+            'foto_kolaborasi_serah_terima' => 'nullable|image|max:3072',
         ]);
 
-        TentangKami::updateOrCreate(['id' => 1], $request->except('_token', '_method'));
+        $tentang = TentangKami::first() ?? new TentangKami();
+        $data = $request->except(['_token', '_method', 'foto_kolaborasi_tim', 'foto_kolaborasi_serah_terima']);
+
+        // Upload Foto Tim
+        if ($request->hasFile('foto_kolaborasi_tim')) {
+            if ($tentang->foto_kolaborasi_tim) {
+                Storage::disk('public')->delete($tentang->foto_kolaborasi_tim);
+            }
+            $data['foto_kolaborasi_tim'] = $request->file('foto_kolaborasi_tim')->store('kolaborasi', 'public');
+        }
+
+        // Upload Foto Serah Terima
+        if ($request->hasFile('foto_kolaborasi_serah_terima')) {
+            if ($tentang->foto_kolaborasi_serah_terima) {
+                Storage::disk('public')->delete($tentang->foto_kolaborasi_serah_terima);
+            }
+            $data['foto_kolaborasi_serah_terima'] = $request->file('foto_kolaborasi_serah_terima')->store('kolaborasi', 'public');
+        }
+
+        TentangKami::updateOrCreate(['id' => 1], $data);
 
         return redirect()->back()->with('success', 'Informasi Tentang Kami berhasil diperbarui!');
     }

@@ -29,7 +29,7 @@ class ProfileController extends Controller
     {
         $client = Auth::guard('client')->user();
 
-        // Validasi data profil dan foto
+        // Validasi data profil dan foto (Diperbarui min 2MB max 8MB)
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -45,9 +45,15 @@ class ProfileController extends Controller
             'avatar' => [
                 'nullable',
                 'image',
-                'mimes:jpeg,png,jpg',
-                'max:2048',
+                'mimes:png,jpg,jpeg,gif,bmp',
+                'min:2048',
+                'max:8192',
             ],
+        ], [
+            'avatar.min' => 'Ukuran avatar minimal harus 2 MB.',
+            'avatar.max' => 'Ukuran avatar tidak boleh lebih dari 8 MB.',
+            'avatar.mimes' => 'Format avatar harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'avatar.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         // Simpan path foto lama

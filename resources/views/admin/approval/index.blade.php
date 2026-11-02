@@ -236,8 +236,8 @@
                         class="w-full border-gray-300 rounded-lg"
                         required>
                         <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>Menunggu</option>
-                        <option value="approved" {{ $item->status == 'approved' ? 'selected' : '' }}>Setujui</option>
-                        <option value="rejected" {{ $item->status == 'rejected' ? 'selected' : '' }}>Tolak</option>
+                        <option value="approved" {{ $item->status == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="rejected" {{ $item->status == 'rejected' ? 'selected' : '' }}>Ditolak</option>
                         <option value="completed" {{ $item->status == 'completed' ? 'selected' : '' }}>Selesai</option>
                     </select>
                 </div>

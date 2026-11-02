@@ -68,6 +68,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+            // ---> RUTE AKTIVITAS MEY (Tambah, Edit, Hapus) <---
+            Route::post('/dashboard/aktivitas', [AdminDashboardController::class, 'storeAktivitas'])->name('dashboard.aktivitas.store');
+            Route::put('/dashboard/aktivitas/{id}', [AdminDashboardController::class, 'updateAktivitas'])->name('dashboard.aktivitas.update');
+            Route::delete('/dashboard/aktivitas/{id}', [AdminDashboardController::class, 'destroyAktivitas'])->name('dashboard.aktivitas.destroy');
+
             // Rute Pengaturan dikembalikan ke sini agar bisa diakses semua admin
             Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
             Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
@@ -91,17 +96,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('ensiklopedia', EnsiklopediaController::class);
             Route::resource('portofolio', PortofolioController::class);
             Route::resource('pelatihan', PelatihanController::class);
-        });
 
-        // ---- AKSES KHUSUS SUPER ADMIN ----
-        Route::middleware('admin.role:super_admin')->group(function () {
-            Route::resource('pengguna', PenggunaController::class);
-
+            // Rute Tentang Kami dipindahkan ke sini agar Admin Konten bisa mengaksesnya
             Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tentang-kami.index');
             Route::put('/tentang-kami/profil', [TentangKamiController::class, 'updateProfil'])->name('tentang-kami.profil.update');
             Route::post('/tentang-kami/tim', [TentangKamiController::class, 'storeTim'])->name('tentang-kami.tim.store');
             Route::put('/tentang-kami/tim/{id}', [TentangKamiController::class, 'updateTim'])->name('tentang-kami.tim.update');
             Route::delete('/tentang-kami/tim/{id}', [TentangKamiController::class, 'destroyTim'])->name('tentang-kami.tim.destroy');
+        });
+
+        // ---- AKSES KHUSUS SUPER ADMIN ----
+        Route::middleware('admin.role:super_admin')->group(function () {
+            Route::resource('pengguna', PenggunaController::class);
         });
     });
 });

@@ -23,7 +23,12 @@ class EnsiklopediaController extends Controller
             'judul'    => 'required|string|max:255',
             'kategori' => 'required|string|max:100', // Ini akan menyimpan nama_layanan dari dropdown
             'konten'   => 'required|string',
-            'gambar'   => 'nullable|image|max:2048',
+            'gambar'   => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'gambar.min' => 'Ukuran gambar minimal harus 2 MB.',
+            'gambar.max' => 'Ukuran gambar tidak boleh lebih dari 8 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'gambar.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -42,7 +47,12 @@ class EnsiklopediaController extends Controller
             'judul'    => 'required|string|max:255',
             'kategori' => 'required|string|max:100',
             'konten'   => 'required|string',
-            'gambar'   => 'nullable|image|max:2048',
+            'gambar'   => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'gambar.min' => 'Ukuran gambar minimal harus 2 MB.',
+            'gambar.max' => 'Ukuran gambar tidak boleh lebih dari 8 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'gambar.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         if ($request->hasFile('gambar')) {

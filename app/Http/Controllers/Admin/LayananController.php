@@ -21,7 +21,12 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'icon'         => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'icon.min' => 'Ukuran ikon minimal harus 2 MB.',
+            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 8 MB.',
+            'icon.mimes' => 'Format ikon harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'icon.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         // Tambahkan 'kategori' agar ikut ditangkap dari form
@@ -44,7 +49,12 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'icon'         => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'icon.min' => 'Ukuran ikon minimal harus 2 MB.',
+            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 8 MB.',
+            'icon.mimes' => 'Format ikon harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'icon.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         // Tambahkan 'kategori' agar ikut ditangkap dari form
