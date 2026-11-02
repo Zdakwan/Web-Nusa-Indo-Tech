@@ -23,10 +23,14 @@ class PengaturanController extends Controller
 
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|max:255|unique:admins,email,' . $admin->id,
-            'phone'    => 'nullable|string|max:20',
-            'password' => 'nullable|string|min:6|confirmed', // Harus ada field password_confirmation
-        ]);
+            'email'    => 'required|email|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+    ], [
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+            'password.min'       => 'Password baru minimal harus 8 karakter.',
+            'email.required'     => 'Alamat email wajib diisi.',
+            'name.required'      => 'Nama lengkap wajib diisi.',
+    ]);
 
         $admin->name = $request->name;
         $admin->email = $request->email;

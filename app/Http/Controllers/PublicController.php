@@ -51,7 +51,9 @@ class PublicController extends Controller
     public function detailEnsiklopedia($id)
     {
         $ensiklopedia = Ensiklopedia::findOrFail($id);
-        return view('detail-ensiklopedia', compact('ensiklopedia'));
+        $artikel_lain = Ensiklopedia::where('id', '!=', $id)->inRandomOrder()->take(3)->get();
+
+        return view('detail-ensiklopedia', compact('ensiklopedia', 'artikel_lain'));
     }
 
     public function pelatihan()

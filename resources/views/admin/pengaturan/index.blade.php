@@ -5,7 +5,7 @@
 @section('content')
 <div class="mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Pengaturan Akun</h1>
-    <p class="text-sm text-gray-500 mt-1">Kelola informasi profil dan keamanan akun Super Admin Anda.</p>
+    <p class="text-sm text-gray-500 mt-1">Kelola informasi profil dan keamanan akun Admin Anda.</p>
 </div>
 
 @if(session('success'))
@@ -61,13 +61,26 @@
             <p class="text-sm text-gray-500 mb-4">Kosongkan kolom password jika Anda tidak ingin mengubahnya.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Password Baru dengan Ikon Mata -->
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-700">Password Baru</label>
-                    <input type="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" placeholder="••••••••">
+                    <div class="relative">
+                        <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5 pr-10" placeholder="••••••••">
+                        <button type="button" onclick="togglePassword('password', 'icon-password')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i id="icon-password" class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <!-- Konfirmasi Password dengan Ikon Mata -->
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-700">Konfirmasi Password Baru</label>
-                    <input type="password" name="password_confirmation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" placeholder="••••••••">
+                    <div class="relative">
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5 pr-10" placeholder="••••••••">
+                        <button type="button" onclick="togglePassword('password_confirmation', 'icon-confirm')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i id="icon-confirm" class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -80,3 +93,22 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>
+@endpush

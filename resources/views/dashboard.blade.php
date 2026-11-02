@@ -192,7 +192,6 @@
 
                     @php
                         $status = $pendaftaranTerbaru->status;
-
                         $tahapAktif = match ($status) {
                             'pending' => 1,
                             'approved' => 3,
@@ -200,14 +199,15 @@
                             'completed' => 4,
                             default => 1,
                         };
+                        $lebarGaris = (($tahapAktif - 1) / 3) * 100;
                     @endphp
 
                     <!-- Stepper Progress -->
                     <div class="relative flex justify-between items-center w-full px-2">
                         <div class="absolute left-0 top-3 w-full h-0.5 bg-gray-200 z-0"></div>
 
-                        <div class="absolute left-0 top-3 h-0.5 bg-blue-400 z-0"
-                             style="width: {{ (($tahapAktif - 1) / 3) * 100 }}%"></div>
+                        {{-- Perbaikan: Menggunakan @style agar VS Code tidak menampilkan error merah --}}
+                        <div class="absolute left-0 top-3 h-0.5 bg-blue-400 z-0" @style(["width: {$lebarGaris}%"])></div>
 
                         @foreach ([
                             1 => 'Pengajuan',
@@ -310,10 +310,6 @@
             @forelse ($notifikasiTerbaru as $notifikasi)
 
                 @php
-                    /*
-                     * Menentukan ikon dan warna berdasarkan judul notifikasi.
-                     * Warna menggunakan CSS biasa, bukan class Tailwind.
-                     */
                     $judul = strtolower($notifikasi->judul);
 
                     if (str_contains($judul, 'jadwal')) {
@@ -336,41 +332,23 @@
                         $warna = '#2874d0';
                     }
 
-                    // Notifikasi yang sudah dibaca menggunakan warna abu-abu.
                     $warnaLatar = $notifikasi->is_read ? '#f3f4f6' : $warna;
                     $warnaIkon = $notifikasi->is_read ? '#6b7280' : '#ffffff';
                 @endphp
 
-                <!-- Item notifikasi dapat diklik menuju detail -->
                 <a
                     href="{{ route('notifikasi.detail', $notifikasi->id) }}"
-                    class="block p-5 hover:bg-gray-50 transition
-                        {{ $notifikasi->is_read ? '' : 'bg-blue-50/30' }}"
-                    style="display: block; text-decoration: none;"
+                    class="block p-5 hover:bg-gray-50 transition {{ $notifikasi->is_read ? '' : 'bg-blue-50/30' }}"
                 >
                     <div class="flex items-start">
-
-                        <!-- Ikon notifikasi dengan warna CSS inline -->
+                        {{-- Perbaikan: Menggunakan @style agar VS Code tidak bingung --}}
                         <div
-                            style="
-                                flex-shrink: 0;
-                                width: 32px;
-                                height: 32px;
-                                border-radius: 50%;
-                                background-color: {{ $warnaLatar }};
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                margin-top: 4px;
-                            "
+                            class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-1"
+                            @style(["background-color: {$warnaLatar}"])
                         >
-                            <i
-                                class="{{ $icon }}"
-                                style="color: {{ $warnaIkon }}; font-size: 14px;"
-                            ></i>
+                            <i class="{{ $icon }} text-[14px]" @style(["color: {$warnaIkon}"])></i>
                         </div>
 
-                        <!-- Isi notifikasi -->
                         <div class="ml-4 flex-1 min-w-0">
                             <div class="flex flex-wrap justify-between items-start gap-2">
                                 <h4 class="text-sm font-bold text-gray-900">

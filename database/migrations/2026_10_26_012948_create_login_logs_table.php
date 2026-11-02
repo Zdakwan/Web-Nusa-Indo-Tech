@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('email')->index();
             $table->string('role')->nullable(); // Nullable jika email tidak ditemukan di database
             $table->ipAddress('ip_address'); // Tipe data khusus untuk IP (IPv4/IPv6)
-            $table->enum('status', ['Berhasil', 'Gagal']);
+            $table->string('status', 50);
             $table->timestamps(); // created_at otomatis mencatat 'waktu'
         });
     }
