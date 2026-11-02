@@ -9,9 +9,7 @@
         <p class="text-sm text-gray-500 mt-1">Kelola data layanan IT Nusa Indo Tech.</p>
     </div>
 
-    <button type="button" onclick="openModal('tambahModal')" class="inline-flex items-center gap-2 px-4 py-2 bg-[#254261] hover:bg-[#1a2f45] text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-        <i class="fas fa-plus"></i> Tambah Layanan
-    </button>
+  <button type="button" onclick="openModal('tambahModal')" class="inline-flex items-center gap-2 px-4 py-2 bg-[#254261] hover:bg-[#1a2f45] text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
 </div>
 
 @if(session('success'))
@@ -20,7 +18,7 @@
             <i class="fas fa-check-circle"></i>
             <span class="font-medium">{{ session('success') }}</span>
         </div>
-        <button type="button" class="text-green-700 hover:text-green-900" onclick="this.parentElement.style.display='none'">
+     <button type="button" class="text-green-700 hover:text-green-900" onclick="this.parentElement.style.display='none'">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -54,7 +52,6 @@
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-800 font-bold">{{ $item->nama_layanan }}</td>
 
-                    <!-- Menampilkan Kategori di Tabel -->
                     <td class="px-6 py-4">
                         <span class="inline-block px-2.5 py-1 text-[11px] font-bold tracking-wider uppercase bg-[#254261]/10 text-[#254261] rounded">
                             {{ $item->kategori ?? 'Umum' }}
@@ -63,9 +60,15 @@
 
                     <td class="px-6 py-4 text-sm text-gray-600">{{ Str::limit($item->deskripsi, 80) }}</td>
                     <td class="px-6 py-4 text-center space-x-2 whitespace-nowrap">
-                        <button onclick="openEditModal({{ $item->id }}, '{{ addslashes($item->nama_layanan) }}', '{{ addslashes($item->kategori ?? 'Umum') }}', '{{ addslashes($item->deskripsi) }}')" class="text-blue-500 hover:text-blue-700 transition-colors" title="Edit">
-                            <i class="fas fa-edit text-lg"></i>
-                        </button>
+                            <button 
+                        data-id="{{ $item->id }}"
+                        data-nama="{{ $item->nama_layanan }}"
+                        data-kategori="{{ $item->kategori ?? 'Umum' }}"
+                        data-deskripsi="{{ $item->deskripsi }}"
+                        onclick="openEditModal(this.dataset.id, this.dataset.nama, this.dataset.kategori, this.dataset.deskripsi)" 
+                        class="text-blue-500 hover:text-blue-700 transition-colors" title="Edit">
+                        <i class="fas fa-edit text-lg"></i>
+                    </button>
                         <form action="{{ route('admin.layanan.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus layanan ini?')">
                             @csrf @method('DELETE')
                             <button type="submit" class="text-red-500 hover:text-red-700 transition-colors" title="Hapus">
@@ -108,7 +111,6 @@
                         <input type="text" name="nama_layanan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
                     </div>
 
-                    <!-- INPUT DROPDOWN KATEGORI (TAMBAH) -->
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Kategori</label>
                         <select name="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
@@ -126,7 +128,8 @@
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-medium text-gray-900">Icon / Gambar</label>
-                    <input type="file" name="icon" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-[#254261] file:text-white hover:file:bg-[#1a2f45]">
+                    <!-- Tambah atribut accept di sini -->
+                    <input type="file" name="icon" accept=".jpg,.jpeg,.png,.gif" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-[#254261] file:text-white hover:file:bg-[#1a2f45]">
                 </div>
                 <div class="flex justify-end gap-3 mt-6 border-t pt-4">
                     <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Batal</button>
@@ -153,7 +156,6 @@
                         <input type="text" name="nama_layanan" id="edit_nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required>
                     </div>
 
-                    <!-- INPUT DROPDOWN KATEGORI (EDIT) -->
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Kategori</label>
                         <select name="kategori" id="edit_kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required>
@@ -171,7 +173,8 @@
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-medium text-gray-900">Icon / Gambar Baru (Opsional)</label>
-                    <input type="file" name="icon" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-[#254261] file:text-white">
+                    <!-- Tambah atribut accept di sini -->
+                    <input type="file" name="icon" accept=".jpg,.jpeg,.png,.gif" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-[#254261] file:text-white">
                 </div>
                 <div class="flex justify-end gap-3 mt-6 border-t pt-4">
                     <button type="button" onclick="closeModal('editModal')" class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Batal</button>
@@ -187,7 +190,6 @@
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // Tambahkan parameter kategori di fungsi edit JS
     function openEditModal(id, nama, kategori, deskripsi) {
         document.getElementById('edit_nama').value = nama;
         document.getElementById('edit_kategori').value = kategori;

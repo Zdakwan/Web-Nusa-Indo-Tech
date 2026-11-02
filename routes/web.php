@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Admin\TentangKamiController;
+use App\Http\Controllers\Admin\LoginLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,8 +88,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('layanan', LayananController::class);
             Route::resource('client', ClientController::class);
 
-            // Rute riwayat-login digabung di sini agar tidak duplikat
-            Route::get('/riwayat-login', [\App\Http\Controllers\Admin\LoginLogController::class, 'index'])->name('riwayat-login.index');
+            // Rute Riwayat Login (Cukup 1 kali di sini saja)
+            Route::get('/riwayat-login', [LoginLogController::class, 'index'])->name('riwayat-login.index');
         });
 
         // ---- AKSES SUPER ADMIN & ADMIN KONTEN ----

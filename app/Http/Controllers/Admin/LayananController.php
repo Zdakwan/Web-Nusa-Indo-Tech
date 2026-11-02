@@ -21,15 +21,14 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            'icon'         => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+            // Batasi format ke jpeg, png, jpg, gif sesuai branch mey
+            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
-            'icon.min' => 'Ukuran ikon minimal harus 2 MB.',
-            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 8 MB.',
-            'icon.mimes' => 'Format ikon harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 2 MB.',
+            'icon.mimes' => 'Format ikon harus berupa: jpeg, png, jpg, atau gif.',
             'icon.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
-        // Tambahkan 'kategori' agar ikut ditangkap dari form
         $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         if ($request->hasFile('icon')) {
@@ -41,7 +40,7 @@ class LayananController extends Controller
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $layanan = Layanan::findOrFail($id);
 
@@ -49,19 +48,18 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            'icon'         => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+            // Batasi format ke jpeg, png, jpg, gif sesuai branch mey
+            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
-            'icon.min' => 'Ukuran ikon minimal harus 2 MB.',
-            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 8 MB.',
-            'icon.mimes' => 'Format ikon harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 2 MB.',
+            'icon.mimes' => 'Format ikon harus berupa: jpeg, png, jpg, atau gif.',
             'icon.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
-        // Tambahkan 'kategori' agar ikut ditangkap dari form
         $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         if ($request->hasFile('icon')) {
-            // Hapus file lama untuk efisiensi penyimpanan
+            // Hapus file lama jika ada
             if ($layanan->icon && Storage::disk('public')->exists($layanan->icon)) {
                 Storage::disk('public')->delete($layanan->icon);
             }
@@ -73,10 +71,11 @@ class LayananController extends Controller
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         $layanan = Layanan::findOrFail($id);
 
+        // Hapus file dari storage saat layanan dihapus
         if ($layanan->icon && Storage::disk('public')->exists($layanan->icon)) {
             Storage::disk('public')->delete($layanan->icon);
         }
