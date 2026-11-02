@@ -6,6 +6,7 @@
     $approvalAktif  = ($segment == 'approval');
     $pengaturanAktif = ($segment == 'pengaturan');
     $riwayatAktif   = ($segment == 'riwayat-login');
+    $proyekAktif = request()->routeIs('admin.proyek.*');
 
     // Ambil role admin yang sedang login
     $adminRole = Auth::guard('admin')->user()->role;
@@ -102,6 +103,14 @@
         @if(in_array($adminRole, ['super_admin', 'admin_layanan']))
             <a href="{{ route('admin.approval.index') }}" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ $approvalAktif ? 'bg-white text-[#254261] font-bold shadow-sm' : 'text-gray-200 hover:bg-[#334f6c]' }}">
                 <i class="fas fa-file-circle-check w-5 shrink-0 text-center {{ $approvalAktif ? 'text-[#254261]' : 'text-gray-200' }}"></i> <span class="truncate">Approval</span>
+            </a>
+        @endif
+
+        <!-- Manajemen Proyek (Super Admin & Admin Layanan) -->
+        @if(in_array($adminRole, ['super_admin', 'admin_layanan']))
+            <a href="{{ route('admin.proyek.index') }}" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ $proyekAktif ? 'bg-white text-[#254261] font-bold shadow-sm' : 'text-gray-200 hover:bg-[#334f6c]' }}">
+                <i class="fas fa-folder-open w-5 shrink-0 text-center {{ $proyekAktif ? 'text-[#254261]' : 'text-gray-200' }}"></i>
+                <span class="truncate">Manajemen Proyek</span>
             </a>
         @endif
 

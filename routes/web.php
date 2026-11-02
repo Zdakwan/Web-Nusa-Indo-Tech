@@ -15,6 +15,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\CallCenterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProyekClientController;
 
 // --- Controller Admin ---
 use App\Http\Controllers\AdminAuthController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Admin\TentangKamiController;
+use App\Http\Controllers\Admin\AdminProyekController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +70,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware('admin.role:super_admin,admin_konten,admin_layanan')->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+            // Rute Tambah, Edit, dan Hapus Aktivitas Dashboard
+            Route::post('/dashboard/aktivitas', [AdminDashboardController::class, 'storeAktivitas'])
+                ->name('dashboard.aktivitas.store');
+
+            Route::put('/dashboard/aktivitas/{id}', [AdminDashboardController::class, 'updateAktivitas'])
+                ->name('dashboard.aktivitas.update');
+
+            Route::delete('/dashboard/aktivitas/{id}', [AdminDashboardController::class, 'destroyAktivitas'])
+                ->name('dashboard.aktivitas.destroy');
+
             // Rute Pengaturan dikembalikan ke sini agar bisa diakses semua admin
             Route::get('/pengaturan', [AdminPengaturanController::class, 'index'])->name('pengaturan.index');
             Route::put('/pengaturan', [AdminPengaturanController::class, 'update'])->name('pengaturan.update');
@@ -84,6 +96,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
             // Rute riwayat-login digabung di sini agar tidak duplikat
             Route::get('/riwayat-login', [\App\Http\Controllers\Admin\LoginLogController::class, 'index'])->name('riwayat-login.index');
+
+            // Manajemen Proyek
+            Route::post('/proyek/{id}/progress', [AdminProyekController::class, 'updateProgress'])
+                ->name('proyek.updateProgress');
+
+            Route::resource('proyek', AdminProyekController::class)
+                ->except(['update']);
         });
 
         // ---- AKSES SUPER ADMIN & ADMIN KONTEN ----
@@ -167,5 +186,13 @@ Route::middleware('auth:client')->group(function () {
         ->name('pengaturan.call-center');
     Route::post('/pengaturan/call-center', [CallCenterController::class, 'store'])->name('call-center.store');
 
+    // Proyek Saya
+    Route::get('/proyek', [ProyekClientController::class, 'index'])
+        ->name('proyek.index');
+
+    Route::get('/proyek/{id}', [ProyekClientController::class, 'show'])
+        ->name('proyek.show');
+
+    //Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

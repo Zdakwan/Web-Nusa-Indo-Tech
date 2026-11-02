@@ -33,6 +33,19 @@
 </head>
 
 <body class="flex h-screen overflow-hidden">
+    
+    @php
+        $jumlahNotifikasiBelumDibaca = 0;
+
+        if (Auth::guard('client')->check()) {
+            $jumlahNotifikasiBelumDibaca = \App\Models\Notifikasi::where(
+                'client_id',
+                Auth::guard('client')->id()
+            )
+            ->where('is_read', false)
+            ->count();
+        }
+    @endphp
 
     {{-- SIDEBAR --}}
     <aside class="w-64 sidebar-bg text-gray-300 flex flex-col transition-all duration-300 hidden md:flex z-20">
@@ -100,9 +113,10 @@
             {{-- DROPDOWN KONSULTASI --}}
             @php
                 // Menentukan kapan dropdown Konsultasi terbuka
-                $menuKonsultasiAktif =
-                    request()->is('konsultasi*')
-                    || request()->routeIs('notifikasi.*');
+                    $menuKonsultasiAktif =
+                        request()->is('konsultasi*')
+                        || request()->is('proyek*')
+                        || request()->routeIs('notifikasi.*');
             @endphp
 
             <div class="mb-2 mt-4">
@@ -146,6 +160,15 @@
                         Konsultasi Saya
                     </a>
 
+                    {{-- MENU PROYEK SAYA --}}
+                    <a
+                        href="{{ route('proyek.index') }}"
+                        class="block text-sm {{ request()->routeIs('proyek.*') ? 'text-[#f7bd55] font-bold' : 'hover:text-white transition-colors' }}"
+                    >
+                        <i class="fas fa-briefcase w-5"></i>
+                        Proyek Saya
+                    </a>
+
                     {{-- MENU NOTIFIKASI --}}
                     <a
                         href="{{ route('notifikasi.index') }}"
@@ -153,6 +176,12 @@
                     >
                         <i class="far fa-bell w-5"></i>
                         Notifikasi
+
+                        @if ($jumlahNotifikasiBelumDibaca > 0)
+                            <span class="ml-1 inline-flex items-center justify-center min-w-[17px] h-[17px] px-1 rounded-full bg-red-500 text-white text-[10px] font-bold align-middle">
+                                {{ $jumlahNotifikasiBelumDibaca >= 99 ? '99+' : $jumlahNotifikasiBelumDibaca }}
+                            </span>
+                        @endif
                     </a>
 
                 </div>
