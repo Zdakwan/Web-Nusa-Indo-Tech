@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Admin\TentangKamiController;
+use App\Http\Controllers\Admin\LoginLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +83,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('layanan', LayananController::class);
             Route::resource('client', ClientController::class);
 
-            Route::get('/riwayat-login', [\App\Http\Controllers\Admin\LoginLogController::class, 'index'])->name('riwayat-login.index');
+            // Rute Riwayat Login (Cukup 1 kali di sini saja)
+            Route::get('/riwayat-login', [LoginLogController::class, 'index'])->name('riwayat-login.index');
         });
 
 
@@ -104,8 +106,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/tentang-kami/tim', [TentangKamiController::class, 'storeTim'])->name('tentang-kami.tim.store');
             Route::put('/tentang-kami/tim/{id}', [TentangKamiController::class, 'updateTim'])->name('tentang-kami.tim.update');
             Route::delete('/tentang-kami/tim/{id}', [TentangKamiController::class, 'destroyTim'])->name('tentang-kami.tim.destroy');
-
-            Route::get('/riwayat-login', [\App\Http\Controllers\Admin\LoginLogController::class, 'index'])->name('riwayat-login.index');
         });
     });
 });

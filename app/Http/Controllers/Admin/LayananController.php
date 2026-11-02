@@ -21,10 +21,10 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            // Batasi format ke jpeg, png, jpg, gif
+            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        // Tambahkan 'kategori' agar ikut ditangkap dari form
         $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         if ($request->hasFile('icon')) {
@@ -36,7 +36,8 @@ class LayananController extends Controller
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
-    public function update(Request $request, $id)
+    // Sebelumnya: public function update(Request $request, $id)
+public function update(Request $request, string $id)
     {
         $layanan = Layanan::findOrFail($id);
 
@@ -44,14 +45,14 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            // Batasi format ke jpeg, png, jpg, gif
+            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        // Tambahkan 'kategori' agar ikut ditangkap dari form
         $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         if ($request->hasFile('icon')) {
-            // Hapus file lama untuk efisiensi penyimpanan
+            // Hapus file lama jika ada
             if ($layanan->icon && Storage::disk('public')->exists($layanan->icon)) {
                 Storage::disk('public')->delete($layanan->icon);
             }
@@ -63,10 +64,12 @@ class LayananController extends Controller
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    // Sebelumnya: public function destroy($id)
+public function destroy(string $id)
     {
         $layanan = Layanan::findOrFail($id);
 
+        // Hapus file dari storage saat layanan dihapus
         if ($layanan->icon && Storage::disk('public')->exists($layanan->icon)) {
             Storage::disk('public')->delete($layanan->icon);
         }
