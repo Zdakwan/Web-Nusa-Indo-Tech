@@ -38,12 +38,15 @@ class ApprovalController extends Controller
      */
     public function updateStatus(Request $request, $id)
     {
-        // Validasi disesuaikan dengan nilai ENUM bahasa Indonesia di database
+        // Validasi diperbarui untuk menyertakan konsultan, metode, dan link meeting
         $validated = $request->validate([
-            'status' => 'required|in:Menunggu,Disetujui,Ditolak,Selesai',
+            'status' => 'required|in:pending,approved,rejected,completed',
             'pesan_admin' => 'nullable|string|max:10000',
             'tanggal_konsultasi' => 'nullable|date',
             'waktu_konsultasi' => 'nullable|date_format:H:i',
+            'konsultan' => 'nullable|string|max:255',
+            'metode' => 'nullable|string|max:100',
+            'link_meeting' => 'nullable|url|max:255',
         ]);
 
         $konsultasi = Konsultasi::findOrFail($id);
@@ -62,6 +65,9 @@ class ApprovalController extends Controller
             'pesan_admin' => $validated['pesan_admin'] ?? $konsultasi->pesan_admin,
             'tanggal_konsultasi' => $validated['tanggal_konsultasi'] ?? $konsultasi->tanggal_konsultasi,
             'waktu_konsultasi' => $validated['waktu_konsultasi'] ?? $konsultasi->waktu_konsultasi,
+            'konsultan' => $validated['konsultan'] ?? $konsultasi->konsultan,
+            'metode' => $validated['metode'] ?? $konsultasi->metode,
+            'link_meeting' => $validated['link_meeting'] ?? $konsultasi->link_meeting,
         ]);
 
         if ($jadwalBerubah && $konsultasi->client_id) {

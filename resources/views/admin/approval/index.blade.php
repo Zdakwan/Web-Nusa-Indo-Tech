@@ -270,6 +270,32 @@
                         class="w-full border-gray-300 rounded-lg p-3">
                 </div>
 
+                {{-- TAMBAHAN: INPUT KONSULTAN, METODE, LINK MEETING --}}
+                <div class="mb-5">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Konsultan</label>
+                    <input type="text" name="konsultan"
+                        value="{{ $item->konsultan ?? '' }}"
+                        class="w-full border-gray-300 rounded-lg p-3 text-sm"
+                        placeholder="Nama Konsultan (Opsional)">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Metode Pertemuan</label>
+                    <select name="metode" class="w-full border-gray-300 rounded-lg p-3 text-sm">
+                        <option value="">Pilih Metode...</option>
+                        <option value="Online (Zoom/GMeet)" {{ ($item->metode ?? '') == 'Online (Zoom/GMeet)' ? 'selected' : '' }}>Online (Zoom/GMeet)</option>
+                        <option value="Offline (Tatap Muka)" {{ ($item->metode ?? '') == 'Offline (Tatap Muka)' ? 'selected' : '' }}>Offline (Tatap Muka)</option>
+                    </select>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Link Meeting (Khusus Online)</label>
+                    <input type="url" name="link_meeting"
+                        value="{{ $item->link_meeting ?? '' }}"
+                        class="w-full border-gray-300 rounded-lg p-3 text-sm"
+                        placeholder="https://zoom.us/j/123...">
+                </div>
+
                 <div class="mb-5">
                     <label for="pesan-admin-{{ $item->id }}"
                         class="block text-sm font-bold text-gray-700 mb-2">
@@ -283,15 +309,15 @@
                         placeholder="Tuliskan balasan untuk klien...">{{ $item->pesan_admin ?? '' }}</textarea>
                 </div>
 
-                <div class="flex justify-end gap-3">
+                <div class="flex justify-end gap-3 mt-4">
                     <button type="button"
                         onclick="closeModal('modal-konsultasi-{{ $item->id }}')"
-                        class="px-5 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-lg">
+                        class="px-5 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-lg hover:bg-gray-200">
                         Batal
                     </button>
 
                     <button type="submit"
-                        class="px-5 py-2.5 bg-[#254261] text-white font-bold rounded-lg">
+                        class="px-5 py-2.5 bg-[#254261] text-white font-bold rounded-lg hover:bg-[#1a2f45]">
                         Kirim & Simpan
                     </button>
                 </div>
@@ -374,15 +400,15 @@
                     </p>
                 </div>
 
-                <div class="flex justify-end gap-3">
+                <div class="flex justify-end gap-3 mt-4">
                     <button type="button"
                         onclick="closeModal('modal-call-center-{{ $laporan->id }}')"
-                        class="px-5 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-lg">
+                        class="px-5 py-2.5 bg-gray-100 text-gray-700 font-bold rounded-lg hover:bg-gray-200">
                         Batal
                     </button>
 
                     <button type="submit"
-                        class="px-5 py-2.5 bg-[#254261] text-white font-bold rounded-lg">
+                        class="px-5 py-2.5 bg-[#254261] text-white font-bold rounded-lg hover:bg-[#1a2f45]">
                         Kirim & Simpan
                     </button>
                 </div>
