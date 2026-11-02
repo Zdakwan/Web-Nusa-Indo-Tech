@@ -1,11 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ensiklopedia;
 use App\Models\Layanan;
+use App\Models\Notifikasi;
+use App\Models\PreferensiNotifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class EnsiklopediaController extends Controller
 {
@@ -35,7 +39,24 @@ class EnsiklopediaController extends Controller
             $data['gambar'] = $request->file('gambar')->store('ensiklopedia', 'public');
         }
 
-        Ensiklopedia::create($data);
+        DB::transaction(function () use ($data) {
+            $artikel = Ensiklopedia::create($data);
+
+            $clientIds = PreferensiNotifikasi::where('artikel_ensiklopedia', true)
+                ->pluck('client_id');
+
+            foreach ($clientIds as $clientId) {
+                Notifikasi::create([
+                    'client_id' => $clientId,
+                    'judul' => 'Artikel Ensiklopedia Baru',
+                    'pesan' => 'Artikel baru berjudul "' . $artikel->judul
+                        . '" telah ditambahkan ke Ensiklopedia IT. '
+                        . 'Silakan kunjungi halaman ensiklopedia untuk membaca artikel.',
+                    'is_read' => false,
+                ]);
+            }
+        });
+
         return back()->with('success', 'Artikel berhasil ditambahkan.');
     }
 

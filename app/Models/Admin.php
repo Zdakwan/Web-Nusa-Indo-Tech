@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Admin extends Authenticatable
 {
@@ -28,5 +29,17 @@ class Admin extends Authenticatable
             'admin_layanan' => 'Admin Layanan',
             default         => 'Admin',
         };
+    }
+
+    // Proyek yang dibuat atau dikelola admin
+    public function proyek(): HasMany
+    {
+        return $this->hasMany(Proyek::class, 'admin_id');
+    }
+
+    // Riwayat progres yang diperbarui admin
+    public function riwayatProyek(): HasMany
+    {
+        return $this->hasMany(RiwayatProyek::class, 'admin_id');
     }
 }
