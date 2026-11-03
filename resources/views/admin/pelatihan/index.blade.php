@@ -135,7 +135,6 @@
                         </div>
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-900">Harga (Rp)</label>
-                            <!-- DITAMBAHKAN min="0" dan placeholder -->
                             <input type="number" name="harga" min="0" placeholder="Contoh: 150000" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
                         </div>
                     </div>
@@ -146,6 +145,7 @@
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Gambar</label>
                         <input type="file" name="gambar" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:bg-[#254261] file:text-white hover:file:bg-[#1a2f45]">
+                        <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-3 mt-6 border-t pt-4">
@@ -188,7 +188,6 @@
                         </div>
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-900">Harga (Rp)</label>
-                            <!-- DITAMBAHKAN min="0" dan placeholder -->
                             <input type="number" id="edit_harga" name="harga" min="0" placeholder="Contoh: 150000" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#254261] focus:border-[#254261] block w-full p-2.5" required>
                         </div>
                     </div>
@@ -199,6 +198,11 @@
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Gambar Baru (Opsional)</label>
                         <input type="file" name="gambar" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:bg-[#254261] file:text-white">
+                        <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                        @error('gambar')
+                            <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                        @enderror
+                    </div>
                     </div>
                 </div>
                 <div class="flex items-center justify-end gap-3 mt-6 border-t pt-4">

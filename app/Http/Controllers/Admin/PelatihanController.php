@@ -12,9 +12,9 @@ class PelatihanController extends Controller
     public function index()
     {
         $pelatihan = Pelatihan::latest()->paginate(10);
-        $layanan = \App\Models\Layanan::all(); // Tambahkan baris ini
+        $layanan = \App\Models\Layanan::all();
 
-        return view('admin.pelatihan.index', compact('pelatihan', 'layanan')); // Tambahkan 'layanan' ke compact
+        return view('admin.pelatihan.index', compact('pelatihan', 'layanan'));
     }
 
     public function store(Request $request)
@@ -24,10 +24,11 @@ class PelatihanController extends Controller
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
             'kategori' => 'nullable|string|max:100',
+            // Aturan dikembalikan: minimal 2MB, maksimal 8MB
             'gambar' => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
         ], [
-            'gambar.min' => 'Ukuran gambar minimal harus 2 MB.',
-            'gambar.max' => 'Ukuran gambar tidak boleh lebih dari 8 MB.',
+            'gambar.min' => 'Gagal: Ukuran gambar terlalu kecil. Minimal harus 2 MB.',
+            'gambar.max' => 'Gagal: Ukuran gambar terlalu besar. Maksimal 8 MB.',
             'gambar.mimes' => 'Format gambar harus berupa: png, jpg, jpeg, gif, atau bmp.',
             'gambar.image' => 'File yang diunggah harus berupa gambar.'
         ]);
@@ -52,10 +53,11 @@ class PelatihanController extends Controller
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
             'kategori' => 'nullable|string|max:100',
+            // Aturan dikembalikan: minimal 2MB, maksimal 8MB
             'gambar' => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
         ], [
-            'gambar.min' => 'Ukuran gambar minimal harus 2 MB.',
-            'gambar.max' => 'Ukuran gambar tidak boleh lebih dari 8 MB.',
+            'gambar.min' => 'Gagal: Ukuran gambar terlalu kecil. Minimal harus 2 MB.',
+            'gambar.max' => 'Gagal: Ukuran gambar terlalu besar. Maksimal 8 MB.',
             'gambar.mimes' => 'Format gambar harus berupa: png, jpg, jpeg, gif, atau bmp.',
             'gambar.image' => 'File yang diunggah harus berupa gambar.'
         ]);

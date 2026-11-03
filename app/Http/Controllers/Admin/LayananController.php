@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class LayananController extends Controller
 {
@@ -21,19 +20,9 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            // Batasi format ke jpeg, png, jpg, gif sesuai branch mey
-            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], [
-            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 2 MB.',
-            'icon.mimes' => 'Format ikon harus berupa: jpeg, png, jpg, atau gif.',
-            'icon.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
-
-        if ($request->hasFile('icon')) {
-            $data['icon'] = $request->file('icon')->store('layanan', 'public');
-        }
 
         Layanan::create($data);
 
@@ -48,23 +37,9 @@ class LayananController extends Controller
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
             'deskripsi'    => 'required|string',
-            // Batasi format ke jpeg, png, jpg, gif sesuai branch mey
-            'icon'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], [
-            'icon.max' => 'Ukuran ikon tidak boleh lebih dari 2 MB.',
-            'icon.mimes' => 'Format ikon harus berupa: jpeg, png, jpg, atau gif.',
-            'icon.image' => 'File yang diunggah harus berupa gambar.'
         ]);
 
         $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
-
-        if ($request->hasFile('icon')) {
-            // Hapus file lama jika ada
-            if ($layanan->icon && Storage::disk('public')->exists($layanan->icon)) {
-                Storage::disk('public')->delete($layanan->icon);
-            }
-            $data['icon'] = $request->file('icon')->store('layanan', 'public');
-        }
 
         $layanan->update($data);
 
@@ -74,11 +49,6 @@ class LayananController extends Controller
     public function destroy(string $id)
     {
         $layanan = Layanan::findOrFail($id);
-
-        // Hapus file dari storage saat layanan dihapus
-        if ($layanan->icon && Storage::disk('public')->exists($layanan->icon)) {
-            Storage::disk('public')->delete($layanan->icon);
-        }
 
         $layanan->delete();
 

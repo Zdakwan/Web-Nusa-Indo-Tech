@@ -14,6 +14,21 @@
     <div class="mb-4 p-3 bg-green-50 text-green-700 rounded border border-green-200">{{ session('success') }}</div>
 @endif
 
+<!-- Jika Ada Error (General) -->
+@if ($errors->any())
+    <div class="mb-6 px-4 py-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded shadow-sm" role="alert">
+        <div class="flex items-center gap-2 mb-2">
+            <i class="fas fa-exclamation-circle"></i>
+            <span class="font-bold">Gagal menyimpan data!</span>
+        </div>
+        <ul class="list-disc list-inside text-sm">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
     <table class="w-full text-left border-collapse">
         <thead class="bg-gray-50 border-b">
@@ -49,7 +64,7 @@
                     </button>
 
                     <!-- Tombol Hapus -->
-                    <form action="{{ route('admin.ensiklopedia.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
+                    <form action="{{ route('admin.ensiklopedia.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
                         @csrf @method('DELETE')
                         <button type="submit" class="text-red-500 hover:text-red-700 p-1.5 bg-red-50 rounded hover:bg-red-100 transition-colors"><i class="fas fa-trash-alt"></i></button>
                     </form>
@@ -80,7 +95,7 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Judul Artikel <span class="text-red-500">*</span></label>
-                <input type="text" name="judul" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none" placeholder="Masukkan judul artikel" required>
+                <input type="text" name="judul" value="{{ old('judul') }}" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none" placeholder="Masukkan judul artikel" required>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -89,7 +104,7 @@
                     <select name="kategori" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none bg-white" required>
                         <option value="" disabled selected>-- Pilih Layanan Terkait --</option>
                         @forelse($layanan as $item)
-                            <option value="{{ $item->nama_layanan }}">{{ $item->nama_layanan }}</option>
+                            <option value="{{ $item->nama_layanan }}" {{ old('kategori') == $item->nama_layanan ? 'selected' : '' }}>{{ $item->nama_layanan }}</option>
                         @empty
                             <option value="" disabled>Belum ada data layanan di database</option>
                         @endforelse
@@ -98,12 +113,16 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Gambar Thumbnail</label>
                     <input type="file" name="gambar" class="w-full border border-gray-300 p-1.5 rounded-lg bg-gray-50 file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                    <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                    @error('gambar')
+                        <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
             <div class="mb-5">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Konten Artikel <span class="text-red-500">*</span></label>
-                <textarea name="konten" rows="6" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none" placeholder="Tulis isi artikel di sini..." required></textarea>
+                <textarea name="konten" rows="6" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none" placeholder="Tulis isi artikel di sini..." required>{{ old('konten') }}</textarea>
             </div>
 
             <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
@@ -145,6 +164,10 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Update Gambar (Opsional)</label>
                     <input type="file" name="gambar" class="w-full border border-gray-300 p-1.5 rounded-lg bg-gray-50 file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                    <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                    @error('gambar')
+                        <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -181,5 +204,10 @@
 
         openModal('editModal');
     }
+
+    // Buka kembali form tambah jika ada error
+    @if ($errors->any() && !old('_method'))
+        openModal('tambahModal');
+    @endif
 </script>
 @endsection

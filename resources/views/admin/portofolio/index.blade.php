@@ -20,6 +20,21 @@
     </div>
 @endif
 
+<!-- Jika Ada Error (General) -->
+@if ($errors->any())
+    <div class="mb-6 px-4 py-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded shadow-sm" role="alert">
+        <div class="flex items-center gap-2 mb-2">
+            <i class="fas fa-exclamation-circle"></i>
+            <span class="font-bold">Gagal menyimpan data!</span>
+        </div>
+        <ul class="list-disc list-inside text-sm">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
     <table class="w-full text-left border-collapse">
         <thead>
@@ -43,7 +58,7 @@
                 </td>
                 <td class="px-6 py-4">
                     <p class="text-sm text-gray-800 font-medium">{{ $item->judul }}</p>
-                    <p class="text-xs text-gray-500">{{ $item->tahun }} • {{ $item->kategori }}</p>
+                    <p class="text-xs text-gray-500">{{ $item->tahun }} - {{ $item->kategori }}</p>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-600">{{ $item->nama_klien ?? '-' }}</td>
                 <td class="px-6 py-4 text-center text-sm font-bold text-[#f5b73e]">
@@ -94,35 +109,42 @@
         <form action="{{ route('admin.portofolio.store') }}" method="POST" enctype="multipart/form-data" class="p-4">
             @csrf
             <div class="grid grid-cols-2 gap-4 mb-4">
-                <div class="col-span-2"><label class="block text-sm mb-1">Judul Proyek</label><input type="text" name="judul" class="w-full border rounded-lg p-2" required></div>
+                <div class="col-span-2"><label class="block text-sm mb-1">Judul Proyek</label><input type="text" name="judul" value="{{ old('judul') }}" class="w-full border rounded-lg p-2" required></div>
 
                 <div>
                     <label class="block text-sm mb-1">Layanan Terkait</label>
                     <select name="layanan_id" class="w-full border rounded-lg p-2" required>
                         <option value="">-- Pilih Layanan --</option>
                         @foreach($layanan as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama_layanan }}</option>
+                            <option value="{{ $item->id }}" {{ old('layanan_id') == $item->id ? 'selected' : '' }}>{{ $item->nama_layanan }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div><label class="block text-sm mb-1">Rating (1-5)</label><input type="number" name="rating" step="0.1" min="1" max="5" class="w-full border rounded-lg p-2" placeholder="Contoh: 4.5" required></div>
+                <div><label class="block text-sm mb-1">Rating (1-5)</label><input type="number" name="rating" value="{{ old('rating') }}" step="0.1" min="1" max="5" class="w-full border rounded-lg p-2" placeholder="Contoh: 4.5" required></div>
 
-                <div><label class="block text-sm mb-1">Nama Klien</label><input type="text" name="nama_klien" class="w-full border rounded-lg p-2"></div>
-                <div><label class="block text-sm mb-1">Tahun</label><input type="text" name="tahun" class="w-full border rounded-lg p-2" placeholder="2026"></div>
-                <div><label class="block text-sm mb-1">Kategori (Label Card)</label><input type="text" name="kategori" class="w-full border rounded-lg p-2" placeholder="Web App"></div>
-                <div><label class="block text-sm mb-1">Link Proyek</label><input type="url" name="link_project" class="w-full border rounded-lg p-2"></div>
+                <div><label class="block text-sm mb-1">Nama Klien</label><input type="text" name="nama_klien" value="{{ old('nama_klien') }}" class="w-full border rounded-lg p-2"></div>
+                <div><label class="block text-sm mb-1">Tahun</label><input type="text" name="tahun" value="{{ old('tahun') }}" class="w-full border rounded-lg p-2" placeholder="2026"></div>
+                <div><label class="block text-sm mb-1">Kategori (Label Card)</label><input type="text" name="kategori" value="{{ old('kategori') }}" class="w-full border rounded-lg p-2" placeholder="Web App"></div>
+                <div><label class="block text-sm mb-1">Link Proyek</label><input type="url" name="link_project" value="{{ old('link_project') }}" class="w-full border rounded-lg p-2"></div>
 
                 <div>
                     <label class="block text-sm mb-1">Teknologi (Koma)</label>
-                    <input type="text" name="teknologi" class="w-full border rounded-lg p-2" placeholder="Contoh: Laravel, PHP, MySQL">
+                    <input type="text" name="teknologi" value="{{ old('teknologi') }}" class="w-full border rounded-lg p-2" placeholder="Contoh: Laravel, PHP, MySQL">
                 </div>
                 <div class="col-span-2">
                     <label class="block text-sm mb-1">Fitur Utama (Pisahkan dg enter per baris)</label>
-                    <textarea name="fitur_utama" rows="3" class="w-full border rounded-lg p-2" placeholder="Desain UI/UX Modern&#10;Responsif untuk semua perangkat"></textarea>
+                    <textarea name="fitur_utama" rows="3" class="w-full border rounded-lg p-2" placeholder="Desain UI/UX Modern&#10;Responsif untuk semua perangkat">{{ old('fitur_utama') }}</textarea>
                 </div>
 
-                <div class="col-span-2"><label class="block text-sm mb-1">Deskripsi Proyek</label><textarea name="deskripsi" rows="3" class="w-full border rounded-lg p-2" required></textarea></div>
-                <div class="col-span-2"><label class="block text-sm mb-1">Gambar</label><input type="file" name="gambar" class="w-full border rounded-lg p-1"></div>
+                <div class="col-span-2"><label class="block text-sm mb-1">Deskripsi Proyek</label><textarea name="deskripsi" rows="3" class="w-full border rounded-lg p-2" required>{{ old('deskripsi') }}</textarea></div>
+                <div class="col-span-2">
+                    <label class="block text-sm mb-1">Gambar</label>
+                    <input type="file" name="gambar" class="w-full border rounded-lg p-1">
+                    <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                    @error('gambar')
+                        <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
             <div class="flex justify-end gap-2 border-t pt-4">
                 <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Batal</button>
@@ -174,7 +196,10 @@
                 <div class="col-span-2">
                     <label class="block text-sm mb-1">Gambar Baru (Opsional)</label>
                     <input type="file" name="gambar" class="w-full border rounded-lg p-1 text-sm text-gray-500">
-                    <p class="text-xs text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah gambar.</p>
+                    <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                    @error('gambar')
+                        <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="flex justify-end gap-2 border-t pt-4">
@@ -215,5 +240,10 @@
         // Tampilkan modal
         openModal('editModal');
     }
+
+    // Buka kembali form tambah jika ada error
+    @if ($errors->any() && !old('_method'))
+        openModal('tambahModal');
+    @endif
 </script>
 @endsection

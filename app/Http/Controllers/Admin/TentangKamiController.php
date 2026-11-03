@@ -18,7 +18,6 @@ class TentangKamiController extends Controller
         return view('admin.tentang-kami.index', compact('tentang', 'tim'));
     }
 
-    // --- FUNGSI UPDATE TEKS, VISI MISI, & GAMBAR KOLABORASI ---
     public function updateProfil(Request $request)
     {
         $request->validate([
@@ -28,24 +27,29 @@ class TentangKamiController extends Controller
             'misi' => 'nullable|string',
             'teks_kolaborasi_tim' => 'nullable|string',
             'teks_kolaborasi_serah_terima' => 'nullable|string',
-            'foto_kolaborasi_tim' => 'nullable|image|max:3072',
-            'foto_kolaborasi_serah_terima' => 'nullable|image|max:3072',
+            'foto_kolaborasi_tim' => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+            'foto_kolaborasi_serah_terima' => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'foto_kolaborasi_tim.min' => 'Gagal: Ukuran foto tim terlalu kecil. Minimal harus 2 MB.',
+            'foto_kolaborasi_tim.max' => 'Gagal: Ukuran foto tim terlalu besar. Maksimal 8 MB.',
+            'foto_kolaborasi_tim.mimes' => 'Format foto tim harus berupa: png, jpg, jpeg, gif, atau bmp.',
+            'foto_kolaborasi_serah_terima.min' => 'Gagal: Ukuran foto serah terima terlalu kecil. Minimal harus 2 MB.',
+            'foto_kolaborasi_serah_terima.max' => 'Gagal: Ukuran foto serah terima terlalu besar. Maksimal 8 MB.',
+            'foto_kolaborasi_serah_terima.mimes' => 'Format foto serah terima harus berupa: png, jpg, jpeg, gif, atau bmp.',
         ]);
 
         $tentang = TentangKami::first() ?? new TentangKami();
         $data = $request->except(['_token', '_method', 'foto_kolaborasi_tim', 'foto_kolaborasi_serah_terima']);
 
-        // Upload Foto Tim
         if ($request->hasFile('foto_kolaborasi_tim')) {
-            if ($tentang->foto_kolaborasi_tim) {
+            if ($tentang->foto_kolaborasi_tim && Storage::disk('public')->exists($tentang->foto_kolaborasi_tim)) {
                 Storage::disk('public')->delete($tentang->foto_kolaborasi_tim);
             }
             $data['foto_kolaborasi_tim'] = $request->file('foto_kolaborasi_tim')->store('kolaborasi', 'public');
         }
 
-        // Upload Foto Serah Terima
         if ($request->hasFile('foto_kolaborasi_serah_terima')) {
-            if ($tentang->foto_kolaborasi_serah_terima) {
+            if ($tentang->foto_kolaborasi_serah_terima && Storage::disk('public')->exists($tentang->foto_kolaborasi_serah_terima)) {
                 Storage::disk('public')->delete($tentang->foto_kolaborasi_serah_terima);
             }
             $data['foto_kolaborasi_serah_terima'] = $request->file('foto_kolaborasi_serah_terima')->store('kolaborasi', 'public');
@@ -56,13 +60,16 @@ class TentangKamiController extends Controller
         return redirect()->back()->with('success', 'Informasi Tentang Kami berhasil diperbarui!');
     }
 
-    // --- FUNGSI CRUD ANGGOTA TIM ---
     public function storeTim(Request $request)
     {
         $data = $request->validate([
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'foto.min' => 'Gagal: Ukuran foto anggota terlalu kecil. Minimal harus 2 MB.',
+            'foto.max' => 'Gagal: Ukuran foto anggota terlalu besar. Maksimal 8 MB.',
+            'foto.mimes' => 'Format foto harus berupa: png, jpg, jpeg, gif, atau bmp.'
         ]);
 
         if ($request->hasFile('foto')) {
@@ -79,11 +86,17 @@ class TentangKamiController extends Controller
         $data = $request->validate([
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:png,jpg,jpeg,gif,bmp|min:2048|max:8192',
+        ], [
+            'foto.min' => 'Gagal: Ukuran foto anggota terlalu kecil. Minimal harus 2 MB.',
+            'foto.max' => 'Gagal: Ukuran foto anggota terlalu besar. Maksimal 8 MB.',
+            'foto.mimes' => 'Format foto harus berupa: png, jpg, jpeg, gif, atau bmp.'
         ]);
 
         if ($request->hasFile('foto')) {
-            if ($tim->foto) Storage::disk('public')->delete($tim->foto);
+            if ($tim->foto && Storage::disk('public')->exists($tim->foto)) {
+                Storage::disk('public')->delete($tim->foto);
+            }
             $data['foto'] = $request->file('foto')->store('tim', 'public');
         }
 
@@ -94,7 +107,9 @@ class TentangKamiController extends Controller
     public function destroyTim($id)
     {
         $tim = AnggotaTim::findOrFail($id);
-        if ($tim->foto) Storage::disk('public')->delete($tim->foto);
+        if ($tim->foto && Storage::disk('public')->exists($tim->foto)) {
+            Storage::disk('public')->delete($tim->foto);
+        }
         $tim->delete();
 
         return redirect()->back()->with('success', 'Anggota tim dihapus.');

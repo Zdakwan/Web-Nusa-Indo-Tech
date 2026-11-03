@@ -19,6 +19,21 @@
     </div>
 @endif
 
+<!-- Jika Ada Error (General) -->
+@if ($errors->any())
+    <div class="mb-6 px-4 py-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded shadow-sm" role="alert">
+        <div class="flex items-center gap-2 mb-2">
+            <i class="fas fa-exclamation-circle"></i>
+            <span class="font-bold">Gagal menyimpan data!</span>
+        </div>
+        <ul class="list-disc list-inside text-sm">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <!-- BUNGKUSAN FLEX UNTUK MENGATUR URUTAN (ORDER) -->
 <div class="flex flex-col">
 
@@ -105,6 +120,10 @@
                             </div>
                         @endif
                         <input type="file" name="foto_kolaborasi_tim" class="w-full border rounded-lg bg-white p-1 text-sm">
+                        <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                        @error('foto_kolaborasi_tim')
+                            <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                        @enderror
                         <p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah foto saat ini.</p>
                     </div>
                     <div>
@@ -124,6 +143,10 @@
                             </div>
                         @endif
                         <input type="file" name="foto_kolaborasi_serah_terima" class="w-full border rounded-lg bg-white p-1 text-sm">
+                        <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                        @error('foto_kolaborasi_serah_terima')
+                            <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                        @enderror
                         <p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah foto saat ini.</p>
                     </div>
                     <div>
@@ -197,15 +220,19 @@
             <h3 class="text-lg font-bold mb-4">Tambah Anggota Tim</h3>
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
-                <input type="text" name="nama" class="w-full border rounded-lg p-2.5 bg-gray-50" required>
+                <input type="text" name="nama" value="{{ old('nama') }}" class="w-full border rounded-lg p-2.5 bg-gray-50" required>
             </div>
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Jabatan</label>
-                <input type="text" name="jabatan" class="w-full border rounded-lg p-2.5 bg-gray-50" required>
+                <input type="text" name="jabatan" value="{{ old('jabatan') }}" class="w-full border rounded-lg p-2.5 bg-gray-50" required>
             </div>
             <div class="mb-6">
                 <label class="block text-sm font-medium mb-1">Foto (Opsional)</label>
                 <input type="file" name="foto" class="w-full border rounded-lg bg-gray-50">
+                <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                @error('foto')
+                    <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                @enderror
             </div>
             <div class="flex justify-end gap-2 pt-2 border-t">
                 <button type="button" onclick="closeModal('tambahModal')" class="px-4 py-2 border rounded-lg">Batal</button>
@@ -232,6 +259,10 @@
             <div class="mb-6">
                 <label class="block text-sm font-medium mb-1">Update Foto</label>
                 <input type="file" name="foto" class="w-full border rounded-lg bg-gray-50">
+                <p class="mt-1 text-xs text-red-500 font-medium">*Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.</p>
+                @error('foto')
+                    <span class="text-red-500 text-xs mt-1 block font-bold">{{ $message }}</span>
+                @enderror
             </div>
             <div class="flex justify-end gap-2 pt-2 border-t">
                 <button type="button" onclick="closeModal('editModal')" class="px-4 py-2 border rounded-lg">Batal</button>
@@ -250,5 +281,10 @@
         document.getElementById('editForm').action = "{{ url('admin/tentang-kami/tim') }}/" + btn.getAttribute('data-id');
         openModal('editModal');
     }
+
+    // Buka kembali form tambah tim jika ada error validasi saat Tambah
+    @if ($errors->any() && !old('_method') && old('nama'))
+        openModal('tambahModal');
+    @endif
 </script>
 @endsection

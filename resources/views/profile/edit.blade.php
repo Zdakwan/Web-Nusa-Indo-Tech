@@ -7,6 +7,21 @@
         <h2 class="text-2xl font-bold text-gray-900">Edit Profil</h2>
     </div>
 
+    <!-- Jika Ada Error (General) -->
+    @if ($errors->any())
+        <div class="mb-6 px-4 py-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded shadow-sm" role="alert">
+            <div class="flex items-center gap-2 mb-2">
+                <i class="fas fa-exclamation-circle"></i>
+                <span class="font-bold">Gagal menyimpan data!</span>
+            </div>
+            <ul class="list-disc list-inside text-sm">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     {{-- Form penghapusan foto dibuat terpisah dari form utama --}}
     <form id="delete-avatar-form"
           action="{{ route('profile.avatar.delete') }}"
@@ -60,7 +75,7 @@
                     id="avatar-upload"
                     name="avatar"
                     class="hidden"
-                    accept="image/jpeg,image/png">
+                    accept="image/jpeg,image/png,image/gif,image/bmp">
 
                 <label
                     for="avatar-upload"
@@ -81,12 +96,15 @@
                     </button>
                 @endif
 
-                <p class="text-xs text-gray-500 mt-3 text-center">
-                    Format JPG/PNG, maksimal 2 MB setelah crop.
+                <p class="mt-3 text-xs text-red-500 font-medium text-center">
+                    *Wajib berukuran antara 2 MB hingga 8 MB. Format: JPG, PNG, GIF, BMP.
                 </p>
+                 @error('gambar')
+                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                @enderror
 
                 @error('avatar')
-                    <span class="text-red-500 text-xs mt-2">
+                    <span class="text-red-500 text-xs mt-2 text-center block font-bold">
                         {{ $message }}
                     </span>
                 @enderror
@@ -317,14 +335,14 @@
             return;
         }
 
-        if (!['image/jpeg', 'image/png'].includes(file.type)) {
-            alert('Pilih foto berformat JPG atau PNG.');
+        if (!['image/jpeg', 'image/png', 'image/gif', 'image/bmp'].includes(file.type)) {
+            alert('Pilih foto berformat JPG, PNG, GIF, atau BMP.');
             this.value = '';
             return;
         }
 
-        if (file.size > 10 * 1024 * 1024) {
-            alert('Ukuran foto maksimal 10 MB sebelum crop.');
+        if (file.size > 15 * 1024 * 1024) {
+            alert('Ukuran foto maksimal 15 MB sebelum crop.');
             this.value = '';
             return;
         }
@@ -446,8 +464,8 @@
                 return;
             }
 
-            if (blob.size > 2 * 1024 * 1024) {
-                alert('Ukuran foto setelah crop melebihi 2 MB. Perkecil atau pilih foto lain.');
+            if (blob.size > 8 * 1024 * 1024) {
+                alert('Ukuran foto setelah crop melebihi 8 MB. Perkecil atau pilih foto lain.');
                 return;
             }
 
