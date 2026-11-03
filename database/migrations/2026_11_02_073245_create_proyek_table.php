@@ -20,6 +20,12 @@ return new class extends Migration
                 ->constrained('admins')
                 ->nullOnDelete();
 
+            // TAMBAHAN: Relasi ke tabel konsultasi yang terlupa
+            $table->foreignId('konsultasi_id')
+                ->nullable()
+                ->constrained('konsultasi')
+                ->cascadeOnDelete();
+
             $table->string('nama_proyek');
             $table->text('deskripsi')->nullable();
 

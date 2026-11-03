@@ -16,13 +16,13 @@ class LayananController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Validasi sekaligus menampung data yang aman (termasuk icon)
+        $data = $request->validate([
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
+            'icon'         => 'required|string|max:50',
             'deskripsi'    => 'required|string',
         ]);
-
-        $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         Layanan::create($data);
 
@@ -33,13 +33,13 @@ class LayananController extends Controller
     {
         $layanan = Layanan::findOrFail($id);
 
-        $request->validate([
+        // Validasi sekaligus menampung data yang aman (termasuk icon)
+        $data = $request->validate([
             'nama_layanan' => 'required|string|max:255',
             'kategori'     => 'required|string|max:100',
+            'icon'         => 'required|string|max:50',
             'deskripsi'    => 'required|string',
         ]);
-
-        $data = $request->only(['nama_layanan', 'kategori', 'deskripsi']);
 
         $layanan->update($data);
 

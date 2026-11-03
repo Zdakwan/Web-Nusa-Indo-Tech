@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LoginLog extends Model
 {
-    protected $fillable = [
-        'email',
-        'role',
-        'ip_address',
-        'status',
-    ];
+    use HasFactory;
+
+    // Mendefinisikan nama tabel secara eksplisit agar Laravel tidak salah membaca
+    protected $table = 'login_logs';
+
+    // Mengizinkan semua kolom untuk diisi secara otomatis, kecuali ID
+    protected $guarded = ['id'];
 }

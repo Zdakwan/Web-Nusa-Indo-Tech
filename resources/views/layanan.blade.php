@@ -98,27 +98,13 @@
 
             <!-- GRID DATA LAYANAN DINAMIS -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                @php
-                    $ikonDefault = [
-                        'IT Governance & Training IT' => 'fa-shield-halved',
-                        'Enterprise Architecture' => 'fa-building-columns',
-                        'IT Portfolio Management' => 'fa-folder-open',
-                        'Hardware Development' => 'fa-microchip',
-                        'Software Development' => 'fa-code',
-                        'Multimedia' => 'fa-circle-play',
-                    ];
-                @endphp
-
                 @forelse($layanan ?? [] as $item)
-                    @php
-                        $currentIcon = $ikonDefault[$item->nama_layanan] ?? 'fa-laptop-code';
-                    @endphp
-
-                    <!-- CARD LAYANAN DINAMIS (DIMODIFIKASI DENGAN DATA-KATEGORI) -->
+                    <!-- CARD LAYANAN DINAMIS -->
                     <div class="layanan-card bg-white border border-gray-100 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group" data-kategori="{{ $item->kategori ?? 'Umum' }}">
                         <div>
                             <div class="w-14 h-14 rounded-2xl bg-nusaNavy/5 text-nusaNavy flex items-center justify-center text-2xl mb-6 group-hover:bg-nusaYellow group-hover:text-nusaNavy transition-colors duration-300">
-                                <i class="fa-solid {{ $currentIcon }}"></i>
+                                <!-- MEMANGGIL ICON LANGSUNG DARI DATABASE -->
+                                <i class="{{ $item->icon ?? 'fa-solid fa-laptop-code' }}"></i>
                             </div>
 
                             <h3 class="text-xl font-bold text-nusaNavy mb-2 leading-snug">{{ $item->nama_layanan }}</h3>
