@@ -12,19 +12,23 @@
             <h1 class="text-2xl font-bold text-gray-800">
                 Detail Proyek
             </h1>
-
             <p class="text-sm text-gray-500 mt-1">
                 Informasi dan perkembangan proyek Anda.
             </p>
         </div>
 
-        <a
-            href="{{ route('proyek.index') }}"
-            class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition"
-        >
-            <i class="fas fa-arrow-left"></i>
-            Kembali ke Proyek Saya
-        </a>
+        <div class="flex items-center gap-2">
+            <!-- Tombol Export PDF untuk Client -->
+            <a href="{{ route('client.proyek.pdf', $proyek->id) }}" target="_blank"
+               class="inline-flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg shadow-sm transition">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </a>
+
+            <a href="{{ route('proyek.index') }}"
+               class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                <i class="fas fa-arrow-left"></i> Kembali ke Proyek Saya
+            </a>
+        </div>
 
     </div>
 
@@ -37,7 +41,6 @@
                 <h2 class="text-xl font-bold text-gray-800">
                     {{ $proyek->nama_proyek }}
                 </h2>
-
                 <p class="text-sm text-gray-500 mt-1">
                     Proyek Nusa Indo Tech
                 </p>
@@ -89,7 +92,6 @@
 
             <div class="md:col-span-2">
                 <p class="text-sm text-gray-500 mb-1">Deskripsi Proyek</p>
-
                 <div class="p-4 bg-gray-50 rounded-lg text-sm text-gray-700 whitespace-pre-line">
                     {{ $proyek->deskripsi ?: 'Tidak ada deskripsi proyek.' }}
                 </div>

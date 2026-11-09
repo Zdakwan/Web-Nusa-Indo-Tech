@@ -16,11 +16,15 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.proyek.create') }}"
-           class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#1e3352] text-white text-sm font-semibold hover:bg-[#2a4165] transition">
-            <i class="fas fa-plus"></i>
-            Tambah Proyek
-        </a>
+        <div class="flex items-center gap-2">
+
+            <!-- Tombol Tambah Proyek -->
+            <a href="{{ route('admin.proyek.create') }}"
+               class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#1e3352] text-white text-sm font-semibold hover:bg-[#2a4165] transition shadow-sm">
+                <i class="fas fa-plus"></i>
+                Tambah Proyek
+            </a>
+        </div>
     </div>
 
     {{-- NOTIFIKASI SUKSES --}}

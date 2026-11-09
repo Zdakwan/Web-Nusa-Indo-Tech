@@ -6,7 +6,7 @@
 <div class="max-w-5xl mx-auto space-y-6">
 
     {{-- HEADER --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">Edit Proyek</h1>
             <p class="text-sm text-gray-500 mt-1">
@@ -15,9 +15,8 @@
         </div>
 
         <a href="{{ route('admin.proyek.show', $proyek->id) }}"
-           class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
-            <i class="fas fa-arrow-left"></i>
-            Kembali ke Detail
+           class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+            <i class="fas fa-arrow-left"></i> Kembali ke Detail
         </a>
     </div>
 

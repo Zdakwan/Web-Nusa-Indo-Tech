@@ -93,8 +93,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             // Rute riwayat-login digabung di sini agar tidak duplikat
             Route::get('/riwayat-login', [LoginLogController::class, 'index'])->name('riwayat-login.index');
 
-            // Manajemen Proyek
+            // === Manajemen Proyek ===
+            // Rute statis (PDF Single & Progress)
+            Route::get('/proyek/{id}/pdf', [AdminProyekController::class, 'exportSinglePdf'])->name('proyek.single.pdf');
             Route::post('/proyek/{id}/progress', [AdminProyekController::class, 'updateProgress'])->name('proyek.updateProgress');
+
+            // Rute resource WAJIB DI BAWAH rute statis
             Route::resource('proyek', AdminProyekController::class)->except(['update']);
         });
 
@@ -182,6 +186,8 @@ Route::middleware('auth:client')->group(function () {
 
     // Proyek Saya
     Route::get('/proyek', [ProyekClientController::class, 'index'])->name('proyek.index');
+    // Rute export PDF Client (Statis di atas Resource)
+    Route::get('/proyek/{id}/pdf', [ProyekClientController::class, 'exportPdf'])->name('client.proyek.pdf');
     Route::get('/proyek/{id}', [ProyekClientController::class, 'show'])->name('proyek.show');
 
     // Logout
