@@ -254,6 +254,6 @@ class AdminProyekController extends Controller
                 ->setOption('isRemoteEnabled', true);
 
         // 3. Tampilkan PDF di tab baru (Preview / Stream)
-        return $pdf->stream('Laporan-Rincian-' . str_replace(' ', '-', $proyek->nama_proyek) . '.pdf');
+        return $pdf->stream('Laporan-Rincian-' . str_replace(' ', '-', $proyek->nama_proyek) . '.pdf', ['Attachment' => false]);
     }
 }
