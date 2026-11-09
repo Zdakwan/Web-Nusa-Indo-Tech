@@ -242,17 +242,18 @@ class AdminProyekController extends Controller
             ->with('success', 'Proyek berhasil dihapus.');
 
     }
+
     public function exportSinglePdf($id)
     {
-        //  Ambil data 1 proyek beserta relasi client-nya
+        // 1. Ambil data 1 proyek beserta relasi client-nya
         $proyek = \App\Models\Proyek::with('client')->findOrFail($id);
 
-        //  Load file single_pdf.blade.php yang baru saja dibuat
+        // 2. Load file single_pdf.blade.php
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.proyek.single_pdf', compact('proyek'))
                 ->setPaper('a4', 'portrait')
                 ->setOption('isRemoteEnabled', true);
 
-        //  Download dengan nama file yang spesifik
-        return $pdf->download('Laporan-Rincian-' . str_replace(' ', '-', $proyek->nama_proyek) . '.pdf');
+        // 3. Tampilkan PDF di tab baru (Preview / Stream)
+        return $pdf->stream('Laporan-Rincian-' . str_replace(' ', '-', $proyek->nama_proyek) . '.pdf');
     }
 }
